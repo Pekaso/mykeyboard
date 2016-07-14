@@ -1,0 +1,1699 @@
+   1               		.file	"action_tapping.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               		.section	.text.debug_waiting_buffer,"ax",@progbits
+  12               	debug_waiting_buffer:
+  13               	.LFB11:
+  14               		.file 1 "../../tmk_core/common/action_tapping.c"
+   1:../../tmk_core/common/action_tapping.c **** #include <stdint.h>
+   2:../../tmk_core/common/action_tapping.c **** #include <stdbool.h>
+   3:../../tmk_core/common/action_tapping.c **** #include "action.h"
+   4:../../tmk_core/common/action_tapping.c **** #include "action_layer.h"
+   5:../../tmk_core/common/action_tapping.c **** #include "action_tapping.h"
+   6:../../tmk_core/common/action_tapping.c **** #include "keycode.h"
+   7:../../tmk_core/common/action_tapping.c **** #include "timer.h"
+   8:../../tmk_core/common/action_tapping.c **** 
+   9:../../tmk_core/common/action_tapping.c **** #ifdef DEBUG_ACTION
+  10:../../tmk_core/common/action_tapping.c **** #include "debug.h"
+  11:../../tmk_core/common/action_tapping.c **** #else
+  12:../../tmk_core/common/action_tapping.c **** #include "nodebug.h"
+  13:../../tmk_core/common/action_tapping.c **** #endif
+  14:../../tmk_core/common/action_tapping.c **** 
+  15:../../tmk_core/common/action_tapping.c **** #ifndef NO_ACTION_TAPPING
+  16:../../tmk_core/common/action_tapping.c **** 
+  17:../../tmk_core/common/action_tapping.c **** #define IS_TAPPING()            !IS_NOEVENT(tapping_key.event)
+  18:../../tmk_core/common/action_tapping.c **** #define IS_TAPPING_PRESSED()    (IS_TAPPING() && tapping_key.event.pressed)
+  19:../../tmk_core/common/action_tapping.c **** #define IS_TAPPING_RELEASED()   (IS_TAPPING() && !tapping_key.event.pressed)
+  20:../../tmk_core/common/action_tapping.c **** #define IS_TAPPING_KEY(k)       (IS_TAPPING() && KEYEQ(tapping_key.event.key, (k)))
+  21:../../tmk_core/common/action_tapping.c **** #define WITHIN_TAPPING_TERM(e)  (TIMER_DIFF_16(e.time, tapping_key.event.time) < TAPPING_TERM)
+  22:../../tmk_core/common/action_tapping.c **** 
+  23:../../tmk_core/common/action_tapping.c **** 
+  24:../../tmk_core/common/action_tapping.c **** static keyrecord_t tapping_key = {};
+  25:../../tmk_core/common/action_tapping.c **** static keyrecord_t waiting_buffer[WAITING_BUFFER_SIZE] = {};
+  26:../../tmk_core/common/action_tapping.c **** static uint8_t waiting_buffer_head = 0;
+  27:../../tmk_core/common/action_tapping.c **** static uint8_t waiting_buffer_tail = 0;
+  28:../../tmk_core/common/action_tapping.c **** 
+  29:../../tmk_core/common/action_tapping.c **** static bool process_tapping(keyrecord_t *record);
+  30:../../tmk_core/common/action_tapping.c **** static bool waiting_buffer_enq(keyrecord_t record);
+  31:../../tmk_core/common/action_tapping.c **** static void waiting_buffer_clear(void);
+  32:../../tmk_core/common/action_tapping.c **** static bool waiting_buffer_typed(keyevent_t event);
+  33:../../tmk_core/common/action_tapping.c **** static void waiting_buffer_scan_tap(void);
+  34:../../tmk_core/common/action_tapping.c **** static void debug_tapping_key(void);
+  35:../../tmk_core/common/action_tapping.c **** static void debug_waiting_buffer(void);
+  36:../../tmk_core/common/action_tapping.c **** 
+  37:../../tmk_core/common/action_tapping.c **** 
+  38:../../tmk_core/common/action_tapping.c **** void action_tapping_process(keyrecord_t record)
+  39:../../tmk_core/common/action_tapping.c **** {
+  40:../../tmk_core/common/action_tapping.c ****     if (process_tapping(&record)) {
+  41:../../tmk_core/common/action_tapping.c ****         if (!IS_NOEVENT(record.event)) {
+  42:../../tmk_core/common/action_tapping.c ****             debug("processed: "); debug_record(record); debug("\n");
+  43:../../tmk_core/common/action_tapping.c ****         }
+  44:../../tmk_core/common/action_tapping.c ****     } else {
+  45:../../tmk_core/common/action_tapping.c ****         if (!waiting_buffer_enq(record)) {
+  46:../../tmk_core/common/action_tapping.c ****             // clear all in case of overflow.
+  47:../../tmk_core/common/action_tapping.c ****             debug("OVERFLOW: CLEAR ALL STATES\n");
+  48:../../tmk_core/common/action_tapping.c ****             clear_keyboard();
+  49:../../tmk_core/common/action_tapping.c ****             waiting_buffer_clear();
+  50:../../tmk_core/common/action_tapping.c ****             tapping_key = (keyrecord_t){};
+  51:../../tmk_core/common/action_tapping.c ****         }
+  52:../../tmk_core/common/action_tapping.c ****     }
+  53:../../tmk_core/common/action_tapping.c **** 
+  54:../../tmk_core/common/action_tapping.c ****     // process waiting_buffer
+  55:../../tmk_core/common/action_tapping.c ****     if (!IS_NOEVENT(record.event) && waiting_buffer_head != waiting_buffer_tail) {
+  56:../../tmk_core/common/action_tapping.c ****         debug("---- action_exec: process waiting_buffer -----\n");
+  57:../../tmk_core/common/action_tapping.c ****     }
+  58:../../tmk_core/common/action_tapping.c ****     for (; waiting_buffer_tail != waiting_buffer_head; waiting_buffer_tail = (waiting_buffer_tail +
+  59:../../tmk_core/common/action_tapping.c ****         if (process_tapping(&waiting_buffer[waiting_buffer_tail])) {
+  60:../../tmk_core/common/action_tapping.c ****             debug("processed: waiting_buffer["); debug_dec(waiting_buffer_tail); debug("] = ");
+  61:../../tmk_core/common/action_tapping.c ****             debug_record(waiting_buffer[waiting_buffer_tail]); debug("\n\n");
+  62:../../tmk_core/common/action_tapping.c ****         } else {
+  63:../../tmk_core/common/action_tapping.c ****             break;
+  64:../../tmk_core/common/action_tapping.c ****         }
+  65:../../tmk_core/common/action_tapping.c ****     }
+  66:../../tmk_core/common/action_tapping.c ****     if (!IS_NOEVENT(record.event)) {
+  67:../../tmk_core/common/action_tapping.c ****         debug("\n");
+  68:../../tmk_core/common/action_tapping.c ****     }
+  69:../../tmk_core/common/action_tapping.c **** }
+  70:../../tmk_core/common/action_tapping.c **** 
+  71:../../tmk_core/common/action_tapping.c **** 
+  72:../../tmk_core/common/action_tapping.c **** /* Tapping
+  73:../../tmk_core/common/action_tapping.c ****  *
+  74:../../tmk_core/common/action_tapping.c ****  * Rule: Tap key is typed(pressed and released) within TAPPING_TERM.
+  75:../../tmk_core/common/action_tapping.c ****  *       (without interfering by typing other key)
+  76:../../tmk_core/common/action_tapping.c ****  */
+  77:../../tmk_core/common/action_tapping.c **** /* return true when key event is processed or consumed. */
+  78:../../tmk_core/common/action_tapping.c **** bool process_tapping(keyrecord_t *keyp)
+  79:../../tmk_core/common/action_tapping.c **** {
+  80:../../tmk_core/common/action_tapping.c ****     keyevent_t event = keyp->event;
+  81:../../tmk_core/common/action_tapping.c **** 
+  82:../../tmk_core/common/action_tapping.c ****     // if tapping
+  83:../../tmk_core/common/action_tapping.c ****     if (IS_TAPPING_PRESSED()) {
+  84:../../tmk_core/common/action_tapping.c ****         if (WITHIN_TAPPING_TERM(event)) {
+  85:../../tmk_core/common/action_tapping.c ****             if (tapping_key.tap.count == 0) {
+  86:../../tmk_core/common/action_tapping.c ****                 if (IS_TAPPING_KEY(event.key) && !event.pressed) {
+  87:../../tmk_core/common/action_tapping.c ****                     // first tap!
+  88:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: First tap(0->1).\n");
+  89:../../tmk_core/common/action_tapping.c ****                     tapping_key.tap.count = 1;
+  90:../../tmk_core/common/action_tapping.c ****                     debug_tapping_key();
+  91:../../tmk_core/common/action_tapping.c ****                     process_action(&tapping_key);
+  92:../../tmk_core/common/action_tapping.c **** 
+  93:../../tmk_core/common/action_tapping.c ****                     // copy tapping state
+  94:../../tmk_core/common/action_tapping.c ****                     keyp->tap = tapping_key.tap;
+  95:../../tmk_core/common/action_tapping.c ****                     // enqueue
+  96:../../tmk_core/common/action_tapping.c ****                     return false;
+  97:../../tmk_core/common/action_tapping.c ****                 }
+  98:../../tmk_core/common/action_tapping.c **** #if TAPPING_TERM >= 500
+  99:../../tmk_core/common/action_tapping.c ****                 /* Process a key typed within TAPPING_TERM
+ 100:../../tmk_core/common/action_tapping.c ****                  * This can register the key before settlement of tapping,
+ 101:../../tmk_core/common/action_tapping.c ****                  * useful for long TAPPING_TERM but may prevent fast typing.
+ 102:../../tmk_core/common/action_tapping.c ****                  */
+ 103:../../tmk_core/common/action_tapping.c ****                 else if (IS_RELEASED(event) && waiting_buffer_typed(event)) {
+ 104:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: End. No tap. Interfered by typing key\n");
+ 105:../../tmk_core/common/action_tapping.c ****                     process_action(&tapping_key);
+ 106:../../tmk_core/common/action_tapping.c ****                     tapping_key = (keyrecord_t){};
+ 107:../../tmk_core/common/action_tapping.c ****                     debug_tapping_key();
+ 108:../../tmk_core/common/action_tapping.c ****                     // enqueue
+ 109:../../tmk_core/common/action_tapping.c ****                     return false;
+ 110:../../tmk_core/common/action_tapping.c ****                 }
+ 111:../../tmk_core/common/action_tapping.c **** #endif
+ 112:../../tmk_core/common/action_tapping.c ****                 /* Process release event of a key pressed before tapping starts
+ 113:../../tmk_core/common/action_tapping.c ****                  * Without this unexpected repeating will occur with having fast repeating setting
+ 114:../../tmk_core/common/action_tapping.c ****                  * https://github.com/tmk/tmk_keyboard/issues/60
+ 115:../../tmk_core/common/action_tapping.c ****                  */
+ 116:../../tmk_core/common/action_tapping.c ****                 else if (IS_RELEASED(event) && !waiting_buffer_typed(event)) {
+ 117:../../tmk_core/common/action_tapping.c ****                     // Modifier should be retained till end of this tapping.
+ 118:../../tmk_core/common/action_tapping.c ****                     action_t action = layer_switch_get_action(event.key);
+ 119:../../tmk_core/common/action_tapping.c ****                     switch (action.kind.id) {
+ 120:../../tmk_core/common/action_tapping.c ****                         case ACT_LMODS:
+ 121:../../tmk_core/common/action_tapping.c ****                         case ACT_RMODS:
+ 122:../../tmk_core/common/action_tapping.c ****                             if (action.key.mods && !action.key.code) return false;
+ 123:../../tmk_core/common/action_tapping.c ****                             if (IS_MOD(action.key.code)) return false;
+ 124:../../tmk_core/common/action_tapping.c ****                             break;
+ 125:../../tmk_core/common/action_tapping.c ****                         case ACT_LMODS_TAP:
+ 126:../../tmk_core/common/action_tapping.c ****                         case ACT_RMODS_TAP:
+ 127:../../tmk_core/common/action_tapping.c ****                             if (action.key.mods && keyp->tap.count == 0) return false;
+ 128:../../tmk_core/common/action_tapping.c ****                             if (IS_MOD(action.key.code)) return false;
+ 129:../../tmk_core/common/action_tapping.c ****                             break;
+ 130:../../tmk_core/common/action_tapping.c ****                     }
+ 131:../../tmk_core/common/action_tapping.c ****                     // Release of key should be process immediately.
+ 132:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: release event of a key pressed before tapping\n");
+ 133:../../tmk_core/common/action_tapping.c ****                     process_action(keyp);
+ 134:../../tmk_core/common/action_tapping.c ****                     return true;
+ 135:../../tmk_core/common/action_tapping.c ****                 }
+ 136:../../tmk_core/common/action_tapping.c ****                 else {
+ 137:../../tmk_core/common/action_tapping.c ****                     // set interrupted flag when other key preesed during tapping
+ 138:../../tmk_core/common/action_tapping.c ****                     if (event.pressed) {
+ 139:../../tmk_core/common/action_tapping.c ****                         tapping_key.tap.interrupted = true;
+ 140:../../tmk_core/common/action_tapping.c ****                     }
+ 141:../../tmk_core/common/action_tapping.c ****                     // enqueue 
+ 142:../../tmk_core/common/action_tapping.c ****                     return false;
+ 143:../../tmk_core/common/action_tapping.c ****                 }
+ 144:../../tmk_core/common/action_tapping.c ****             }
+ 145:../../tmk_core/common/action_tapping.c ****             // tap_count > 0
+ 146:../../tmk_core/common/action_tapping.c ****             else {
+ 147:../../tmk_core/common/action_tapping.c ****                 if (IS_TAPPING_KEY(event.key) && !event.pressed) {
+ 148:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: Tap release("); debug_dec(tapping_key.tap.count); debug(")\n");
+ 149:../../tmk_core/common/action_tapping.c ****                     keyp->tap = tapping_key.tap;
+ 150:../../tmk_core/common/action_tapping.c ****                     process_action(keyp);
+ 151:../../tmk_core/common/action_tapping.c ****                     tapping_key = *keyp;
+ 152:../../tmk_core/common/action_tapping.c ****                     debug_tapping_key();
+ 153:../../tmk_core/common/action_tapping.c ****                     return true;
+ 154:../../tmk_core/common/action_tapping.c ****                 }
+ 155:../../tmk_core/common/action_tapping.c ****                 else if (is_tap_key(event.key) && event.pressed) {
+ 156:../../tmk_core/common/action_tapping.c ****                     if (tapping_key.tap.count > 1) {
+ 157:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: Start new tap with releasing last tap(>1).\n");
+ 158:../../tmk_core/common/action_tapping.c ****                         // unregister key
+ 159:../../tmk_core/common/action_tapping.c ****                         process_action(&(keyrecord_t){
+ 160:../../tmk_core/common/action_tapping.c ****                                 .tap = tapping_key.tap,
+ 161:../../tmk_core/common/action_tapping.c ****                                 .event.key = tapping_key.event.key,
+ 162:../../tmk_core/common/action_tapping.c ****                                 .event.time = event.time,
+ 163:../../tmk_core/common/action_tapping.c ****                                 .event.pressed = false
+ 164:../../tmk_core/common/action_tapping.c ****                         });
+ 165:../../tmk_core/common/action_tapping.c ****                     } else {
+ 166:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: Start while last tap(1).\n");
+ 167:../../tmk_core/common/action_tapping.c ****                     }
+ 168:../../tmk_core/common/action_tapping.c ****                     tapping_key = *keyp;
+ 169:../../tmk_core/common/action_tapping.c ****                     waiting_buffer_scan_tap();
+ 170:../../tmk_core/common/action_tapping.c ****                     debug_tapping_key();
+ 171:../../tmk_core/common/action_tapping.c ****                     return true;
+ 172:../../tmk_core/common/action_tapping.c ****                 }
+ 173:../../tmk_core/common/action_tapping.c ****                 else {
+ 174:../../tmk_core/common/action_tapping.c ****                     if (!IS_NOEVENT(event)) {
+ 175:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: key event while last tap(>0).\n");
+ 176:../../tmk_core/common/action_tapping.c ****                     }
+ 177:../../tmk_core/common/action_tapping.c ****                     process_action(keyp);
+ 178:../../tmk_core/common/action_tapping.c ****                     return true;
+ 179:../../tmk_core/common/action_tapping.c ****                 }
+ 180:../../tmk_core/common/action_tapping.c ****             }
+ 181:../../tmk_core/common/action_tapping.c ****         }
+ 182:../../tmk_core/common/action_tapping.c ****         // after TAPPING_TERM
+ 183:../../tmk_core/common/action_tapping.c ****         else {
+ 184:../../tmk_core/common/action_tapping.c ****             if (tapping_key.tap.count == 0) {
+ 185:../../tmk_core/common/action_tapping.c ****                 debug("Tapping: End. Timeout. Not tap(0): ");
+ 186:../../tmk_core/common/action_tapping.c ****                 debug_event(event); debug("\n");
+ 187:../../tmk_core/common/action_tapping.c ****                 process_action(&tapping_key);
+ 188:../../tmk_core/common/action_tapping.c ****                 tapping_key = (keyrecord_t){};
+ 189:../../tmk_core/common/action_tapping.c ****                 debug_tapping_key();
+ 190:../../tmk_core/common/action_tapping.c ****                 return false;
+ 191:../../tmk_core/common/action_tapping.c ****             }  else {
+ 192:../../tmk_core/common/action_tapping.c ****                 if (IS_TAPPING_KEY(event.key) && !event.pressed) {
+ 193:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: End. last timeout tap release(>0).");
+ 194:../../tmk_core/common/action_tapping.c ****                     keyp->tap = tapping_key.tap;
+ 195:../../tmk_core/common/action_tapping.c ****                     process_action(keyp);
+ 196:../../tmk_core/common/action_tapping.c ****                     tapping_key = (keyrecord_t){};
+ 197:../../tmk_core/common/action_tapping.c ****                     return true;
+ 198:../../tmk_core/common/action_tapping.c ****                 }
+ 199:../../tmk_core/common/action_tapping.c ****                 else if (is_tap_key(event.key) && event.pressed) {
+ 200:../../tmk_core/common/action_tapping.c ****                     if (tapping_key.tap.count > 1) {
+ 201:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: Start new tap with releasing last timeout tap(>1).\n");
+ 202:../../tmk_core/common/action_tapping.c ****                         // unregister key
+ 203:../../tmk_core/common/action_tapping.c ****                         process_action(&(keyrecord_t){
+ 204:../../tmk_core/common/action_tapping.c ****                                 .tap = tapping_key.tap,
+ 205:../../tmk_core/common/action_tapping.c ****                                 .event.key = tapping_key.event.key,
+ 206:../../tmk_core/common/action_tapping.c ****                                 .event.time = event.time,
+ 207:../../tmk_core/common/action_tapping.c ****                                 .event.pressed = false
+ 208:../../tmk_core/common/action_tapping.c ****                         });
+ 209:../../tmk_core/common/action_tapping.c ****                     } else {
+ 210:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: Start while last timeout tap(1).\n");
+ 211:../../tmk_core/common/action_tapping.c ****                     }
+ 212:../../tmk_core/common/action_tapping.c ****                     tapping_key = *keyp;
+ 213:../../tmk_core/common/action_tapping.c ****                     waiting_buffer_scan_tap();
+ 214:../../tmk_core/common/action_tapping.c ****                     debug_tapping_key();
+ 215:../../tmk_core/common/action_tapping.c ****                     return true;
+ 216:../../tmk_core/common/action_tapping.c ****                 }
+ 217:../../tmk_core/common/action_tapping.c ****                 else {
+ 218:../../tmk_core/common/action_tapping.c ****                     if (!IS_NOEVENT(event)) {
+ 219:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: key event while last timeout tap(>0).\n");
+ 220:../../tmk_core/common/action_tapping.c ****                     }
+ 221:../../tmk_core/common/action_tapping.c ****                     process_action(keyp);
+ 222:../../tmk_core/common/action_tapping.c ****                     return true;
+ 223:../../tmk_core/common/action_tapping.c ****                 }
+ 224:../../tmk_core/common/action_tapping.c ****             }
+ 225:../../tmk_core/common/action_tapping.c ****         }
+ 226:../../tmk_core/common/action_tapping.c ****     } else if (IS_TAPPING_RELEASED()) {
+ 227:../../tmk_core/common/action_tapping.c ****         if (WITHIN_TAPPING_TERM(event)) {
+ 228:../../tmk_core/common/action_tapping.c ****             if (event.pressed) {
+ 229:../../tmk_core/common/action_tapping.c ****                 if (IS_TAPPING_KEY(event.key)) {
+ 230:../../tmk_core/common/action_tapping.c ****                     if (!tapping_key.tap.interrupted && tapping_key.tap.count > 0) {
+ 231:../../tmk_core/common/action_tapping.c ****                         // sequential tap.
+ 232:../../tmk_core/common/action_tapping.c ****                         keyp->tap = tapping_key.tap;
+ 233:../../tmk_core/common/action_tapping.c ****                         if (keyp->tap.count < 15) keyp->tap.count += 1;
+ 234:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: Tap press("); debug_dec(keyp->tap.count); debug(")\n");
+ 235:../../tmk_core/common/action_tapping.c ****                         process_action(keyp);
+ 236:../../tmk_core/common/action_tapping.c ****                         tapping_key = *keyp;
+ 237:../../tmk_core/common/action_tapping.c ****                         debug_tapping_key();
+ 238:../../tmk_core/common/action_tapping.c ****                         return true;
+ 239:../../tmk_core/common/action_tapping.c ****                     } else {
+ 240:../../tmk_core/common/action_tapping.c ****                         // FIX: start new tap again
+ 241:../../tmk_core/common/action_tapping.c ****                         tapping_key = *keyp;
+ 242:../../tmk_core/common/action_tapping.c ****                         return true;
+ 243:../../tmk_core/common/action_tapping.c ****                     }
+ 244:../../tmk_core/common/action_tapping.c ****                 } else if (is_tap_key(event.key)) {
+ 245:../../tmk_core/common/action_tapping.c ****                     // Sequential tap can be interfered with other tap key.
+ 246:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: Start with interfering other tap.\n");
+ 247:../../tmk_core/common/action_tapping.c ****                     tapping_key = *keyp;
+ 248:../../tmk_core/common/action_tapping.c ****                     waiting_buffer_scan_tap();
+ 249:../../tmk_core/common/action_tapping.c ****                     debug_tapping_key();
+ 250:../../tmk_core/common/action_tapping.c ****                     return true;
+ 251:../../tmk_core/common/action_tapping.c ****                 } else {
+ 252:../../tmk_core/common/action_tapping.c ****                     // should none in buffer
+ 253:../../tmk_core/common/action_tapping.c ****                     // FIX: interrupted when other key is pressed
+ 254:../../tmk_core/common/action_tapping.c ****                     tapping_key.tap.interrupted = true;
+ 255:../../tmk_core/common/action_tapping.c ****                     process_action(keyp);
+ 256:../../tmk_core/common/action_tapping.c ****                     return true;
+ 257:../../tmk_core/common/action_tapping.c ****                 }
+ 258:../../tmk_core/common/action_tapping.c ****             } else {
+ 259:../../tmk_core/common/action_tapping.c ****                 if (!IS_NOEVENT(event)) debug("Tapping: other key just after tap.\n");
+ 260:../../tmk_core/common/action_tapping.c ****                 process_action(keyp);
+ 261:../../tmk_core/common/action_tapping.c ****                 return true;
+ 262:../../tmk_core/common/action_tapping.c ****             }
+ 263:../../tmk_core/common/action_tapping.c ****         } else {
+ 264:../../tmk_core/common/action_tapping.c ****             // FIX: process_aciton here?
+ 265:../../tmk_core/common/action_tapping.c ****             // timeout. no sequential tap.
+ 266:../../tmk_core/common/action_tapping.c ****             debug("Tapping: End(Timeout after releasing last tap): ");
+ 267:../../tmk_core/common/action_tapping.c ****             debug_event(event); debug("\n");
+ 268:../../tmk_core/common/action_tapping.c ****             tapping_key = (keyrecord_t){};
+ 269:../../tmk_core/common/action_tapping.c ****             debug_tapping_key();
+ 270:../../tmk_core/common/action_tapping.c ****             return false;
+ 271:../../tmk_core/common/action_tapping.c ****         }
+ 272:../../tmk_core/common/action_tapping.c ****     }
+ 273:../../tmk_core/common/action_tapping.c ****     // not tapping state
+ 274:../../tmk_core/common/action_tapping.c ****     else {
+ 275:../../tmk_core/common/action_tapping.c ****         if (event.pressed && is_tap_key(event.key)) {
+ 276:../../tmk_core/common/action_tapping.c ****             debug("Tapping: Start(Press tap key).\n");
+ 277:../../tmk_core/common/action_tapping.c ****             tapping_key = *keyp;
+ 278:../../tmk_core/common/action_tapping.c ****             waiting_buffer_scan_tap();
+ 279:../../tmk_core/common/action_tapping.c ****             debug_tapping_key();
+ 280:../../tmk_core/common/action_tapping.c ****             return true;
+ 281:../../tmk_core/common/action_tapping.c ****         } else {
+ 282:../../tmk_core/common/action_tapping.c ****             process_action(keyp);
+ 283:../../tmk_core/common/action_tapping.c ****             return true;
+ 284:../../tmk_core/common/action_tapping.c ****         }
+ 285:../../tmk_core/common/action_tapping.c ****     }
+ 286:../../tmk_core/common/action_tapping.c **** }
+ 287:../../tmk_core/common/action_tapping.c **** 
+ 288:../../tmk_core/common/action_tapping.c **** 
+ 289:../../tmk_core/common/action_tapping.c **** /*
+ 290:../../tmk_core/common/action_tapping.c ****  * Waiting buffer
+ 291:../../tmk_core/common/action_tapping.c ****  */
+ 292:../../tmk_core/common/action_tapping.c **** bool waiting_buffer_enq(keyrecord_t record)
+ 293:../../tmk_core/common/action_tapping.c **** {
+ 294:../../tmk_core/common/action_tapping.c ****     if (IS_NOEVENT(record.event)) {
+ 295:../../tmk_core/common/action_tapping.c ****         return true;
+ 296:../../tmk_core/common/action_tapping.c ****     }
+ 297:../../tmk_core/common/action_tapping.c **** 
+ 298:../../tmk_core/common/action_tapping.c ****     if ((waiting_buffer_head + 1) % WAITING_BUFFER_SIZE == waiting_buffer_tail) {
+ 299:../../tmk_core/common/action_tapping.c ****         debug("waiting_buffer_enq: Over flow.\n");
+ 300:../../tmk_core/common/action_tapping.c ****         return false;
+ 301:../../tmk_core/common/action_tapping.c ****     }
+ 302:../../tmk_core/common/action_tapping.c **** 
+ 303:../../tmk_core/common/action_tapping.c ****     waiting_buffer[waiting_buffer_head] = record;
+ 304:../../tmk_core/common/action_tapping.c ****     waiting_buffer_head = (waiting_buffer_head + 1) % WAITING_BUFFER_SIZE;
+ 305:../../tmk_core/common/action_tapping.c **** 
+ 306:../../tmk_core/common/action_tapping.c ****     debug("waiting_buffer_enq: "); debug_waiting_buffer();
+ 307:../../tmk_core/common/action_tapping.c ****     return true;
+ 308:../../tmk_core/common/action_tapping.c **** }
+ 309:../../tmk_core/common/action_tapping.c **** 
+ 310:../../tmk_core/common/action_tapping.c **** void waiting_buffer_clear(void)
+ 311:../../tmk_core/common/action_tapping.c **** {
+ 312:../../tmk_core/common/action_tapping.c ****     waiting_buffer_head = 0;
+ 313:../../tmk_core/common/action_tapping.c ****     waiting_buffer_tail = 0;
+ 314:../../tmk_core/common/action_tapping.c **** }
+ 315:../../tmk_core/common/action_tapping.c **** 
+ 316:../../tmk_core/common/action_tapping.c **** bool waiting_buffer_typed(keyevent_t event)
+ 317:../../tmk_core/common/action_tapping.c **** {
+ 318:../../tmk_core/common/action_tapping.c ****     for (uint8_t i = waiting_buffer_tail; i != waiting_buffer_head; i = (i + 1) % WAITING_BUFFER_SI
+ 319:../../tmk_core/common/action_tapping.c ****         if (KEYEQ(event.key, waiting_buffer[i].event.key) && event.pressed !=  waiting_buffer[i].ev
+ 320:../../tmk_core/common/action_tapping.c ****             return true;
+ 321:../../tmk_core/common/action_tapping.c ****         }
+ 322:../../tmk_core/common/action_tapping.c ****     }
+ 323:../../tmk_core/common/action_tapping.c ****     return false;
+ 324:../../tmk_core/common/action_tapping.c **** }
+ 325:../../tmk_core/common/action_tapping.c **** 
+ 326:../../tmk_core/common/action_tapping.c **** /* scan buffer for tapping */
+ 327:../../tmk_core/common/action_tapping.c **** void waiting_buffer_scan_tap(void)
+ 328:../../tmk_core/common/action_tapping.c **** {
+ 329:../../tmk_core/common/action_tapping.c ****     // tapping already is settled
+ 330:../../tmk_core/common/action_tapping.c ****     if (tapping_key.tap.count > 0) return;
+ 331:../../tmk_core/common/action_tapping.c ****     // invalid state: tapping_key released && tap.count == 0
+ 332:../../tmk_core/common/action_tapping.c ****     if (!tapping_key.event.pressed) return;
+ 333:../../tmk_core/common/action_tapping.c **** 
+ 334:../../tmk_core/common/action_tapping.c ****     for (uint8_t i = waiting_buffer_tail; i != waiting_buffer_head; i = (i + 1) % WAITING_BUFFER_SI
+ 335:../../tmk_core/common/action_tapping.c ****         if (IS_TAPPING_KEY(waiting_buffer[i].event.key) &&
+ 336:../../tmk_core/common/action_tapping.c ****                 !waiting_buffer[i].event.pressed &&
+ 337:../../tmk_core/common/action_tapping.c ****                 WITHIN_TAPPING_TERM(waiting_buffer[i].event)) {
+ 338:../../tmk_core/common/action_tapping.c ****             tapping_key.tap.count = 1;
+ 339:../../tmk_core/common/action_tapping.c ****             waiting_buffer[i].tap.count = 1;
+ 340:../../tmk_core/common/action_tapping.c ****             process_action(&tapping_key);
+ 341:../../tmk_core/common/action_tapping.c **** 
+ 342:../../tmk_core/common/action_tapping.c ****             debug("waiting_buffer_scan_tap: found at ["); debug_dec(i); debug("]\n");
+ 343:../../tmk_core/common/action_tapping.c ****             debug_waiting_buffer();
+ 344:../../tmk_core/common/action_tapping.c ****             return;
+ 345:../../tmk_core/common/action_tapping.c ****         }
+ 346:../../tmk_core/common/action_tapping.c ****     }
+ 347:../../tmk_core/common/action_tapping.c **** }
+ 348:../../tmk_core/common/action_tapping.c **** 
+ 349:../../tmk_core/common/action_tapping.c **** 
+ 350:../../tmk_core/common/action_tapping.c **** /*
+ 351:../../tmk_core/common/action_tapping.c ****  * debug print
+ 352:../../tmk_core/common/action_tapping.c ****  */
+ 353:../../tmk_core/common/action_tapping.c **** static void debug_tapping_key(void)
+ 354:../../tmk_core/common/action_tapping.c **** {
+ 355:../../tmk_core/common/action_tapping.c ****     debug("TAPPING_KEY="); debug_record(tapping_key); debug("\n");
+ 356:../../tmk_core/common/action_tapping.c **** }
+ 357:../../tmk_core/common/action_tapping.c **** 
+ 358:../../tmk_core/common/action_tapping.c **** static void debug_waiting_buffer(void)
+ 359:../../tmk_core/common/action_tapping.c **** {
+  15               		.loc 1 359 0
+  16               		.cfi_startproc
+  17 0000 1F93      		push r17
+  18               	.LCFI0:
+  19               		.cfi_def_cfa_offset 3
+  20               		.cfi_offset 17, -2
+  21 0002 CF93      		push r28
+  22               	.LCFI1:
+  23               		.cfi_def_cfa_offset 4
+  24               		.cfi_offset 28, -3
+  25 0004 DF93      		push r29
+  26               	.LCFI2:
+  27               		.cfi_def_cfa_offset 5
+  28               		.cfi_offset 29, -4
+  29               	/* prologue: function */
+  30               	/* frame size = 0 */
+  31               	/* stack size = 3 */
+  32               	.L__stack_usage = 3
+  33               	.LBB3:
+ 360:../../tmk_core/common/action_tapping.c ****     debug("{ ");
+ 361:../../tmk_core/common/action_tapping.c ****     for (uint8_t i = waiting_buffer_tail; i != waiting_buffer_head; i = (i + 1) % WAITING_BUFFER_SI
+  34               		.loc 1 361 0
+  35 0006 C091 0000 		lds r28,waiting_buffer_tail
+  36               	.LVL0:
+ 362:../../tmk_core/common/action_tapping.c ****         debug("["); debug_dec(i); debug("]="); debug_record(waiting_buffer[i]); debug(" ");
+  37               		.loc 1 362 0
+  38 000a 16E0      		ldi r17,lo8(6)
+  39               	.LVL1:
+  40               	.L2:
+ 361:../../tmk_core/common/action_tapping.c ****         debug("["); debug_dec(i); debug("]="); debug_record(waiting_buffer[i]); debug(" ");
+  41               		.loc 1 361 0 discriminator 1
+  42 000c 8091 0000 		lds r24,waiting_buffer_head
+  43 0010 C817      		cp r28,r24
+  44 0012 01F0      		breq .L5
+  45               		.loc 1 362 0 discriminator 3
+  46 0014 D0E0      		ldi r29,0
+  47 0016 1C9F      		mul r17,r28
+  48 0018 F001      		movw r30,r0
+  49 001a 1D9F      		mul r17,r29
+  50 001c F00D      		add r31,r0
+  51 001e 1124      		clr __zero_reg__
+  52 0020 E050      		subi r30,lo8(-(waiting_buffer))
+  53 0022 F040      		sbci r31,hi8(-(waiting_buffer))
+  54 0024 4081      		ld r20,Z
+  55 0026 5181      		ldd r21,Z+1
+  56 0028 6281      		ldd r22,Z+2
+  57 002a 7381      		ldd r23,Z+3
+  58 002c 8481      		ldd r24,Z+4
+  59 002e 9581      		ldd r25,Z+5
+  60 0030 0E94 0000 		call debug_record
+  61               	.LVL2:
+ 361:../../tmk_core/common/action_tapping.c ****         debug("["); debug_dec(i); debug("]="); debug_record(waiting_buffer[i]); debug(" ");
+  62               		.loc 1 361 0 discriminator 3
+  63 0034 2196      		adiw r28,1
+  64               	.LVL3:
+  65 0036 C770      		andi r28,lo8(7)
+  66 0038 00C0      		rjmp .L2
+  67               	.LVL4:
+  68               	.L5:
+  69               	/* epilogue start */
+  70               	.LBE3:
+ 363:../../tmk_core/common/action_tapping.c ****     }
+ 364:../../tmk_core/common/action_tapping.c ****     debug("}\n");
+ 365:../../tmk_core/common/action_tapping.c **** }
+  71               		.loc 1 365 0
+  72 003a DF91      		pop r29
+  73 003c CF91      		pop r28
+  74               	.LVL5:
+  75 003e 1F91      		pop r17
+  76 0040 0895      		ret
+  77               		.cfi_endproc
+  78               	.LFE11:
+  80               		.section	.text.debug_tapping_key,"ax",@progbits
+  82               	debug_tapping_key:
+  83               	.LFB10:
+ 354:../../tmk_core/common/action_tapping.c ****     debug("TAPPING_KEY="); debug_record(tapping_key); debug("\n");
+  84               		.loc 1 354 0
+  85               		.cfi_startproc
+  86               	/* prologue: function */
+  87               	/* frame size = 0 */
+  88               	/* stack size = 0 */
+  89               	.L__stack_usage = 0
+ 355:../../tmk_core/common/action_tapping.c **** }
+  90               		.loc 1 355 0
+  91 0000 4091 0000 		lds r20,tapping_key
+  92 0004 5091 0000 		lds r21,tapping_key+1
+  93 0008 6091 0000 		lds r22,tapping_key+2
+  94 000c 7091 0000 		lds r23,tapping_key+3
+  95 0010 8091 0000 		lds r24,tapping_key+4
+  96 0014 9091 0000 		lds r25,tapping_key+5
+  97 0018 0C94 0000 		jmp debug_record
+  98               	.LVL6:
+  99               		.cfi_endproc
+ 100               	.LFE10:
+ 102               		.section	.text.waiting_buffer_scan_tap,"ax",@progbits
+ 104               	waiting_buffer_scan_tap:
+ 105               	.LFB9:
+ 328:../../tmk_core/common/action_tapping.c ****     // tapping already is settled
+ 106               		.loc 1 328 0
+ 107               		.cfi_startproc
+ 108               	/* prologue: function */
+ 109               	/* frame size = 0 */
+ 110               	/* stack size = 0 */
+ 111               	.L__stack_usage = 0
+ 330:../../tmk_core/common/action_tapping.c ****     // invalid state: tapping_key released && tap.count == 0
+ 112               		.loc 1 330 0
+ 113 0000 8091 0000 		lds r24,tapping_key+5
+ 114 0004 8295      		swap r24
+ 115 0006 8F70      		andi r24,lo8(15)
+ 116 0008 01F0      		breq .+2
+ 117 000a 00C0      		rjmp .L7
+ 332:../../tmk_core/common/action_tapping.c **** 
+ 118               		.loc 1 332 0
+ 119 000c 8091 0000 		lds r24,tapping_key+2
+ 120 0010 8823      		tst r24
+ 121 0012 01F4      		brne .+2
+ 122 0014 00C0      		rjmp .L7
+ 123               	.LBB7:
+ 334:../../tmk_core/common/action_tapping.c ****         if (IS_TAPPING_KEY(waiting_buffer[i].event.key) &&
+ 124               		.loc 1 334 0
+ 125 0016 8091 0000 		lds r24,waiting_buffer_tail
+ 126               	.LVL7:
+ 127 001a A091 0000 		lds r26,waiting_buffer_head
+ 128 001e 4091 0000 		lds r20,tapping_key+3
+ 129 0022 5091 0000 		lds r21,tapping_key+3+1
+ 130 0026 6091 0000 		lds r22,tapping_key
+ 131 002a 7091 0000 		lds r23,tapping_key+1
+ 335:../../tmk_core/common/action_tapping.c ****                 !waiting_buffer[i].event.pressed &&
+ 132               		.loc 1 335 0
+ 133 002e B6E0      		ldi r27,lo8(6)
+ 134               	.LVL8:
+ 135               	.L9:
+ 334:../../tmk_core/common/action_tapping.c ****         if (IS_TAPPING_KEY(waiting_buffer[i].event.key) &&
+ 136               		.loc 1 334 0 discriminator 1
+ 137 0030 8A17      		cp r24,r26
+ 138 0032 01F4      		brne .+2
+ 139 0034 00C0      		rjmp .L7
+ 140 0036 90E0      		ldi r25,0
+ 141               	.LBB8:
+ 142               	.LBB9:
+ 143               		.file 2 "../../tmk_core/common/keyboard.h"
+   1:../../tmk_core/common/keyboard.h **** /*
+   2:../../tmk_core/common/keyboard.h **** Copyright 2011,2012,2013 Jun Wako <wakojun@gmail.com>
+   3:../../tmk_core/common/keyboard.h **** 
+   4:../../tmk_core/common/keyboard.h **** This program is free software: you can redistribute it and/or modify
+   5:../../tmk_core/common/keyboard.h **** it under the terms of the GNU General Public License as published by
+   6:../../tmk_core/common/keyboard.h **** the Free Software Foundation, either version 2 of the License, or
+   7:../../tmk_core/common/keyboard.h **** (at your option) any later version.
+   8:../../tmk_core/common/keyboard.h **** 
+   9:../../tmk_core/common/keyboard.h **** This program is distributed in the hope that it will be useful,
+  10:../../tmk_core/common/keyboard.h **** but WITHOUT ANY WARRANTY; without even the implied warranty of
+  11:../../tmk_core/common/keyboard.h **** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  12:../../tmk_core/common/keyboard.h **** GNU General Public License for more details.
+  13:../../tmk_core/common/keyboard.h **** 
+  14:../../tmk_core/common/keyboard.h **** You should have received a copy of the GNU General Public License
+  15:../../tmk_core/common/keyboard.h **** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  16:../../tmk_core/common/keyboard.h **** */
+  17:../../tmk_core/common/keyboard.h **** 
+  18:../../tmk_core/common/keyboard.h **** #ifndef KEYBOARD_H
+  19:../../tmk_core/common/keyboard.h **** #define KEYBOARD_H
+  20:../../tmk_core/common/keyboard.h **** 
+  21:../../tmk_core/common/keyboard.h **** #include <stdbool.h>
+  22:../../tmk_core/common/keyboard.h **** #include <stdint.h>
+  23:../../tmk_core/common/keyboard.h **** 
+  24:../../tmk_core/common/keyboard.h **** 
+  25:../../tmk_core/common/keyboard.h **** #ifdef __cplusplus
+  26:../../tmk_core/common/keyboard.h **** extern "C" {
+  27:../../tmk_core/common/keyboard.h **** #endif
+  28:../../tmk_core/common/keyboard.h **** 
+  29:../../tmk_core/common/keyboard.h **** /* key matrix position */
+  30:../../tmk_core/common/keyboard.h **** typedef struct {
+  31:../../tmk_core/common/keyboard.h ****     uint8_t col;
+  32:../../tmk_core/common/keyboard.h ****     uint8_t row;
+  33:../../tmk_core/common/keyboard.h **** } keypos_t;
+  34:../../tmk_core/common/keyboard.h **** 
+  35:../../tmk_core/common/keyboard.h **** /* key event */
+  36:../../tmk_core/common/keyboard.h **** typedef struct {
+  37:../../tmk_core/common/keyboard.h ****     keypos_t key;
+  38:../../tmk_core/common/keyboard.h ****     bool     pressed;
+  39:../../tmk_core/common/keyboard.h ****     uint16_t time;
+  40:../../tmk_core/common/keyboard.h **** } keyevent_t;
+  41:../../tmk_core/common/keyboard.h **** 
+  42:../../tmk_core/common/keyboard.h **** /* equivalent test of keypos_t */
+  43:../../tmk_core/common/keyboard.h **** #define KEYEQ(keya, keyb)       ((keya).row == (keyb).row && (keya).col == (keyb).col)
+  44:../../tmk_core/common/keyboard.h **** 
+  45:../../tmk_core/common/keyboard.h **** /* Rules for No Event:
+  46:../../tmk_core/common/keyboard.h ****  * 1) (time == 0) to handle (keyevent_t){} as empty event
+  47:../../tmk_core/common/keyboard.h ****  * 2) Matrix(255, 255) to make TICK event available
+  48:../../tmk_core/common/keyboard.h ****  */
+  49:../../tmk_core/common/keyboard.h **** static inline bool IS_NOEVENT(keyevent_t event) { return event.time == 0 || (event.key.row == 255 &
+ 144               		.loc 2 49 0
+ 145 0038 4115      		cp r20,__zero_reg__
+ 146 003a 5105      		cpc r21,__zero_reg__
+ 147 003c 01F0      		breq .L10
+ 148 003e 7F3F      		cpi r23,lo8(-1)
+ 149 0040 01F4      		brne .L11
+ 150               	.LBE9:
+ 151               	.LBE8:
+ 335:../../tmk_core/common/action_tapping.c ****                 !waiting_buffer[i].event.pressed &&
+ 152               		.loc 1 335 0
+ 153 0042 6F3F      		cpi r22,lo8(-1)
+ 154 0044 01F0      		breq .L10
+ 155               	.L11:
+ 335:../../tmk_core/common/action_tapping.c ****                 !waiting_buffer[i].event.pressed &&
+ 156               		.loc 1 335 0 is_stmt 0 discriminator 1
+ 157 0046 B89F      		mul r27,r24
+ 158 0048 F001      		movw r30,r0
+ 159 004a B99F      		mul r27,r25
+ 160 004c F00D      		add r31,r0
+ 161 004e 1124      		clr __zero_reg__
+ 162 0050 E050      		subi r30,lo8(-(waiting_buffer))
+ 163 0052 F040      		sbci r31,hi8(-(waiting_buffer))
+ 164 0054 2181      		ldd r18,Z+1
+ 165 0056 2713      		cpse r18,r23
+ 166 0058 00C0      		rjmp .L10
+ 335:../../tmk_core/common/action_tapping.c ****                 !waiting_buffer[i].event.pressed &&
+ 167               		.loc 1 335 0 discriminator 2
+ 168 005a 2081      		ld r18,Z
+ 169 005c 2613      		cpse r18,r22
+ 170 005e 00C0      		rjmp .L10
+ 335:../../tmk_core/common/action_tapping.c ****                 !waiting_buffer[i].event.pressed &&
+ 171               		.loc 1 335 0 discriminator 3
+ 172 0060 2281      		ldd r18,Z+2
+ 173 0062 2111      		cpse r18,__zero_reg__
+ 174 0064 00C0      		rjmp .L10
+ 337:../../tmk_core/common/action_tapping.c ****             tapping_key.tap.count = 1;
+ 175               		.loc 1 337 0 is_stmt 1
+ 176 0066 2381      		ldd r18,Z+3
+ 177 0068 3481      		ldd r19,Z+4
+ 178 006a 2417      		cp r18,r20
+ 179 006c 3507      		cpc r19,r21
+ 180 006e 00F4      		brsh .L28
+ 337:../../tmk_core/common/action_tapping.c ****             tapping_key.tap.count = 1;
+ 181               		.loc 1 337 0 is_stmt 0 discriminator 2
+ 182 0070 2150      		subi r18,1
+ 183 0072 3109      		sbc r19,__zero_reg__
+ 184               	.L28:
+ 185 0074 241B      		sub r18,r20
+ 186 0076 350B      		sbc r19,r21
+ 187 0078 283C      		cpi r18,-56
+ 188 007a 3105      		cpc r19,__zero_reg__
+ 189 007c 00F4      		brsh .L10
+ 338:../../tmk_core/common/action_tapping.c ****             waiting_buffer[i].tap.count = 1;
+ 190               		.loc 1 338 0 is_stmt 1
+ 191 007e 2091 0000 		lds r18,tapping_key+5
+ 192 0082 2F70      		andi r18,lo8(15)
+ 193 0084 2061      		ori r18,lo8(16)
+ 194 0086 2093 0000 		sts tapping_key+5,r18
+ 339:../../tmk_core/common/action_tapping.c ****             process_action(&tapping_key);
+ 195               		.loc 1 339 0
+ 196 008a 26E0      		ldi r18,lo8(6)
+ 197 008c 289F      		mul r18,r24
+ 198 008e F001      		movw r30,r0
+ 199 0090 299F      		mul r18,r25
+ 200 0092 F00D      		add r31,r0
+ 201 0094 1124      		clr __zero_reg__
+ 202 0096 E050      		subi r30,lo8(-(waiting_buffer+5))
+ 203 0098 F040      		sbci r31,hi8(-(waiting_buffer+5))
+ 204 009a 8081      		ld r24,Z
+ 205               	.LVL9:
+ 206 009c 8F70      		andi r24,lo8(15)
+ 207 009e 8061      		ori r24,lo8(16)
+ 208 00a0 8083      		st Z,r24
+ 340:../../tmk_core/common/action_tapping.c **** 
+ 209               		.loc 1 340 0
+ 210 00a2 80E0      		ldi r24,lo8(tapping_key)
+ 211 00a4 90E0      		ldi r25,hi8(tapping_key)
+ 212 00a6 0E94 0000 		call process_action
+ 213               	.LVL10:
+ 343:../../tmk_core/common/action_tapping.c ****             return;
+ 214               		.loc 1 343 0
+ 215 00aa 0C94 0000 		jmp debug_waiting_buffer
+ 216               	.LVL11:
+ 217               	.L10:
+ 334:../../tmk_core/common/action_tapping.c ****         if (IS_TAPPING_KEY(waiting_buffer[i].event.key) &&
+ 218               		.loc 1 334 0 discriminator 2
+ 219 00ae 0196      		adiw r24,1
+ 220               	.LVL12:
+ 221 00b0 8770      		andi r24,lo8(7)
+ 222 00b2 00C0      		rjmp .L9
+ 223               	.L7:
+ 224 00b4 0895      		ret
+ 225               	.LBE7:
+ 226               		.cfi_endproc
+ 227               	.LFE9:
+ 229               		.section	.text.process_tapping,"ax",@progbits
+ 231               	process_tapping:
+ 232               	.LFB5:
+  79:../../tmk_core/common/action_tapping.c ****     keyevent_t event = keyp->event;
+ 233               		.loc 1 79 0
+ 234               		.cfi_startproc
+ 235               	.LVL13:
+ 236 0000 CF92      		push r12
+ 237               	.LCFI3:
+ 238               		.cfi_def_cfa_offset 3
+ 239               		.cfi_offset 12, -2
+ 240 0002 DF92      		push r13
+ 241               	.LCFI4:
+ 242               		.cfi_def_cfa_offset 4
+ 243               		.cfi_offset 13, -3
+ 244 0004 EF92      		push r14
+ 245               	.LCFI5:
+ 246               		.cfi_def_cfa_offset 5
+ 247               		.cfi_offset 14, -4
+ 248 0006 FF92      		push r15
+ 249               	.LCFI6:
+ 250               		.cfi_def_cfa_offset 6
+ 251               		.cfi_offset 15, -5
+ 252 0008 0F93      		push r16
+ 253               	.LCFI7:
+ 254               		.cfi_def_cfa_offset 7
+ 255               		.cfi_offset 16, -6
+ 256 000a 1F93      		push r17
+ 257               	.LCFI8:
+ 258               		.cfi_def_cfa_offset 8
+ 259               		.cfi_offset 17, -7
+ 260 000c CF93      		push r28
+ 261               	.LCFI9:
+ 262               		.cfi_def_cfa_offset 9
+ 263               		.cfi_offset 28, -8
+ 264 000e DF93      		push r29
+ 265               	.LCFI10:
+ 266               		.cfi_def_cfa_offset 10
+ 267               		.cfi_offset 29, -9
+ 268 0010 CDB7      		in r28,__SP_L__
+ 269 0012 DEB7      		in r29,__SP_H__
+ 270               	.LCFI11:
+ 271               		.cfi_def_cfa_register 28
+ 272 0014 6297      		sbiw r28,18
+ 273               	.LCFI12:
+ 274               		.cfi_def_cfa_offset 28
+ 275 0016 0FB6      		in __tmp_reg__,__SREG__
+ 276 0018 F894      		cli
+ 277 001a DEBF      		out __SP_H__,r29
+ 278 001c 0FBE      		out __SREG__,__tmp_reg__
+ 279 001e CDBF      		out __SP_L__,r28
+ 280               	/* prologue: function */
+ 281               	/* frame size = 18 */
+ 282               	/* stack size = 26 */
+ 283               	.L__stack_usage = 26
+ 284 0020 8C01      		movw r16,r24
+  80:../../tmk_core/common/action_tapping.c **** 
+ 285               		.loc 1 80 0
+ 286 0022 85E0      		ldi r24,lo8(5)
+ 287               	.LVL14:
+ 288 0024 F801      		movw r30,r16
+ 289 0026 DE01      		movw r26,r28
+ 290 0028 1D96      		adiw r26,13
+ 291               		0:
+ 292 002a 0190      		ld r0,Z+
+ 293 002c 0D92      		st X+,r0
+ 294 002e 8A95      		dec r24
+ 295 0030 01F4      		brne 0b
+ 296 0032 D801      		movw r26,r16
+ 297 0034 4C91      		ld r20,X
+ 298               	.LVL15:
+ 299 0036 1196      		adiw r26,1
+ 300 0038 5C91      		ld r21,X
+ 301 003a 1197      		sbiw r26,1
+ 302               	.LVL16:
+ 303 003c 1296      		adiw r26,2
+ 304 003e 6C91      		ld r22,X
+ 305               	.LVL17:
+ 306 0040 8091 0000 		lds r24,tapping_key+3
+ 307 0044 9091 0000 		lds r25,tapping_key+3+1
+ 308               	.LBB20:
+ 309               	.LBB21:
+ 310               		.loc 2 49 0
+ 311 0048 0097      		sbiw r24,0
+ 312 004a 01F4      		brne .+2
+ 313 004c 00C0      		rjmp .L30
+ 314 004e 3091 0000 		lds r19,tapping_key
+ 315 0052 7091 0000 		lds r23,tapping_key+1
+ 316 0056 7F3F      		cpi r23,lo8(-1)
+ 317 0058 01F4      		brne .L31
+ 318               	.LBE21:
+ 319               	.LBE20:
+  83:../../tmk_core/common/action_tapping.c ****         if (WITHIN_TAPPING_TERM(event)) {
+ 320               		.loc 1 83 0
+ 321 005a 3F3F      		cpi r19,lo8(-1)
+ 322 005c 01F4      		brne .+2
+ 323 005e 00C0      		rjmp .L30
+ 324               	.L31:
+  80:../../tmk_core/common/action_tapping.c **** 
+ 325               		.loc 1 80 0 discriminator 1
+ 326 0060 F801      		movw r30,r16
+ 327 0062 C380      		ldd r12,Z+3
+ 328 0064 D480      		ldd r13,Z+4
+  83:../../tmk_core/common/action_tapping.c ****         if (WITHIN_TAPPING_TERM(event)) {
+ 329               		.loc 1 83 0 discriminator 1
+ 330 0066 E090 0000 		lds r14,tapping_key+2
+ 331 006a EE20      		tst r14
+ 332 006c 01F4      		brne .+2
+ 333 006e 00C0      		rjmp .L32
+ 334 0070 2091 0000 		lds r18,tapping_key+5
+  84:../../tmk_core/common/action_tapping.c ****             if (tapping_key.tap.count == 0) {
+ 335               		.loc 1 84 0
+ 336 0074 C816      		cp r12,r24
+ 337 0076 D906      		cpc r13,r25
+ 338 0078 00F0      		brlo .L33
+  84:../../tmk_core/common/action_tapping.c ****             if (tapping_key.tap.count == 0) {
+ 339               		.loc 1 84 0 is_stmt 0 discriminator 1
+ 340 007a D601      		movw r26,r12
+ 341 007c A81B      		sub r26,r24
+ 342 007e B90B      		sbc r27,r25
+ 343 0080 CD01      		movw r24,r26
+ 344 0082 00C0      		rjmp .L133
+ 345               	.L33:
+  84:../../tmk_core/common/action_tapping.c ****             if (tapping_key.tap.count == 0) {
+ 346               		.loc 1 84 0 discriminator 2
+ 347 0084 8095      		com r24
+ 348 0086 9095      		com r25
+ 349 0088 8C0D      		add r24,r12
+ 350 008a 9D1D      		adc r25,r13
+ 351               	.L133:
+ 352 008c FF24      		clr r15
+ 353 008e F394      		inc r15
+ 354 0090 883C      		cpi r24,-56
+ 355 0092 9105      		cpc r25,__zero_reg__
+ 356 0094 00F0      		brlo .L86
+ 357 0096 F12C      		mov r15,__zero_reg__
+ 184:../../tmk_core/common/action_tapping.c ****                 debug("Tapping: End. Timeout. Not tap(0): ");
+ 358               		.loc 1 184 0 is_stmt 1 discriminator 2
+ 359 0098 207F      		andi r18,lo8(-16)
+ 360 009a 01F0      		breq .+2
+ 361 009c 00C0      		rjmp .L57
+ 186:../../tmk_core/common/action_tapping.c ****                 process_action(&tapping_key);
+ 362               		.loc 1 186 0
+ 363 009e 7C2D      		mov r23,r12
+ 364 00a0 D98A      		std Y+17,r13
+ 365 00a2 C88A      		std Y+16,r12
+ 366 00a4 8989      		ldd r24,Y+17
+ 367 00a6 0E94 0000 		call debug_event
+ 368               	.LVL18:
+ 187:../../tmk_core/common/action_tapping.c ****                 tapping_key = (keyrecord_t){};
+ 369               		.loc 1 187 0
+ 370 00aa 80E0      		ldi r24,lo8(tapping_key)
+ 371 00ac 90E0      		ldi r25,hi8(tapping_key)
+ 372 00ae 0E94 0000 		call process_action
+ 373               	.LVL19:
+ 374 00b2 00C0      		rjmp .L131
+ 375               	.LVL20:
+ 376               	.L86:
+  85:../../tmk_core/common/action_tapping.c ****                 if (IS_TAPPING_KEY(event.key) && !event.pressed) {
+ 377               		.loc 1 85 0
+ 378 00b4 822F      		mov r24,r18
+ 379 00b6 807F      		andi r24,lo8(-16)
+ 380 00b8 01F0      		breq .+2
+ 381 00ba 00C0      		rjmp .L38
+  86:../../tmk_core/common/action_tapping.c ****                     // first tap!
+ 382               		.loc 1 86 0 discriminator 1
+ 383 00bc 5713      		cpse r21,r23
+ 384 00be 00C0      		rjmp .L39
+  86:../../tmk_core/common/action_tapping.c ****                     // first tap!
+ 385               		.loc 1 86 0 is_stmt 0 discriminator 2
+ 386 00c0 4313      		cpse r20,r19
+ 387 00c2 00C0      		rjmp .L39
+  86:../../tmk_core/common/action_tapping.c ****                     // first tap!
+ 388               		.loc 1 86 0 discriminator 3
+ 389 00c4 6111      		cpse r22,__zero_reg__
+ 390 00c6 00C0      		rjmp .L39
+  89:../../tmk_core/common/action_tapping.c ****                     debug_tapping_key();
+ 391               		.loc 1 89 0 is_stmt 1
+ 392 00c8 2F70      		andi r18,lo8(15)
+ 393 00ca 2061      		ori r18,lo8(16)
+ 394 00cc 2093 0000 		sts tapping_key+5,r18
+ 395               	.LVL21:
+  90:../../tmk_core/common/action_tapping.c ****                     process_action(&tapping_key);
+ 396               		.loc 1 90 0
+ 397 00d0 0E94 0000 		call debug_tapping_key
+ 398               	.LVL22:
+  91:../../tmk_core/common/action_tapping.c **** 
+ 399               		.loc 1 91 0
+ 400 00d4 80E0      		ldi r24,lo8(tapping_key)
+ 401 00d6 90E0      		ldi r25,hi8(tapping_key)
+ 402 00d8 0E94 0000 		call process_action
+ 403               	.LVL23:
+  94:../../tmk_core/common/action_tapping.c ****                     // enqueue
+ 404               		.loc 1 94 0
+ 405 00dc 8091 0000 		lds r24,tapping_key+5
+ 406 00e0 F801      		movw r30,r16
+ 407 00e2 8583      		std Z+5,r24
+ 408 00e4 00C0      		rjmp .L128
+ 409               	.LVL24:
+ 410               	.L39:
+ 411               	.LBB22:
+ 412               	.LBB23:
+ 413               	.LBB24:
+ 414               	.LBB25:
+ 415               		.loc 2 49 0
+ 416 00e6 CD28      		or r12,r13
+ 417 00e8 01F0      		breq .L41
+ 418 00ea 5F3F      		cpi r21,lo8(-1)
+ 419 00ec 01F4      		brne .L42
+ 420               	.LBE25:
+ 421               	.LBE24:
+  50:../../tmk_core/common/keyboard.h **** static inline bool IS_PRESSED(keyevent_t event) { return (!IS_NOEVENT(event) && event.pressed); }
+  51:../../tmk_core/common/keyboard.h **** static inline bool IS_RELEASED(keyevent_t event) { return (!IS_NOEVENT(event) && !event.pressed); }
+ 422               		.loc 2 51 0
+ 423 00ee 4F3F      		cpi r20,lo8(-1)
+ 424 00f0 01F0      		breq .L41
+ 425               	.L42:
+ 426 00f2 F62E      		mov r15,r22
+ 427 00f4 6111      		cpse r22,__zero_reg__
+ 428 00f6 00C0      		rjmp .L41
+ 429               	.LVL25:
+ 430               	.LBE23:
+ 431               	.LBE22:
+ 432               	.LBB26:
+ 433               	.LBB27:
+ 318:../../tmk_core/common/action_tapping.c ****         if (KEYEQ(event.key, waiting_buffer[i].event.key) && event.pressed !=  waiting_buffer[i].ev
+ 434               		.loc 1 318 0 discriminator 1
+ 435 00f8 8091 0000 		lds r24,waiting_buffer_tail
+ 436               	.LVL26:
+ 437 00fc 2091 0000 		lds r18,waiting_buffer_head
+ 319:../../tmk_core/common/action_tapping.c ****             return true;
+ 438               		.loc 1 319 0 discriminator 1
+ 439 0100 36E0      		ldi r19,lo8(6)
+ 440               	.LVL27:
+ 441               	.L43:
+ 318:../../tmk_core/common/action_tapping.c ****         if (KEYEQ(event.key, waiting_buffer[i].event.key) && event.pressed !=  waiting_buffer[i].ev
+ 442               		.loc 1 318 0
+ 443 0102 8217      		cp r24,r18
+ 444 0104 01F4      		brne .+2
+ 445 0106 00C0      		rjmp .L136
+ 319:../../tmk_core/common/action_tapping.c ****             return true;
+ 446               		.loc 1 319 0
+ 447 0108 90E0      		ldi r25,0
+ 448 010a 389F      		mul r19,r24
+ 449 010c F001      		movw r30,r0
+ 450 010e 399F      		mul r19,r25
+ 451 0110 F00D      		add r31,r0
+ 452 0112 1124      		clr __zero_reg__
+ 453 0114 E050      		subi r30,lo8(-(waiting_buffer))
+ 454 0116 F040      		sbci r31,hi8(-(waiting_buffer))
+ 455 0118 7181      		ldd r23,Z+1
+ 456 011a 5713      		cpse r21,r23
+ 457 011c 00C0      		rjmp .L44
+ 458 011e 7081      		ld r23,Z
+ 459 0120 4713      		cpse r20,r23
+ 460 0122 00C0      		rjmp .L44
+ 461 0124 7281      		ldd r23,Z+2
+ 462 0126 7111      		cpse r23,__zero_reg__
+ 463 0128 00C0      		rjmp .L41
+ 464               	.L44:
+ 318:../../tmk_core/common/action_tapping.c ****         if (KEYEQ(event.key, waiting_buffer[i].event.key) && event.pressed !=  waiting_buffer[i].ev
+ 465               		.loc 1 318 0
+ 466 012a 0196      		adiw r24,1
+ 467               	.LVL28:
+ 468 012c 8770      		andi r24,lo8(7)
+ 469 012e 00C0      		rjmp .L43
+ 470               	.LVL29:
+ 471               	.L41:
+ 472               	.LBE27:
+ 473               	.LBE26:
+ 138:../../tmk_core/common/action_tapping.c ****                         tapping_key.tap.interrupted = true;
+ 474               		.loc 1 138 0
+ 475 0130 F62E      		mov r15,r22
+ 476 0132 6623      		tst r22
+ 477 0134 01F4      		brne .+2
+ 478 0136 00C0      		rjmp .L88
+ 479               	.LVL30:
+ 139:../../tmk_core/common/action_tapping.c ****                     }
+ 480               		.loc 1 139 0
+ 481 0138 8091 0000 		lds r24,tapping_key+5
+ 482 013c 8160      		ori r24,lo8(1<<0)
+ 483 013e 8093 0000 		sts tapping_key+5,r24
+ 484               	.LVL31:
+ 485               	.L128:
+ 142:../../tmk_core/common/action_tapping.c ****                 }
+ 486               		.loc 1 142 0
+ 487 0142 F12C      		mov r15,__zero_reg__
+ 488 0144 00C0      		rjmp .L88
+ 489               	.LVL32:
+ 490               	.L38:
+ 147:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: Tap release("); debug_dec(tapping_key.tap.count); debug(")\n");
+ 491               		.loc 1 147 0 discriminator 1
+ 492 0146 5713      		cpse r21,r23
+ 493 0148 00C0      		rjmp .L53
+ 147:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: Tap release("); debug_dec(tapping_key.tap.count); debug(")\n");
+ 494               		.loc 1 147 0 is_stmt 0 discriminator 2
+ 495 014a 4313      		cpse r20,r19
+ 496 014c 00C0      		rjmp .L53
+ 147:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: Tap release("); debug_dec(tapping_key.tap.count); debug(")\n");
+ 497               		.loc 1 147 0 discriminator 3
+ 498 014e 6111      		cpse r22,__zero_reg__
+ 499 0150 00C0      		rjmp .L53
+ 149:../../tmk_core/common/action_tapping.c ****                     process_action(keyp);
+ 500               		.loc 1 149 0 is_stmt 1
+ 501 0152 8091 0000 		lds r24,tapping_key+5
+ 502 0156 F801      		movw r30,r16
+ 503 0158 8583      		std Z+5,r24
+ 504 015a 00C0      		rjmp .L68
+ 505               	.L53:
+ 155:../../tmk_core/common/action_tapping.c ****                     if (tapping_key.tap.count > 1) {
+ 506               		.loc 1 155 0
+ 507 015c 4D87      		std Y+13,r20
+ 508 015e 5E87      		std Y+14,r21
+ 509 0160 8D85      		ldd r24,Y+13
+ 510 0162 9E85      		ldd r25,Y+14
+ 511 0164 6A8B      		std Y+18,r22
+ 512               	.LVL33:
+ 513 0166 0E94 0000 		call is_tap_key
+ 514               	.LVL34:
+ 515 016a 6A89      		ldd r22,Y+18
+ 516 016c 8823      		tst r24
+ 517 016e 01F0      		breq .L65
+ 155:../../tmk_core/common/action_tapping.c ****                     if (tapping_key.tap.count > 1) {
+ 518               		.loc 1 155 0 is_stmt 0 discriminator 1
+ 519 0170 6623      		tst r22
+ 520 0172 01F0      		breq .L65
+ 156:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: Start new tap with releasing last tap(>1).\n");
+ 521               		.loc 1 156 0 is_stmt 1
+ 522 0174 2091 0000 		lds r18,tapping_key+5
+ 523 0178 822F      		mov r24,r18
+ 524 017a 8295      		swap r24
+ 525 017c 8F70      		andi r24,lo8(15)
+ 526 017e 90E0      		ldi r25,0
+ 527 0180 0297      		sbiw r24,2
+ 528 0182 04F0      		brlt .L56
+ 159:../../tmk_core/common/action_tapping.c ****                                 .tap = tapping_key.tap,
+ 529               		.loc 1 159 0
+ 530 0184 8091 0000 		lds r24,tapping_key
+ 531 0188 9091 0000 		lds r25,tapping_key+1
+ 532 018c 9887      		std Y+8,r25
+ 533 018e 8F83      		std Y+7,r24
+ 534 0190 1986      		std Y+9,__zero_reg__
+ 535 0192 DB86      		std Y+11,r13
+ 536 0194 CA86      		std Y+10,r12
+ 537 0196 2C87      		std Y+12,r18
+ 538 0198 CE01      		movw r24,r28
+ 539 019a 0796      		adiw r24,7
+ 540               	.L125:
+ 541 019c 0E94 0000 		call process_action
+ 542               	.LVL35:
+ 543               	.L56:
+ 168:../../tmk_core/common/action_tapping.c ****                     waiting_buffer_scan_tap();
+ 544               		.loc 1 168 0
+ 545 01a0 86E0      		ldi r24,lo8(6)
+ 546 01a2 F801      		movw r30,r16
+ 547 01a4 A0E0      		ldi r26,lo8(tapping_key)
+ 548 01a6 B0E0      		ldi r27,hi8(tapping_key)
+ 549               		0:
+ 550 01a8 0190      		ld r0,Z+
+ 551 01aa 0D92      		st X+,r0
+ 552 01ac 8A95      		dec r24
+ 553 01ae 01F4      		brne 0b
+ 169:../../tmk_core/common/action_tapping.c ****                     debug_tapping_key();
+ 554               		.loc 1 169 0
+ 555 01b0 0E94 0000 		call waiting_buffer_scan_tap
+ 556               	.LVL36:
+ 170:../../tmk_core/common/action_tapping.c ****                     return true;
+ 557               		.loc 1 170 0
+ 558 01b4 0E94 0000 		call debug_tapping_key
+ 559               	.LVL37:
+ 560               	.L129:
+ 171:../../tmk_core/common/action_tapping.c ****                 }
+ 561               		.loc 1 171 0
+ 562 01b8 FF24      		clr r15
+ 563 01ba F394      		inc r15
+ 564 01bc 00C0      		rjmp .L88
+ 565               	.LVL38:
+ 566               	.L136:
+ 567               	.LBB28:
+ 118:../../tmk_core/common/action_tapping.c ****                     switch (action.kind.id) {
+ 568               		.loc 1 118 0
+ 569 01be 4D87      		std Y+13,r20
+ 570 01c0 5E87      		std Y+14,r21
+ 571 01c2 8D85      		ldd r24,Y+13
+ 572 01c4 9E85      		ldd r25,Y+14
+ 573 01c6 0E94 0000 		call layer_switch_get_action
+ 574               	.LVL39:
+ 119:../../tmk_core/common/action_tapping.c ****                         case ACT_LMODS:
+ 575               		.loc 1 119 0
+ 576 01ca 292F      		mov r18,r25
+ 577 01cc 2295      		swap r18
+ 578 01ce 2F70      		andi r18,lo8(15)
+ 579 01d0 2230      		cpi r18,lo8(2)
+ 580 01d2 00F0      		brlo .+2
+ 581 01d4 00C0      		rjmp .L137
+ 122:../../tmk_core/common/action_tapping.c ****                             if (IS_MOD(action.key.code)) return false;
+ 582               		.loc 1 122 0
+ 583 01d6 9F70      		andi r25,lo8(15)
+ 584               	.LVL40:
+ 585 01d8 01F0      		breq .+2
+ 586 01da 00C0      		rjmp .L138
+ 587               	.L52:
+ 128:../../tmk_core/common/action_tapping.c ****                             break;
+ 588               		.loc 1 128 0
+ 589 01dc 805E      		subi r24,lo8(-(32))
+ 590               	.LVL41:
+ 591 01de 8830      		cpi r24,lo8(8)
+ 592 01e0 00F4      		brsh .+2
+ 593 01e2 00C0      		rjmp .L88
+ 594               	.LVL42:
+ 595               	.L65:
+ 596               	.LBE28:
+ 177:../../tmk_core/common/action_tapping.c ****                     return true;
+ 597               		.loc 1 177 0
+ 598 01e4 C801      		movw r24,r16
+ 599               	.LVL43:
+ 600 01e6 0E94 0000 		call process_action
+ 601               	.LVL44:
+ 602 01ea 00C0      		rjmp .L129
+ 603               	.LVL45:
+ 604               	.L32:
+ 227:../../tmk_core/common/action_tapping.c ****             if (event.pressed) {
+ 605               		.loc 1 227 0
+ 606 01ec C816      		cp r12,r24
+ 607 01ee D906      		cpc r13,r25
+ 608 01f0 00F4      		brsh .+2
+ 609 01f2 00C0      		rjmp .L60
+ 227:../../tmk_core/common/action_tapping.c ****             if (event.pressed) {
+ 610               		.loc 1 227 0 is_stmt 0 discriminator 1
+ 611 01f4 F601      		movw r30,r12
+ 612 01f6 E81B      		sub r30,r24
+ 613 01f8 F90B      		sbc r31,r25
+ 614 01fa CF01      		movw r24,r30
+ 615               	.L135:
+ 227:../../tmk_core/common/action_tapping.c ****             if (event.pressed) {
+ 616               		.loc 1 227 0 discriminator 2
+ 617 01fc 883C      		cpi r24,-56
+ 618 01fe 9105      		cpc r25,__zero_reg__
+ 619 0200 00F4      		brsh .+2
+ 620 0202 00C0      		rjmp .L87
+ 621 0204 F12C      		mov r15,__zero_reg__
+ 267:../../tmk_core/common/action_tapping.c ****             tapping_key = (keyrecord_t){};
+ 622               		.loc 1 267 0 is_stmt 1 discriminator 2
+ 623 0206 7C2D      		mov r23,r12
+ 624 0208 D98A      		std Y+17,r13
+ 625 020a C88A      		std Y+16,r12
+ 626 020c 8989      		ldd r24,Y+17
+ 627 020e 0E94 0000 		call debug_event
+ 628               	.LVL46:
+ 629               	.L131:
+ 188:../../tmk_core/common/action_tapping.c ****                 debug_tapping_key();
+ 630               		.loc 1 188 0
+ 631 0212 E0E0      		ldi r30,lo8(tapping_key)
+ 632 0214 F0E0      		ldi r31,hi8(tapping_key)
+ 633 0216 86E0      		ldi r24,lo8(6)
+ 634 0218 DF01      		movw r26,r30
+ 635               		0:
+ 636 021a 1D92      		st X+,__zero_reg__
+ 637 021c 8A95      		dec r24
+ 638 021e 01F4      		brne 0b
+ 639               	.L130:
+ 189:../../tmk_core/common/action_tapping.c ****                 return false;
+ 640               		.loc 1 189 0
+ 641 0220 0E94 0000 		call debug_tapping_key
+ 642               	.LVL47:
+ 190:../../tmk_core/common/action_tapping.c ****             }  else {
+ 643               		.loc 1 190 0
+ 644 0224 00C0      		rjmp .L88
+ 645               	.LVL48:
+ 646               	.L57:
+ 192:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: End. last timeout tap release(>0).");
+ 647               		.loc 1 192 0 discriminator 1
+ 648 0226 5713      		cpse r21,r23
+ 649 0228 00C0      		rjmp .L58
+ 192:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: End. last timeout tap release(>0).");
+ 650               		.loc 1 192 0 is_stmt 0 discriminator 2
+ 651 022a 4313      		cpse r20,r19
+ 652 022c 00C0      		rjmp .L58
+ 192:../../tmk_core/common/action_tapping.c ****                     debug("Tapping: End. last timeout tap release(>0).");
+ 653               		.loc 1 192 0 discriminator 3
+ 654 022e 6111      		cpse r22,__zero_reg__
+ 655 0230 00C0      		rjmp .L58
+ 194:../../tmk_core/common/action_tapping.c ****                     process_action(keyp);
+ 656               		.loc 1 194 0 is_stmt 1
+ 657 0232 8091 0000 		lds r24,tapping_key+5
+ 658 0236 F801      		movw r30,r16
+ 659 0238 8583      		std Z+5,r24
+ 195:../../tmk_core/common/action_tapping.c ****                     tapping_key = (keyrecord_t){};
+ 660               		.loc 1 195 0
+ 661 023a C801      		movw r24,r16
+ 662 023c 0E94 0000 		call process_action
+ 663               	.LVL49:
+ 196:../../tmk_core/common/action_tapping.c ****                     return true;
+ 664               		.loc 1 196 0
+ 665 0240 86E0      		ldi r24,lo8(6)
+ 666 0242 E0E0      		ldi r30,lo8(tapping_key)
+ 667 0244 F0E0      		ldi r31,hi8(tapping_key)
+ 668 0246 DF01      		movw r26,r30
+ 669               		0:
+ 670 0248 1D92      		st X+,__zero_reg__
+ 671 024a 8A95      		dec r24
+ 672 024c 01F4      		brne 0b
+ 197:../../tmk_core/common/action_tapping.c ****                 }
+ 673               		.loc 1 197 0
+ 674 024e FE2C      		mov r15,r14
+ 675 0250 00C0      		rjmp .L88
+ 676               	.LVL50:
+ 677               	.L58:
+ 199:../../tmk_core/common/action_tapping.c ****                     if (tapping_key.tap.count > 1) {
+ 678               		.loc 1 199 0
+ 679 0252 4D87      		std Y+13,r20
+ 680 0254 5E87      		std Y+14,r21
+ 681 0256 8D85      		ldd r24,Y+13
+ 682 0258 9E85      		ldd r25,Y+14
+ 683 025a 6A8B      		std Y+18,r22
+ 684               	.LVL51:
+ 685 025c 0E94 0000 		call is_tap_key
+ 686               	.LVL52:
+ 687 0260 6A89      		ldd r22,Y+18
+ 688 0262 8823      		tst r24
+ 689 0264 01F4      		brne .+2
+ 690 0266 00C0      		rjmp .L65
+ 199:../../tmk_core/common/action_tapping.c ****                     if (tapping_key.tap.count > 1) {
+ 691               		.loc 1 199 0 is_stmt 0 discriminator 1
+ 692 0268 6623      		tst r22
+ 693 026a 01F4      		brne .+2
+ 694 026c 00C0      		rjmp .L65
+ 200:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: Start new tap with releasing last timeout tap(>1).\n");
+ 695               		.loc 1 200 0 is_stmt 1
+ 696 026e 2091 0000 		lds r18,tapping_key+5
+ 697 0272 822F      		mov r24,r18
+ 698 0274 8295      		swap r24
+ 699 0276 8F70      		andi r24,lo8(15)
+ 700 0278 90E0      		ldi r25,0
+ 701 027a 0297      		sbiw r24,2
+ 702 027c 04F4      		brge .+2
+ 703 027e 00C0      		rjmp .L56
+ 203:../../tmk_core/common/action_tapping.c ****                                 .tap = tapping_key.tap,
+ 704               		.loc 1 203 0
+ 705 0280 8091 0000 		lds r24,tapping_key
+ 706 0284 9091 0000 		lds r25,tapping_key+1
+ 707 0288 9A83      		std Y+2,r25
+ 708 028a 8983      		std Y+1,r24
+ 709 028c 1B82      		std Y+3,__zero_reg__
+ 710 028e DD82      		std Y+5,r13
+ 711 0290 CC82      		std Y+4,r12
+ 712 0292 2E83      		std Y+6,r18
+ 713 0294 CE01      		movw r24,r28
+ 714 0296 0196      		adiw r24,1
+ 715 0298 00C0      		rjmp .L125
+ 716               	.LVL53:
+ 717               	.L60:
+ 227:../../tmk_core/common/action_tapping.c ****             if (event.pressed) {
+ 718               		.loc 1 227 0 discriminator 2
+ 719 029a 8095      		com r24
+ 720 029c 9095      		com r25
+ 721 029e 8C0D      		add r24,r12
+ 722 02a0 9D1D      		adc r25,r13
+ 723 02a2 00C0      		rjmp .L135
+ 724               	.L87:
+ 228:../../tmk_core/common/action_tapping.c ****                 if (IS_TAPPING_KEY(event.key)) {
+ 725               		.loc 1 228 0
+ 726 02a4 F62E      		mov r15,r22
+ 727 02a6 6623      		tst r22
+ 728 02a8 01F4      		brne .+2
+ 729 02aa 00C0      		rjmp .L65
+ 730               	.LVL54:
+ 229:../../tmk_core/common/action_tapping.c ****                     if (!tapping_key.tap.interrupted && tapping_key.tap.count > 0) {
+ 731               		.loc 1 229 0 discriminator 1
+ 732 02ac 5713      		cpse r21,r23
+ 733 02ae 00C0      		rjmp .L66
+ 229:../../tmk_core/common/action_tapping.c ****                     if (!tapping_key.tap.interrupted && tapping_key.tap.count > 0) {
+ 734               		.loc 1 229 0 is_stmt 0 discriminator 2
+ 735 02b0 4313      		cpse r20,r19
+ 736 02b2 00C0      		rjmp .L66
+ 230:../../tmk_core/common/action_tapping.c ****                         // sequential tap.
+ 737               		.loc 1 230 0 is_stmt 1
+ 738 02b4 2091 0000 		lds r18,tapping_key+5
+ 739 02b8 20FD      		sbrc r18,0
+ 740 02ba 00C0      		rjmp .L67
+ 230:../../tmk_core/common/action_tapping.c ****                         // sequential tap.
+ 741               		.loc 1 230 0 is_stmt 0 discriminator 1
+ 742 02bc 822F      		mov r24,r18
+ 743 02be 8295      		swap r24
+ 744 02c0 8F70      		andi r24,lo8(15)
+ 745 02c2 482F      		mov r20,r24
+ 746               	.LVL55:
+ 747 02c4 50E0      		ldi r21,0
+ 748               	.LVL56:
+ 749 02c6 4115      		cp r20,__zero_reg__
+ 750 02c8 5105      		cpc r21,__zero_reg__
+ 751 02ca 01F0      		breq .L67
+ 232:../../tmk_core/common/action_tapping.c ****                         if (keyp->tap.count < 15) keyp->tap.count += 1;
+ 752               		.loc 1 232 0 is_stmt 1
+ 753 02cc D801      		movw r26,r16
+ 754 02ce 1596      		adiw r26,5
+ 755 02d0 2C93      		st X,r18
+ 756 02d2 1597      		sbiw r26,5
+ 233:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: Tap press("); debug_dec(keyp->tap.count); debug(")\n");
+ 757               		.loc 1 233 0
+ 758 02d4 4F30      		cpi r20,15
+ 759 02d6 5105      		cpc r21,__zero_reg__
+ 760 02d8 01F0      		breq .L68
+ 233:../../tmk_core/common/action_tapping.c ****                         debug("Tapping: Tap press("); debug_dec(keyp->tap.count); debug(")\n");
+ 761               		.loc 1 233 0 is_stmt 0 discriminator 1
+ 762 02da 8F5F      		subi r24,lo8(-(1))
+ 763 02dc 982F      		mov r25,r24
+ 764 02de 9295      		swap r25
+ 765 02e0 907F      		andi r25,lo8(-16)
+ 766 02e2 822F      		mov r24,r18
+ 767 02e4 8F70      		andi r24,lo8(15)
+ 768 02e6 892B      		or r24,r25
+ 769 02e8 1596      		adiw r26,5
+ 770 02ea 8C93      		st X,r24
+ 771               	.LVL57:
+ 772               	.L68:
+ 235:../../tmk_core/common/action_tapping.c ****                         tapping_key = *keyp;
+ 773               		.loc 1 235 0 is_stmt 1
+ 774 02ec C801      		movw r24,r16
+ 775 02ee 0E94 0000 		call process_action
+ 776               	.LVL58:
+ 236:../../tmk_core/common/action_tapping.c ****                         debug_tapping_key();
+ 777               		.loc 1 236 0
+ 778 02f2 86E0      		ldi r24,lo8(6)
+ 779 02f4 F801      		movw r30,r16
+ 780 02f6 A0E0      		ldi r26,lo8(tapping_key)
+ 781 02f8 B0E0      		ldi r27,hi8(tapping_key)
+ 782               		0:
+ 783 02fa 0190      		ld r0,Z+
+ 784 02fc 0D92      		st X+,r0
+ 785 02fe 8A95      		dec r24
+ 786 0300 01F4      		brne 0b
+ 787 0302 00C0      		rjmp .L130
+ 788               	.LVL59:
+ 789               	.L67:
+ 241:../../tmk_core/common/action_tapping.c ****                         return true;
+ 790               		.loc 1 241 0
+ 791 0304 86E0      		ldi r24,lo8(6)
+ 792 0306 F801      		movw r30,r16
+ 793 0308 A0E0      		ldi r26,lo8(tapping_key)
+ 794 030a B0E0      		ldi r27,hi8(tapping_key)
+ 795               		0:
+ 796 030c 0190      		ld r0,Z+
+ 797 030e 0D92      		st X+,r0
+ 798 0310 8A95      		dec r24
+ 799 0312 01F4      		brne 0b
+ 242:../../tmk_core/common/action_tapping.c ****                     }
+ 800               		.loc 1 242 0
+ 801 0314 00C0      		rjmp .L88
+ 802               	.LVL60:
+ 803               	.L66:
+ 244:../../tmk_core/common/action_tapping.c ****                     // Sequential tap can be interfered with other tap key.
+ 804               		.loc 1 244 0
+ 805 0316 4D87      		std Y+13,r20
+ 806 0318 5E87      		std Y+14,r21
+ 807 031a 8D85      		ldd r24,Y+13
+ 808 031c 9E85      		ldd r25,Y+14
+ 809 031e 0E94 0000 		call is_tap_key
+ 810               	.LVL61:
+ 811 0322 8111      		cpse r24,__zero_reg__
+ 812 0324 00C0      		rjmp .L56
+ 254:../../tmk_core/common/action_tapping.c ****                     process_action(keyp);
+ 813               		.loc 1 254 0
+ 814 0326 8091 0000 		lds r24,tapping_key+5
+ 815 032a 8160      		ori r24,lo8(1<<0)
+ 816 032c 8093 0000 		sts tapping_key+5,r24
+ 255:../../tmk_core/common/action_tapping.c ****                     return true;
+ 817               		.loc 1 255 0
+ 818 0330 C801      		movw r24,r16
+ 819 0332 0E94 0000 		call process_action
+ 820               	.LVL62:
+ 256:../../tmk_core/common/action_tapping.c ****                 }
+ 821               		.loc 1 256 0
+ 822 0336 00C0      		rjmp .L88
+ 823               	.LVL63:
+ 824               	.L30:
+ 275:../../tmk_core/common/action_tapping.c ****             debug("Tapping: Start(Press tap key).\n");
+ 825               		.loc 1 275 0
+ 826 0338 6623      		tst r22
+ 827 033a 01F4      		brne .+2
+ 828 033c 00C0      		rjmp .L65
+ 275:../../tmk_core/common/action_tapping.c ****             debug("Tapping: Start(Press tap key).\n");
+ 829               		.loc 1 275 0 is_stmt 0 discriminator 1
+ 830 033e 4D87      		std Y+13,r20
+ 831 0340 5E87      		std Y+14,r21
+ 832 0342 8D85      		ldd r24,Y+13
+ 833 0344 9E85      		ldd r25,Y+14
+ 834 0346 0E94 0000 		call is_tap_key
+ 835               	.LVL64:
+ 836 034a 8823      		tst r24
+ 837 034c 01F4      		brne .+2
+ 838 034e 00C0      		rjmp .L65
+ 839 0350 00C0      		rjmp .L56
+ 840               	.LVL65:
+ 841               	.L138:
+ 842               	.LBB29:
+ 122:../../tmk_core/common/action_tapping.c ****                             if (IS_MOD(action.key.code)) return false;
+ 843               		.loc 1 122 0 is_stmt 1 discriminator 1
+ 844 0352 8111      		cpse r24,__zero_reg__
+ 845 0354 00C0      		rjmp .L52
+ 846 0356 00C0      		rjmp .L88
+ 847               	.LVL66:
+ 848               	.L137:
+ 119:../../tmk_core/common/action_tapping.c ****                         case ACT_LMODS:
+ 849               		.loc 1 119 0
+ 850 0358 2430      		cpi r18,lo8(4)
+ 851 035a 00F0      		brlo .+2
+ 852 035c 00C0      		rjmp .L65
+ 127:../../tmk_core/common/action_tapping.c ****                             if (IS_MOD(action.key.code)) return false;
+ 853               		.loc 1 127 0
+ 854 035e 9F70      		andi r25,lo8(15)
+ 855               	.LVL67:
+ 856 0360 01F4      		brne .+2
+ 857 0362 00C0      		rjmp .L52
+ 127:../../tmk_core/common/action_tapping.c ****                             if (IS_MOD(action.key.code)) return false;
+ 858               		.loc 1 127 0 is_stmt 0 discriminator 1
+ 859 0364 D801      		movw r26,r16
+ 860 0366 1596      		adiw r26,5
+ 861 0368 9C91      		ld r25,X
+ 862 036a 907F      		andi r25,lo8(-16)
+ 863 036c 01F0      		breq .+2
+ 864 036e 00C0      		rjmp .L52
+ 865               	.LVL68:
+ 866               	.L88:
+ 867               	.LBE29:
+ 286:../../tmk_core/common/action_tapping.c **** 
+ 868               		.loc 1 286 0 is_stmt 1
+ 869 0370 8F2D      		mov r24,r15
+ 870               	.LVL69:
+ 871               	/* epilogue start */
+ 872 0372 6296      		adiw r28,18
+ 873 0374 0FB6      		in __tmp_reg__,__SREG__
+ 874 0376 F894      		cli
+ 875 0378 DEBF      		out __SP_H__,r29
+ 876 037a 0FBE      		out __SREG__,__tmp_reg__
+ 877 037c CDBF      		out __SP_L__,r28
+ 878 037e DF91      		pop r29
+ 879 0380 CF91      		pop r28
+ 880 0382 1F91      		pop r17
+ 881 0384 0F91      		pop r16
+ 882               	.LVL70:
+ 883 0386 FF90      		pop r15
+ 884 0388 EF90      		pop r14
+ 885 038a DF90      		pop r13
+ 886 038c CF90      		pop r12
+ 887 038e 0895      		ret
+ 888               		.cfi_endproc
+ 889               	.LFE5:
+ 891               		.section	.text.action_tapping_process,"ax",@progbits
+ 892               	.global	action_tapping_process
+ 894               	action_tapping_process:
+ 895               	.LFB4:
+  39:../../tmk_core/common/action_tapping.c ****     if (process_tapping(&record)) {
+ 896               		.loc 1 39 0
+ 897               		.cfi_startproc
+ 898 0000 1F93      		push r17
+ 899               	.LCFI13:
+ 900               		.cfi_def_cfa_offset 3
+ 901               		.cfi_offset 17, -2
+ 902 0002 CF93      		push r28
+ 903               	.LCFI14:
+ 904               		.cfi_def_cfa_offset 4
+ 905               		.cfi_offset 28, -3
+ 906 0004 DF93      		push r29
+ 907               	.LCFI15:
+ 908               		.cfi_def_cfa_offset 5
+ 909               		.cfi_offset 29, -4
+ 910 0006 CDB7      		in r28,__SP_L__
+ 911 0008 DEB7      		in r29,__SP_H__
+ 912               	.LCFI16:
+ 913               		.cfi_def_cfa_register 28
+ 914 000a 2C97      		sbiw r28,12
+ 915               	.LCFI17:
+ 916               		.cfi_def_cfa_offset 17
+ 917 000c 0FB6      		in __tmp_reg__,__SREG__
+ 918 000e F894      		cli
+ 919 0010 DEBF      		out __SP_H__,r29
+ 920 0012 0FBE      		out __SREG__,__tmp_reg__
+ 921 0014 CDBF      		out __SP_L__,r28
+ 922               	/* prologue: function */
+ 923               	/* frame size = 12 */
+ 924               	/* stack size = 15 */
+ 925               	.L__stack_usage = 15
+ 926 0016 4F83      		std Y+7,r20
+ 927 0018 5887      		std Y+8,r21
+ 928 001a 6987      		std Y+9,r22
+ 929 001c 7A87      		std Y+10,r23
+ 930 001e 8B87      		std Y+11,r24
+ 931 0020 9C87      		std Y+12,r25
+  40:../../tmk_core/common/action_tapping.c ****         if (!IS_NOEVENT(record.event)) {
+ 932               		.loc 1 40 0
+ 933 0022 CE01      		movw r24,r28
+ 934 0024 0796      		adiw r24,7
+ 935 0026 0E94 0000 		call process_tapping
+ 936               	.LVL71:
+ 937 002a 8823      		tst r24
+ 938 002c 01F0      		breq .L140
+ 939               	.LBB38:
+ 940               	.LBB39:
+  49:../../tmk_core/common/keyboard.h **** static inline bool IS_PRESSED(keyevent_t event) { return (!IS_NOEVENT(event) && event.pressed); }
+ 941               		.loc 2 49 0
+ 942 002e 8A85      		ldd r24,Y+10
+ 943 0030 9B85      		ldd r25,Y+11
+ 944 0032 892B      		or r24,r25
+ 945 0034 01F4      		brne .+2
+ 946 0036 00C0      		rjmp .L149
+ 947 0038 8885      		ldd r24,Y+8
+ 948 003a 8F3F      		cpi r24,lo8(-1)
+ 949 003c 01F0      		breq .+2
+ 950 003e 00C0      		rjmp .L142
+ 951 0040 8F81      		ldd r24,Y+7
+ 952 0042 8F3F      		cpi r24,lo8(-1)
+ 953 0044 01F0      		breq .+2
+ 954 0046 00C0      		rjmp .L142
+ 955 0048 00C0      		rjmp .L149
+ 956               	.L140:
+ 957 004a 86E0      		ldi r24,lo8(6)
+ 958 004c FE01      		movw r30,r28
+ 959 004e 3796      		adiw r30,7
+ 960 0050 DE01      		movw r26,r28
+ 961 0052 1196      		adiw r26,1
+ 962               		0:
+ 963 0054 0190      		ld r0,Z+
+ 964 0056 0D92      		st X+,r0
+ 965 0058 8A95      		dec r24
+ 966 005a 01F4      		brne 0b
+ 967               	.LVL72:
+ 968 005c 6A85      		ldd r22,Y+10
+ 969 005e 7B85      		ldd r23,Y+11
+ 970               	.LVL73:
+ 971               	.LBE39:
+ 972               	.LBE38:
+ 973               	.LBB40:
+ 974               	.LBB41:
+ 975               	.LBB42:
+ 976               	.LBB43:
+ 977 0060 6115      		cp r22,__zero_reg__
+ 978 0062 7105      		cpc r23,__zero_reg__
+ 979 0064 01F0      		breq .L149
+ 980 0066 FF81      		ldd r31,Y+7
+ 981 0068 E885      		ldd r30,Y+8
+ 982 006a EF3F      		cpi r30,lo8(-1)
+ 983 006c 01F4      		brne .L143
+ 984 006e FF3F      		cpi r31,lo8(-1)
+ 985 0070 01F0      		breq .L149
+ 986               	.L143:
+ 987               	.LBE43:
+ 988               	.LBE42:
+ 298:../../tmk_core/common/action_tapping.c ****         debug("waiting_buffer_enq: Over flow.\n");
+ 989               		.loc 1 298 0
+ 990 0072 2091 0000 		lds r18,waiting_buffer_head
+ 991 0076 30E0      		ldi r19,0
+ 992 0078 C901      		movw r24,r18
+ 993 007a 0196      		adiw r24,1
+ 994 007c 8770      		andi r24,7
+ 995 007e 9927      		clr r25
+ 996 0080 4091 0000 		lds r20,waiting_buffer_tail
+ 997 0084 50E0      		ldi r21,0
+ 998 0086 8417      		cp r24,r20
+ 999 0088 9507      		cpc r25,r21
+ 1000 008a 01F4      		brne .+2
+ 1001 008c 00C0      		rjmp .L165
+ 303:../../tmk_core/common/action_tapping.c ****     waiting_buffer_head = (waiting_buffer_head + 1) % WAITING_BUFFER_SIZE;
+ 1002               		.loc 1 303 0
+ 1003 008e F983      		std Y+1,r31
+ 1004 0090 EA83      		std Y+2,r30
+ 1005 0092 7D83      		std Y+5,r23
+ 1006 0094 6C83      		std Y+4,r22
+ 1007 0096 96E0      		ldi r25,lo8(6)
+ 1008 0098 929F      		mul r25,r18
+ 1009 009a D001      		movw r26,r0
+ 1010 009c 939F      		mul r25,r19
+ 1011 009e B00D      		add r27,r0
+ 1012 00a0 1124      		clr __zero_reg__
+ 1013 00a2 A050      		subi r26,lo8(-(waiting_buffer))
+ 1014 00a4 B040      		sbci r27,hi8(-(waiting_buffer))
+ 1015 00a6 FE01      		movw r30,r28
+ 1016 00a8 3196      		adiw r30,1
+ 1017               		0:
+ 1018 00aa 0190      		ld r0,Z+
+ 1019 00ac 0D92      		st X+,r0
+ 1020 00ae 9A95      		dec r25
+ 1021 00b0 01F4      		brne 0b
+ 304:../../tmk_core/common/action_tapping.c **** 
+ 1022               		.loc 1 304 0
+ 1023 00b2 8093 0000 		sts waiting_buffer_head,r24
+ 306:../../tmk_core/common/action_tapping.c ****     return true;
+ 1024               		.loc 1 306 0
+ 1025 00b6 0E94 0000 		call debug_waiting_buffer
+ 1026               	.LVL74:
+ 1027               	.L149:
+ 1028               	.LBE41:
+ 1029               	.LBE40:
+  59:../../tmk_core/common/action_tapping.c ****             debug("processed: waiting_buffer["); debug_dec(waiting_buffer_tail); debug("] = ");
+ 1030               		.loc 1 59 0 discriminator 1
+ 1031 00ba 16E0      		ldi r17,lo8(6)
+ 1032               	.L144:
+  58:../../tmk_core/common/action_tapping.c ****         if (process_tapping(&waiting_buffer[waiting_buffer_tail])) {
+ 1033               		.loc 1 58 0 discriminator 1
+ 1034 00bc 8091 0000 		lds r24,waiting_buffer_tail
+ 1035 00c0 9091 0000 		lds r25,waiting_buffer_head
+ 1036 00c4 8917      		cp r24,r25
+ 1037 00c6 01F0      		breq .L139
+  59:../../tmk_core/common/action_tapping.c ****             debug("processed: waiting_buffer["); debug_dec(waiting_buffer_tail); debug("] = ");
+ 1038               		.loc 1 59 0
+ 1039 00c8 189F      		mul r17,r24
+ 1040 00ca C001      		movw r24,r0
+ 1041 00cc 1124      		clr __zero_reg__
+ 1042 00ce 8050      		subi r24,lo8(-(waiting_buffer))
+ 1043 00d0 9040      		sbci r25,hi8(-(waiting_buffer))
+ 1044 00d2 0E94 0000 		call process_tapping
+ 1045               	.LVL75:
+ 1046 00d6 8823      		tst r24
+ 1047 00d8 01F0      		breq .L139
+  61:../../tmk_core/common/action_tapping.c ****         } else {
+ 1048               		.loc 1 61 0
+ 1049 00da E091 0000 		lds r30,waiting_buffer_tail
+ 1050 00de 1E9F      		mul r17,r30
+ 1051 00e0 F001      		movw r30,r0
+ 1052 00e2 1124      		clr __zero_reg__
+ 1053 00e4 E050      		subi r30,lo8(-(waiting_buffer))
+ 1054 00e6 F040      		sbci r31,hi8(-(waiting_buffer))
+ 1055 00e8 4081      		ld r20,Z
+ 1056 00ea 5181      		ldd r21,Z+1
+ 1057 00ec 6281      		ldd r22,Z+2
+ 1058 00ee 7381      		ldd r23,Z+3
+ 1059 00f0 8481      		ldd r24,Z+4
+ 1060 00f2 9581      		ldd r25,Z+5
+ 1061 00f4 0E94 0000 		call debug_record
+ 1062               	.LVL76:
+  58:../../tmk_core/common/action_tapping.c ****         if (process_tapping(&waiting_buffer[waiting_buffer_tail])) {
+ 1063               		.loc 1 58 0
+ 1064 00f8 8091 0000 		lds r24,waiting_buffer_tail
+ 1065 00fc 90E0      		ldi r25,0
+ 1066 00fe 0196      		adiw r24,1
+ 1067 0100 8770      		andi r24,7
+ 1068 0102 9927      		clr r25
+ 1069 0104 8093 0000 		sts waiting_buffer_tail,r24
+ 1070 0108 00C0      		rjmp .L144
+ 1071               	.L142:
+  42:../../tmk_core/common/action_tapping.c ****         }
+ 1072               		.loc 1 42 0
+ 1073 010a 4F81      		ldd r20,Y+7
+ 1074 010c 5885      		ldd r21,Y+8
+ 1075 010e 6985      		ldd r22,Y+9
+ 1076 0110 7A85      		ldd r23,Y+10
+ 1077 0112 8B85      		ldd r24,Y+11
+ 1078 0114 9C85      		ldd r25,Y+12
+ 1079 0116 0E94 0000 		call debug_record
+ 1080               	.LVL77:
+ 1081 011a 00C0      		rjmp .L149
+ 1082               	.LVL78:
+ 1083               	.L165:
+  48:../../tmk_core/common/action_tapping.c ****             waiting_buffer_clear();
+ 1084               		.loc 1 48 0
+ 1085 011c 0E94 0000 		call clear_keyboard
+ 1086               	.LVL79:
+ 1087               	.LBB44:
+ 1088               	.LBB45:
+ 312:../../tmk_core/common/action_tapping.c ****     waiting_buffer_tail = 0;
+ 1089               		.loc 1 312 0
+ 1090 0120 1092 0000 		sts waiting_buffer_head,__zero_reg__
+ 313:../../tmk_core/common/action_tapping.c **** }
+ 1091               		.loc 1 313 0
+ 1092 0124 1092 0000 		sts waiting_buffer_tail,__zero_reg__
+ 1093               	.LBE45:
+ 1094               	.LBE44:
+  50:../../tmk_core/common/action_tapping.c ****         }
+ 1095               		.loc 1 50 0
+ 1096 0128 E0E0      		ldi r30,lo8(tapping_key)
+ 1097 012a F0E0      		ldi r31,hi8(tapping_key)
+ 1098 012c 86E0      		ldi r24,lo8(6)
+ 1099 012e DF01      		movw r26,r30
+ 1100               		0:
+ 1101 0130 1D92      		st X+,__zero_reg__
+ 1102 0132 8A95      		dec r24
+ 1103 0134 01F4      		brne 0b
+ 1104               	.L139:
+ 1105               	/* epilogue start */
+  69:../../tmk_core/common/action_tapping.c **** 
+ 1106               		.loc 1 69 0
+ 1107 0136 2C96      		adiw r28,12
+ 1108 0138 0FB6      		in __tmp_reg__,__SREG__
+ 1109 013a F894      		cli
+ 1110 013c DEBF      		out __SP_H__,r29
+ 1111 013e 0FBE      		out __SREG__,__tmp_reg__
+ 1112 0140 CDBF      		out __SP_L__,r28
+ 1113 0142 DF91      		pop r29
+ 1114 0144 CF91      		pop r28
+ 1115 0146 1F91      		pop r17
+ 1116 0148 0895      		ret
+ 1117               		.cfi_endproc
+ 1118               	.LFE4:
+ 1120               		.section	.bss.waiting_buffer_tail,"aw",@nobits
+ 1123               	waiting_buffer_tail:
+ 1124 0000 00        		.zero	1
+ 1125               		.section	.bss.waiting_buffer_head,"aw",@nobits
+ 1128               	waiting_buffer_head:
+ 1129 0000 00        		.zero	1
+ 1130               		.section	.bss.waiting_buffer,"aw",@nobits
+ 1133               	waiting_buffer:
+ 1134 0000 0000 0000 		.zero	48
+ 1134      0000 0000 
+ 1134      0000 0000 
+ 1134      0000 0000 
+ 1134      0000 0000 
+ 1135               		.section	.bss.tapping_key,"aw",@nobits
+ 1138               	tapping_key:
+ 1139 0000 0000 0000 		.zero	6
+ 1139      0000 
+ 1140               		.text
+ 1141               	.Letext0:
+ 1142               		.file 3 "/usr/avr/include/stdint.h"
+ 1143               		.file 4 "../../tmk_core/common/keycode.h"
+ 1144               		.file 5 "../../tmk_core/common/action_code.h"
+ 1145               		.file 6 "../../tmk_core/common/action.h"
+ 1146               		.file 7 "../../tmk_core/common/action_layer.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 action_tapping.c
+     /tmp/cc0Ow1hY.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc0Ow1hY.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc0Ow1hY.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc0Ow1hY.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc0Ow1hY.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc0Ow1hY.s:12     .text.debug_waiting_buffer:0000000000000000 debug_waiting_buffer
+     /tmp/cc0Ow1hY.s:1123   .bss.waiting_buffer_tail:0000000000000000 waiting_buffer_tail
+     /tmp/cc0Ow1hY.s:1128   .bss.waiting_buffer_head:0000000000000000 waiting_buffer_head
+     /tmp/cc0Ow1hY.s:1133   .bss.waiting_buffer:0000000000000000 waiting_buffer
+     /tmp/cc0Ow1hY.s:82     .text.debug_tapping_key:0000000000000000 debug_tapping_key
+     /tmp/cc0Ow1hY.s:1138   .bss.tapping_key:0000000000000000 tapping_key
+     /tmp/cc0Ow1hY.s:104    .text.waiting_buffer_scan_tap:0000000000000000 waiting_buffer_scan_tap
+     /tmp/cc0Ow1hY.s:231    .text.process_tapping:0000000000000000 process_tapping
+     /tmp/cc0Ow1hY.s:894    .text.action_tapping_process:0000000000000000 action_tapping_process
+
+UNDEFINED SYMBOLS
+debug_record
+process_action
+debug_event
+is_tap_key
+layer_switch_get_action
+clear_keyboard
+__do_clear_bss
