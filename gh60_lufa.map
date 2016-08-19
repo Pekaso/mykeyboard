@@ -677,7 +677,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000     0x5560
+.text           0x0000000000000000     0x55cc
  *(.vectors)
  .vectors       0x0000000000000000       0xac /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/crtatmega32u4.o
                 0x0000000000000000                __vectors
@@ -696,380 +696,381 @@ END GROUP
                 0x00000000000000e0                __trampolines_end = .
  *(.progmem*)
  .progmem.data.fn_actions
-                0x00000000000000e0        0x4 obj_gh60_lufa/keymap_poker.o
+                0x00000000000000e0        0x6 obj_gh60_lufa/keymap_poker.o
                 0x00000000000000e0                fn_actions
  .progmem.data.keymaps
-                0x00000000000000e4      0x10e obj_gh60_lufa/keymap_poker.o
-                0x00000000000000e4                keymaps
+                0x00000000000000e6      0x168 obj_gh60_lufa/keymap_poker.o
+                0x00000000000000e6                keymaps
  .progmem.data.__c.2030
-                0x00000000000001f2        0x2 obj_gh60_lufa/matrix.o
+                0x000000000000024e        0x2 obj_gh60_lufa/matrix.o
  .progmem.data.__c.2028
-                0x00000000000001f4        0x6 obj_gh60_lufa/matrix.o
+                0x0000000000000250        0x6 obj_gh60_lufa/matrix.o
  .progmem.data.__c.2026
-                0x00000000000001fa        0x3 obj_gh60_lufa/matrix.o
+                0x0000000000000256        0x3 obj_gh60_lufa/matrix.o
  .progmem.data.__c.2024
-                0x00000000000001fd        0x5 obj_gh60_lufa/matrix.o
+                0x0000000000000259        0x5 obj_gh60_lufa/matrix.o
  .progmem.data.__c.2021
-                0x0000000000000202       0x17 obj_gh60_lufa/matrix.o
+                0x000000000000025e       0x17 obj_gh60_lufa/matrix.o
  .progmem.data.__c.1999
-                0x0000000000000219        0x2 obj_gh60_lufa/matrix.o
+                0x0000000000000275        0x2 obj_gh60_lufa/matrix.o
  .progmem.data.__c.1997
-                0x000000000000021b        0x5 obj_gh60_lufa/matrix.o
+                0x0000000000000277        0x5 obj_gh60_lufa/matrix.o
  .progmem.data.__c.1995
-                0x0000000000000220        0xa obj_gh60_lufa/matrix.o
+                0x000000000000027c        0xa obj_gh60_lufa/matrix.o
  .progmem.data.__c.4977
-                0x000000000000022a        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x0000000000000286        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
  .progmem.data.__c.4975
-                0x000000000000022e       0x11 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x000000000000028a       0x11 obj_gh60_lufa/protocol/lufa/lufa.o
  .progmem.data.__c.4973
-                0x000000000000023f       0x11 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x000000000000029b       0x11 obj_gh60_lufa/protocol/lufa/lufa.o
  .progmem.data.__c.4871
-                0x0000000000000250        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000002ac        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
  .progmem.data.__c.4867
-                0x0000000000000254        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000002b0        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
  .progmem.data.__c.4863
-                0x0000000000000258        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000002b4        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
  .progmem.data.__c.4858
-                0x000000000000025c        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000002b8        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
  .progmem.data.__c.4853
-                0x0000000000000260        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000002bc        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
  .progmem.data.ProductString
-                0x0000000000000264        0xc obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x0000000000000264                ProductString
+                0x00000000000002c0       0x1a obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x00000000000002c0                ProductString
  .progmem.data.ManufacturerString
-                0x0000000000000270       0x14 obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x0000000000000270                ManufacturerString
+                0x00000000000002da       0x10 obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x00000000000002da                ManufacturerString
  .progmem.data.LanguageString
-                0x0000000000000284        0x4 obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x0000000000000284                LanguageString
+                0x00000000000002ea        0x4 obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x00000000000002ea                LanguageString
  .progmem.data.ConfigurationDescriptor
-                0x0000000000000288       0x8d obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x0000000000000288                ConfigurationDescriptor
+                0x00000000000002ee       0x8d obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x00000000000002ee                ConfigurationDescriptor
  .progmem.data.DeviceDescriptor
-                0x0000000000000315       0x12 obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x0000000000000315                DeviceDescriptor
+                0x000000000000037b       0x12 obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x000000000000037b                DeviceDescriptor
  .progmem.data.NKROReport
-                0x0000000000000327       0x39 obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x0000000000000327                NKROReport
+                0x000000000000038d       0x39 obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x000000000000038d                NKROReport
  .progmem.data.ConsoleReport
-                0x0000000000000360       0x22 obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x0000000000000360                ConsoleReport
+                0x00000000000003c6       0x22 obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x00000000000003c6                ConsoleReport
  .progmem.data.ExtrakeyReport
-                0x0000000000000382       0x36 obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x0000000000000382                ExtrakeyReport
+                0x00000000000003e8       0x36 obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x00000000000003e8                ExtrakeyReport
  .progmem.data.MouseReport
-                0x00000000000003b8       0x4d obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x00000000000003b8                MouseReport
+                0x000000000000041e       0x4d obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x000000000000041e                MouseReport
  .progmem.data.KeyboardReport
-                0x0000000000000405       0x40 obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x0000000000000405                KeyboardReport
+                0x000000000000046b       0x40 obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x000000000000046b                KeyboardReport
  .progmem.data.__c.4591
-                0x0000000000000445        0x2 obj_gh60_lufa/common/host.o
+                0x00000000000004ab        0x2 obj_gh60_lufa/common/host.o
  .progmem.data.__c.4586
-                0x0000000000000447        0x6 obj_gh60_lufa/common/host.o
+                0x00000000000004ad        0x6 obj_gh60_lufa/common/host.o
  .progmem.data.__c.4583
-                0x000000000000044d       0x12 obj_gh60_lufa/common/host.o
+                0x00000000000004b3       0x12 obj_gh60_lufa/common/host.o
  .progmem.data.__c.4946
-                0x000000000000045f        0xb obj_gh60_lufa/common/keyboard.o
+                0x00000000000004c5        0xb obj_gh60_lufa/common/keyboard.o
  .progmem.data.__c.4731
-                0x000000000000046a       0x1e obj_gh60_lufa/common/action_util.o
+                0x00000000000004d0       0x1e obj_gh60_lufa/common/action_util.o
  .progmem.data.__c.4726
-                0x0000000000000488       0x1e obj_gh60_lufa/common/action_util.o
+                0x00000000000004ee       0x1e obj_gh60_lufa/common/action_util.o
  .progmem.data.__c.4896
-                0x00000000000004a6        0x7 obj_gh60_lufa/common/bootmagic.o
+                0x000000000000050c        0x7 obj_gh60_lufa/common/bootmagic.o
  .progmem.data.__c.4890
-                0x00000000000004ad       0x15 obj_gh60_lufa/common/bootmagic.o
+                0x0000000000000513       0x15 obj_gh60_lufa/common/bootmagic.o
  .progmem.data.__c.4663
-                0x00000000000004c2        0x3 obj_gh60_lufa/common/mousekey.o
+                0x0000000000000528        0x3 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4661
-                0x00000000000004c5        0x3 obj_gh60_lufa/common/mousekey.o
+                0x000000000000052b        0x3 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4659
-                0x00000000000004c8        0x2 obj_gh60_lufa/common/mousekey.o
+                0x000000000000052e        0x2 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4657
-                0x00000000000004ca        0x3 obj_gh60_lufa/common/mousekey.o
+                0x0000000000000530        0x3 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4655
-                0x00000000000004cd        0x3 obj_gh60_lufa/common/mousekey.o
+                0x0000000000000533        0x3 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4653
-                0x00000000000004d0        0x3 obj_gh60_lufa/common/mousekey.o
+                0x0000000000000536        0x3 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4651
-                0x00000000000004d3        0x2 obj_gh60_lufa/common/mousekey.o
+                0x0000000000000539        0x2 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4649
-                0x00000000000004d5        0x3 obj_gh60_lufa/common/mousekey.o
+                0x000000000000053b        0x3 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4647
-                0x00000000000004d8        0x2 obj_gh60_lufa/common/mousekey.o
+                0x000000000000053e        0x2 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4645
-                0x00000000000004da        0x3 obj_gh60_lufa/common/mousekey.o
+                0x0000000000000540        0x3 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4643
-                0x00000000000004dd        0x2 obj_gh60_lufa/common/mousekey.o
+                0x0000000000000543        0x2 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4641
-                0x00000000000004df        0x3 obj_gh60_lufa/common/mousekey.o
+                0x0000000000000545        0x3 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4639
-                0x00000000000004e2        0x2 obj_gh60_lufa/common/mousekey.o
+                0x0000000000000548        0x2 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4637
-                0x00000000000004e4        0x5 obj_gh60_lufa/common/mousekey.o
+                0x000000000000054a        0x5 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.4635
-                0x00000000000004e9       0x23 obj_gh60_lufa/common/mousekey.o
+                0x000000000000054f       0x23 obj_gh60_lufa/common/mousekey.o
  .progmem.data.__c.5260
-                0x000000000000050c       0x1b obj_gh60_lufa/common/command.o
+                0x0000000000000572       0x1b obj_gh60_lufa/common/command.o
  .progmem.data.__c.5257
-                0x0000000000000527       0x19 obj_gh60_lufa/common/command.o
+                0x000000000000058d       0x19 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5254
-                0x0000000000000540       0x15 obj_gh60_lufa/common/command.o
+                0x00000000000005a6       0x15 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5251
-                0x0000000000000555       0x13 obj_gh60_lufa/common/command.o
+                0x00000000000005bb       0x13 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5248
-                0x0000000000000568       0x12 obj_gh60_lufa/common/command.o
+                0x00000000000005ce       0x12 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5244
-                0x000000000000057a        0xf obj_gh60_lufa/common/command.o
+                0x00000000000005e0        0xf obj_gh60_lufa/common/command.o
  .progmem.data.__c.5237
-                0x0000000000000589       0x1b obj_gh60_lufa/common/command.o
+                0x00000000000005ef       0x1b obj_gh60_lufa/common/command.o
  .progmem.data.__c.5234
-                0x00000000000005a4       0x19 obj_gh60_lufa/common/command.o
+                0x000000000000060a       0x19 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5231
-                0x00000000000005bd       0x15 obj_gh60_lufa/common/command.o
+                0x0000000000000623       0x15 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5228
-                0x00000000000005d2       0x13 obj_gh60_lufa/common/command.o
+                0x0000000000000638       0x13 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5225
-                0x00000000000005e5       0x12 obj_gh60_lufa/common/command.o
+                0x000000000000064b       0x12 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5221
-                0x00000000000005f7        0xf obj_gh60_lufa/common/command.o
+                0x000000000000065d        0xf obj_gh60_lufa/common/command.o
  .progmem.data.__c.5214
-                0x0000000000000606        0x2 obj_gh60_lufa/common/command.o
+                0x000000000000066c        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5212
-                0x0000000000000608        0x3 obj_gh60_lufa/common/command.o
+                0x000000000000066e        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5210
-                0x000000000000060b       0x17 obj_gh60_lufa/common/command.o
+                0x0000000000000671       0x17 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5208
-                0x0000000000000622        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000688        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5206
-                0x0000000000000624        0x3 obj_gh60_lufa/common/command.o
+                0x000000000000068a        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5204
-                0x0000000000000627       0x15 obj_gh60_lufa/common/command.o
+                0x000000000000068d       0x15 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5202
-                0x000000000000063c        0x2 obj_gh60_lufa/common/command.o
+                0x00000000000006a2        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5200
-                0x000000000000063e        0x3 obj_gh60_lufa/common/command.o
+                0x00000000000006a4        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5198
-                0x0000000000000641       0x11 obj_gh60_lufa/common/command.o
+                0x00000000000006a7       0x11 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5196
-                0x0000000000000652        0x2 obj_gh60_lufa/common/command.o
+                0x00000000000006b8        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5194
-                0x0000000000000654        0x3 obj_gh60_lufa/common/command.o
+                0x00000000000006ba        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5192
-                0x0000000000000657        0xf obj_gh60_lufa/common/command.o
+                0x00000000000006bd        0xf obj_gh60_lufa/common/command.o
  .progmem.data.__c.5190
-                0x0000000000000666        0x2 obj_gh60_lufa/common/command.o
+                0x00000000000006cc        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5188
-                0x0000000000000668        0x3 obj_gh60_lufa/common/command.o
+                0x00000000000006ce        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5186
-                0x000000000000066b       0x12 obj_gh60_lufa/common/command.o
+                0x00000000000006d1       0x12 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5184
-                0x000000000000067d        0x2 obj_gh60_lufa/common/command.o
+                0x00000000000006e3        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5182
-                0x000000000000067f        0x3 obj_gh60_lufa/common/command.o
+                0x00000000000006e5        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5180
-                0x0000000000000682       0x12 obj_gh60_lufa/common/command.o
+                0x00000000000006e8       0x12 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5178
-                0x0000000000000694        0xe obj_gh60_lufa/common/command.o
+                0x00000000000006fa        0xe obj_gh60_lufa/common/command.o
  .progmem.data.__c.5298
-                0x00000000000006a2        0x3 obj_gh60_lufa/common/command.o
+                0x0000000000000708        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5296
-                0x00000000000006a5        0x6 obj_gh60_lufa/common/command.o
+                0x000000000000070b        0x6 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5294
-                0x00000000000006ab        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000711        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5291
-                0x00000000000006ad        0xd obj_gh60_lufa/common/command.o
+                0x0000000000000713        0xd obj_gh60_lufa/common/command.o
  .progmem.data.__c.5277
-                0x00000000000006ba        0x4 obj_gh60_lufa/common/command.o
+                0x0000000000000720        0x4 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5267
-                0x00000000000006be       0x4e obj_gh60_lufa/common/command.o
+                0x0000000000000724       0x4e obj_gh60_lufa/common/command.o
  .progmem.data.__c.5265
-                0x000000000000070c       0xfb obj_gh60_lufa/common/command.o
+                0x0000000000000772       0xfb obj_gh60_lufa/common/command.o
  .progmem.data.__c.5170
-                0x0000000000000807        0x2 obj_gh60_lufa/common/command.o
+                0x000000000000086d        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5167
-                0x0000000000000809        0x4 obj_gh60_lufa/common/command.o
+                0x000000000000086f        0x4 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5172
-                0x000000000000080d        0x4 obj_gh60_lufa/common/command.o
+                0x0000000000000873        0x4 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5316
-                0x0000000000000811        0x5 obj_gh60_lufa/common/command.o
+                0x0000000000000877        0x5 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5156
-                0x0000000000000816       0x27 obj_gh60_lufa/common/command.o
+                0x000000000000087c       0x27 obj_gh60_lufa/common/command.o
  .progmem.data.__c.4981
-                0x000000000000083d       0xa5 obj_gh60_lufa/common/command.o
+                0x00000000000008a3       0xa5 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5076
-                0x00000000000008e2        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000948        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5074
-                0x00000000000008e4        0x3 obj_gh60_lufa/common/command.o
+                0x000000000000094a        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5072
-                0x00000000000008e7        0x8 obj_gh60_lufa/common/command.o
+                0x000000000000094d        0x8 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5070
-                0x00000000000008ef        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000955        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5068
-                0x00000000000008f1        0x3 obj_gh60_lufa/common/command.o
+                0x0000000000000957        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5066
-                0x00000000000008f4       0x1c obj_gh60_lufa/common/command.o
+                0x000000000000095a       0x1c obj_gh60_lufa/common/command.o
  .progmem.data.__c.5064
-                0x0000000000000910        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000976        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5062
-                0x0000000000000912        0x3 obj_gh60_lufa/common/command.o
+                0x0000000000000978        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5060
-                0x0000000000000915       0x12 obj_gh60_lufa/common/command.o
+                0x000000000000097b       0x12 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5058
-                0x0000000000000927        0x2 obj_gh60_lufa/common/command.o
+                0x000000000000098d        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5056
-                0x0000000000000929        0x3 obj_gh60_lufa/common/command.o
+                0x000000000000098f        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5054
-                0x000000000000092c        0xa obj_gh60_lufa/common/command.o
+                0x0000000000000992        0xa obj_gh60_lufa/common/command.o
  .progmem.data.__c.5052
-                0x0000000000000936        0x2 obj_gh60_lufa/common/command.o
+                0x000000000000099c        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5050
-                0x0000000000000938        0x3 obj_gh60_lufa/common/command.o
+                0x000000000000099e        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5048
-                0x000000000000093b       0x12 obj_gh60_lufa/common/command.o
+                0x00000000000009a1       0x12 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5046
-                0x000000000000094d        0x2 obj_gh60_lufa/common/command.o
+                0x00000000000009b3        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5044
-                0x000000000000094f        0x3 obj_gh60_lufa/common/command.o
+                0x00000000000009b5        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5042
-                0x0000000000000952       0x12 obj_gh60_lufa/common/command.o
+                0x00000000000009b8       0x12 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5040
-                0x0000000000000964        0x2 obj_gh60_lufa/common/command.o
+                0x00000000000009ca        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5038
-                0x0000000000000966        0x3 obj_gh60_lufa/common/command.o
+                0x00000000000009cc        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5036
-                0x0000000000000969       0x17 obj_gh60_lufa/common/command.o
+                0x00000000000009cf       0x17 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5034
-                0x0000000000000980        0x2 obj_gh60_lufa/common/command.o
+                0x00000000000009e6        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5032
-                0x0000000000000982        0x3 obj_gh60_lufa/common/command.o
+                0x00000000000009e8        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5030
-                0x0000000000000985       0x19 obj_gh60_lufa/common/command.o
+                0x00000000000009eb       0x19 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5028
-                0x000000000000099e        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000a04        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5026
-                0x00000000000009a0        0x5 obj_gh60_lufa/common/command.o
+                0x0000000000000a06        0x5 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5024
-                0x00000000000009a5       0x14 obj_gh60_lufa/common/command.o
+                0x0000000000000a0b       0x14 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5021
-                0x00000000000009b9        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000a1f        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5019
-                0x00000000000009bb        0x3 obj_gh60_lufa/common/command.o
+                0x0000000000000a21        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5017
-                0x00000000000009be        0x9 obj_gh60_lufa/common/command.o
+                0x0000000000000a24        0x9 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5015
-                0x00000000000009c7        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000a2d        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5013
-                0x00000000000009c9        0x3 obj_gh60_lufa/common/command.o
+                0x0000000000000a2f        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5011
-                0x00000000000009cc        0xc obj_gh60_lufa/common/command.o
+                0x0000000000000a32        0xc obj_gh60_lufa/common/command.o
  .progmem.data.__c.5009
-                0x00000000000009d8        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000a3e        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5007
-                0x00000000000009da        0x3 obj_gh60_lufa/common/command.o
+                0x0000000000000a40        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5005
-                0x00000000000009dd        0xa obj_gh60_lufa/common/command.o
+                0x0000000000000a43        0xa obj_gh60_lufa/common/command.o
  .progmem.data.__c.5003
-                0x00000000000009e7        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000a4d        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5001
-                0x00000000000009e9        0x3 obj_gh60_lufa/common/command.o
+                0x0000000000000a4f        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.4999
-                0x00000000000009ec        0xa obj_gh60_lufa/common/command.o
+                0x0000000000000a52        0xa obj_gh60_lufa/common/command.o
  .progmem.data.__c.4997
-                0x00000000000009f6        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000a5c        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.4995
-                0x00000000000009f8        0x5 obj_gh60_lufa/common/command.o
+                0x0000000000000a5e        0x5 obj_gh60_lufa/common/command.o
  .progmem.data.__c.4993
-                0x00000000000009fd       0x13 obj_gh60_lufa/common/command.o
+                0x0000000000000a63       0x13 obj_gh60_lufa/common/command.o
  .progmem.data.__c.4990
-                0x0000000000000a10        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000a76        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.4988
-                0x0000000000000a12        0x3 obj_gh60_lufa/common/command.o
+                0x0000000000000a78        0x3 obj_gh60_lufa/common/command.o
  .progmem.data.__c.4986
-                0x0000000000000a15       0x10 obj_gh60_lufa/common/command.o
+                0x0000000000000a7b       0x10 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5151
-                0x0000000000000a25        0x2 obj_gh60_lufa/common/command.o
+                0x0000000000000a8b        0x2 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5142
-                0x0000000000000a27        0xb obj_gh60_lufa/common/command.o
+                0x0000000000000a8d        0xb obj_gh60_lufa/common/command.o
  .progmem.data.__c.5140
-                0x0000000000000a32        0xa obj_gh60_lufa/common/command.o
+                0x0000000000000a98        0xa obj_gh60_lufa/common/command.o
  .progmem.data.__c.5137
-                0x0000000000000a3c       0x17 obj_gh60_lufa/common/command.o
+                0x0000000000000aa2       0x17 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5135
-                0x0000000000000a53       0x13 obj_gh60_lufa/common/command.o
+                0x0000000000000ab9       0x13 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5133
-                0x0000000000000a66       0x13 obj_gh60_lufa/common/command.o
+                0x0000000000000acc       0x13 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5131
-                0x0000000000000a79       0x17 obj_gh60_lufa/common/command.o
+                0x0000000000000adf       0x17 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5129
-                0x0000000000000a90       0x1a obj_gh60_lufa/common/command.o
+                0x0000000000000af6       0x1a obj_gh60_lufa/common/command.o
  .progmem.data.__c.5127
-                0x0000000000000aaa        0xe obj_gh60_lufa/common/command.o
+                0x0000000000000b10        0xe obj_gh60_lufa/common/command.o
  .progmem.data.__c.5124
-                0x0000000000000ab8       0x2b obj_gh60_lufa/common/command.o
+                0x0000000000000b1e       0x2b obj_gh60_lufa/common/command.o
  .progmem.data.__c.5122
-                0x0000000000000ae3       0x45 obj_gh60_lufa/common/command.o
+                0x0000000000000b49       0x45 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5120
-                0x0000000000000b28       0x2d obj_gh60_lufa/common/command.o
+                0x0000000000000b8e       0x2d obj_gh60_lufa/common/command.o
  .progmem.data.__c.5118
-                0x0000000000000b55       0x35 obj_gh60_lufa/common/command.o
+                0x0000000000000bbb       0x3a obj_gh60_lufa/common/command.o
  .progmem.data.__c.5116
-                0x0000000000000b8a       0x2b obj_gh60_lufa/common/command.o
+                0x0000000000000bf5       0x2b obj_gh60_lufa/common/command.o
  .progmem.data.__c.5114
-                0x0000000000000bb5        0xf obj_gh60_lufa/common/command.o
+                0x0000000000000c20        0xf obj_gh60_lufa/common/command.o
  .progmem.data.__c.5111
-                0x0000000000000bc4        0xd obj_gh60_lufa/common/command.o
+                0x0000000000000c2f        0xd obj_gh60_lufa/common/command.o
  .progmem.data.__c.5109
-                0x0000000000000bd1        0xc obj_gh60_lufa/common/command.o
+                0x0000000000000c3c        0xc obj_gh60_lufa/common/command.o
  .progmem.data.__c.5106
-                0x0000000000000bdd       0x10 obj_gh60_lufa/common/command.o
+                0x0000000000000c48       0x10 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5104
-                0x0000000000000bed        0xf obj_gh60_lufa/common/command.o
+                0x0000000000000c58        0xf obj_gh60_lufa/common/command.o
  .progmem.data.__c.5101
-                0x0000000000000bfc        0xe obj_gh60_lufa/common/command.o
+                0x0000000000000c67        0xe obj_gh60_lufa/common/command.o
  .progmem.data.__c.5099
-                0x0000000000000c0a        0xd obj_gh60_lufa/common/command.o
+                0x0000000000000c75        0xd obj_gh60_lufa/common/command.o
  .progmem.data.__c.5096
-                0x0000000000000c17        0xc obj_gh60_lufa/common/command.o
+                0x0000000000000c82        0xc obj_gh60_lufa/common/command.o
  .progmem.data.__c.5094
-                0x0000000000000c23        0xd obj_gh60_lufa/common/command.o
+                0x0000000000000c8e        0xd obj_gh60_lufa/common/command.o
  .progmem.data.__c.5091
-                0x0000000000000c30       0x11 obj_gh60_lufa/common/command.o
+                0x0000000000000c9b       0x11 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5088
-                0x0000000000000c41        0x4 obj_gh60_lufa/common/command.o
+                0x0000000000000cac        0x4 obj_gh60_lufa/common/command.o
  .progmem.data.__c.5082
-                0x0000000000000c45        0xb obj_gh60_lufa/common/command.o
-                0x0000000000000c50                . = ALIGN (0x2)
+                0x0000000000000cb0        0xb obj_gh60_lufa/common/command.o
+                0x0000000000000cbc                . = ALIGN (0x2)
+ *fill*         0x0000000000000cbb        0x1 
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x0000000000000c50                __ctors_start = .
+                0x0000000000000cbc                __ctors_start = .
  *(.ctors)
-                0x0000000000000c50                __ctors_end = .
-                0x0000000000000c50                __dtors_start = .
+                0x0000000000000cbc                __ctors_end = .
+                0x0000000000000cbc                __dtors_start = .
  *(.dtors)
-                0x0000000000000c50                __dtors_end = .
+                0x0000000000000cbc                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x0000000000000c50        0x0 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/crtatmega32u4.o
-                0x0000000000000c50                __init
+ .init0         0x0000000000000cbc        0x0 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/crtatmega32u4.o
+                0x0000000000000cbc                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x0000000000000c50        0xc /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/crtatmega32u4.o
+ .init2         0x0000000000000cbc        0xc /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/crtatmega32u4.o
  *(.init2)
  *(.init3)
- .init3         0x0000000000000c5c       0x54 obj_gh60_lufa/common/avr/bootloader.o
-                0x0000000000000c5c                bootloader_jump_after_watchdog_reset
+ .init3         0x0000000000000cc8       0x54 obj_gh60_lufa/common/avr/bootloader.o
+                0x0000000000000cc8                bootloader_jump_after_watchdog_reset
  *(.init3)
  *(.init4)
- .init4         0x0000000000000cb0       0x16 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_copy_data.o)
-                0x0000000000000cb0                __do_copy_data
- .init4         0x0000000000000cc6       0x10 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_clear_bss.o)
-                0x0000000000000cc6                __do_clear_bss
+ .init4         0x0000000000000d1c       0x16 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_copy_data.o)
+                0x0000000000000d1c                __do_copy_data
+ .init4         0x0000000000000d32       0x10 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000000d32                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -1080,573 +1081,573 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x0000000000000cd6        0x8 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/crtatmega32u4.o
+ .init9         0x0000000000000d42        0x8 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/crtatmega32u4.o
  *(.init9)
  *(.text)
- .text          0x0000000000000cde        0x4 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/crtatmega32u4.o
-                0x0000000000000cde                __vector_38
-                0x0000000000000cde                __vector_22
-                0x0000000000000cde                __vector_28
-                0x0000000000000cde                __vector_1
-                0x0000000000000cde                __vector_32
-                0x0000000000000cde                __vector_34
-                0x0000000000000cde                __vector_24
-                0x0000000000000cde                __bad_interrupt
-                0x0000000000000cde                __vector_6
-                0x0000000000000cde                __vector_31
-                0x0000000000000cde                __vector_35
-                0x0000000000000cde                __vector_39
-                0x0000000000000cde                __vector_3
-                0x0000000000000cde                __vector_23
-                0x0000000000000cde                __vector_30
-                0x0000000000000cde                __vector_25
-                0x0000000000000cde                __vector_13
-                0x0000000000000cde                __vector_17
-                0x0000000000000cde                __vector_19
-                0x0000000000000cde                __vector_7
-                0x0000000000000cde                __vector_41
-                0x0000000000000cde                __vector_27
-                0x0000000000000cde                __vector_5
-                0x0000000000000cde                __vector_33
-                0x0000000000000cde                __vector_37
-                0x0000000000000cde                __vector_4
-                0x0000000000000cde                __vector_9
-                0x0000000000000cde                __vector_2
-                0x0000000000000cde                __vector_15
-                0x0000000000000cde                __vector_36
-                0x0000000000000cde                __vector_29
-                0x0000000000000cde                __vector_40
-                0x0000000000000cde                __vector_8
-                0x0000000000000cde                __vector_26
-                0x0000000000000cde                __vector_14
-                0x0000000000000cde                __vector_16
-                0x0000000000000cde                __vector_18
-                0x0000000000000cde                __vector_20
-                0x0000000000000cde                __vector_42
- .text          0x0000000000000ce2      0x15c obj_gh60_lufa/common/avr/xprintf.o
-                0x0000000000000ce2                xputc
-                0x0000000000000cfa                xputs
-                0x0000000000000d08                xitoa
-                0x0000000000000e2c                __xprintf
-                0x0000000000000e3e                . = ALIGN (0x2)
+ .text          0x0000000000000d4a        0x4 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/crtatmega32u4.o
+                0x0000000000000d4a                __vector_38
+                0x0000000000000d4a                __vector_22
+                0x0000000000000d4a                __vector_28
+                0x0000000000000d4a                __vector_1
+                0x0000000000000d4a                __vector_32
+                0x0000000000000d4a                __vector_34
+                0x0000000000000d4a                __vector_24
+                0x0000000000000d4a                __bad_interrupt
+                0x0000000000000d4a                __vector_6
+                0x0000000000000d4a                __vector_31
+                0x0000000000000d4a                __vector_35
+                0x0000000000000d4a                __vector_39
+                0x0000000000000d4a                __vector_3
+                0x0000000000000d4a                __vector_23
+                0x0000000000000d4a                __vector_30
+                0x0000000000000d4a                __vector_25
+                0x0000000000000d4a                __vector_13
+                0x0000000000000d4a                __vector_17
+                0x0000000000000d4a                __vector_19
+                0x0000000000000d4a                __vector_7
+                0x0000000000000d4a                __vector_41
+                0x0000000000000d4a                __vector_27
+                0x0000000000000d4a                __vector_5
+                0x0000000000000d4a                __vector_33
+                0x0000000000000d4a                __vector_37
+                0x0000000000000d4a                __vector_4
+                0x0000000000000d4a                __vector_9
+                0x0000000000000d4a                __vector_2
+                0x0000000000000d4a                __vector_15
+                0x0000000000000d4a                __vector_36
+                0x0000000000000d4a                __vector_29
+                0x0000000000000d4a                __vector_40
+                0x0000000000000d4a                __vector_8
+                0x0000000000000d4a                __vector_26
+                0x0000000000000d4a                __vector_14
+                0x0000000000000d4a                __vector_16
+                0x0000000000000d4a                __vector_18
+                0x0000000000000d4a                __vector_20
+                0x0000000000000d4a                __vector_42
+ .text          0x0000000000000d4e      0x15c obj_gh60_lufa/common/avr/xprintf.o
+                0x0000000000000d4e                xputc
+                0x0000000000000d66                xputs
+                0x0000000000000d74                xitoa
+                0x0000000000000e98                __xprintf
+                0x0000000000000eaa                . = ALIGN (0x2)
  *(.text.*)
  .text.keymap_key_to_keycode
-                0x0000000000000e3e       0x20 obj_gh60_lufa/keymap_common.o
-                0x0000000000000e3e                keymap_key_to_keycode
+                0x0000000000000eaa       0x20 obj_gh60_lufa/keymap_common.o
+                0x0000000000000eaa                keymap_key_to_keycode
  .text.keymap_fn_to_action
-                0x0000000000000e5e       0x12 obj_gh60_lufa/keymap_common.o
-                0x0000000000000e5e                keymap_fn_to_action
+                0x0000000000000eca       0x12 obj_gh60_lufa/keymap_common.o
+                0x0000000000000eca                keymap_fn_to_action
  .text.unselect_rows
-                0x0000000000000e70        0xe obj_gh60_lufa/matrix.o
+                0x0000000000000edc        0xe obj_gh60_lufa/matrix.o
  .text.matrix_init
-                0x0000000000000e7e       0x42 obj_gh60_lufa/matrix.o
-                0x0000000000000e7e                matrix_init
+                0x0000000000000eea       0x42 obj_gh60_lufa/matrix.o
+                0x0000000000000eea                matrix_init
  .text.matrix_scan
-                0x0000000000000ec0      0x272 obj_gh60_lufa/matrix.o
-                0x0000000000000ec0                matrix_scan
+                0x0000000000000f2c      0x272 obj_gh60_lufa/matrix.o
+                0x0000000000000f2c                matrix_scan
  .text.matrix_get_row
-                0x0000000000001132       0x12 obj_gh60_lufa/matrix.o
-                0x0000000000001132                matrix_get_row
+                0x000000000000119e       0x12 obj_gh60_lufa/matrix.o
+                0x000000000000119e                matrix_get_row
  .text.matrix_print
-                0x0000000000001144       0x8e obj_gh60_lufa/matrix.o
-                0x0000000000001144                matrix_print
+                0x00000000000011b0       0x8e obj_gh60_lufa/matrix.o
+                0x00000000000011b0                matrix_print
  .text.led_layer_set
-                0x00000000000011d2        0xe obj_gh60_lufa/led.o
-                0x00000000000011d2                led_layer_set
- .text.led_set  0x00000000000011e0        0x2 obj_gh60_lufa/led.o
-                0x00000000000011e0                led_set
+                0x000000000000123e        0xe obj_gh60_lufa/led.o
+                0x000000000000123e                led_layer_set
+ .text.led_set  0x000000000000124c        0x2 obj_gh60_lufa/led.o
+                0x000000000000124c                led_set
  .text.keyboard_leds
-                0x00000000000011e2        0x6 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x000000000000124e        0x6 obj_gh60_lufa/protocol/lufa/lufa.o
  .text.sendchar
-                0x00000000000011e8       0xc6 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x00000000000011e8                sendchar
+                0x0000000000001254       0xc6 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x0000000000001254                sendchar
  .text.send_consumer
-                0x00000000000012ae       0x68 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x000000000000131a       0x68 obj_gh60_lufa/protocol/lufa/lufa.o
  .text.send_system
-                0x0000000000001316       0x68 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x0000000000001382       0x68 obj_gh60_lufa/protocol/lufa/lufa.o
  .text.send_mouse
-                0x000000000000137e       0x4a obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000013ea       0x4a obj_gh60_lufa/protocol/lufa/lufa.o
  .text.send_keyboard
-                0x00000000000013c8       0xa4 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x0000000000001434       0xa4 obj_gh60_lufa/protocol/lufa/lufa.o
  .text.EVENT_USB_Device_Connect
-                0x000000000000146c       0x24 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x000000000000146c                EVENT_USB_Device_Connect
+                0x00000000000014d8       0x24 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000014d8                EVENT_USB_Device_Connect
  .text.EVENT_USB_Device_Disconnect
-                0x0000000000001490        0xe obj_gh60_lufa/protocol/lufa/lufa.o
-                0x0000000000001490                EVENT_USB_Device_Disconnect
+                0x00000000000014fc        0xe obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000014fc                EVENT_USB_Device_Disconnect
  .text.EVENT_USB_Device_Reset
-                0x000000000000149e        0x8 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x000000000000149e                EVENT_USB_Device_Reset
+                0x000000000000150a        0x8 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x000000000000150a                EVENT_USB_Device_Reset
  .text.EVENT_USB_Device_StartOfFrame
-                0x00000000000014a6       0x82 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x00000000000014a6                EVENT_USB_Device_StartOfFrame
+                0x0000000000001512       0x82 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x0000000000001512                EVENT_USB_Device_StartOfFrame
  .text.EVENT_USB_Device_ConfigurationChanged
-                0x0000000000001528       0x32 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x0000000000001528                EVENT_USB_Device_ConfigurationChanged
+                0x0000000000001594       0x32 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x0000000000001594                EVENT_USB_Device_ConfigurationChanged
  .text.EVENT_USB_Device_ControlRequest
-                0x000000000000155a      0x164 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x000000000000155a                EVENT_USB_Device_ControlRequest
+                0x00000000000015c6      0x164 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000015c6                EVENT_USB_Device_ControlRequest
  .text.hook_usb_suspend_entry
-                0x00000000000016be        0x2 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x00000000000016be                hook_usb_suspend_entry
+                0x000000000000172a        0x2 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x000000000000172a                hook_usb_suspend_entry
  .text.hook_late_init
-                0x00000000000016c0        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x00000000000016c0                hook_late_init
+                0x000000000000172c        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x000000000000172c                hook_late_init
  .text.hook_early_init
-                0x00000000000016c4        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x00000000000016c4                hook_early_init
+                0x0000000000001730        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x0000000000001730                hook_early_init
  .text.EVENT_USB_Device_Suspend
-                0x00000000000016c8        0xc obj_gh60_lufa/protocol/lufa/lufa.o
-                0x00000000000016c8                EVENT_USB_Device_Suspend
+                0x0000000000001734        0xc obj_gh60_lufa/protocol/lufa/lufa.o
+                0x0000000000001734                EVENT_USB_Device_Suspend
  .text.hook_usb_suspend_loop
-                0x00000000000016d4       0x18 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x00000000000016d4                hook_usb_suspend_loop
+                0x0000000000001740       0x18 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x0000000000001740                hook_usb_suspend_loop
  .text.startup.main
-                0x00000000000016ec       0x96 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x00000000000016ec                main
+                0x0000000000001758       0x96 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x0000000000001758                main
  .text.hook_usb_wakeup
-                0x0000000000001782        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
-                0x0000000000001782                hook_usb_wakeup
+                0x00000000000017ee        0x4 obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000017ee                hook_usb_wakeup
  .text.EVENT_USB_Device_WakeUp
-                0x0000000000001786        0xc obj_gh60_lufa/protocol/lufa/lufa.o
-                0x0000000000001786                EVENT_USB_Device_WakeUp
+                0x00000000000017f2        0xc obj_gh60_lufa/protocol/lufa/lufa.o
+                0x00000000000017f2                EVENT_USB_Device_WakeUp
  .text.CALLBACK_USB_GetDescriptor
-                0x0000000000001792       0xac obj_gh60_lufa/protocol/lufa/descriptor.o
-                0x0000000000001792                CALLBACK_USB_GetDescriptor
+                0x00000000000017fe       0xac obj_gh60_lufa/protocol/lufa/descriptor.o
+                0x00000000000017fe                CALLBACK_USB_GetDescriptor
  .text.USB_Device_SendRemoteWakeup
-                0x000000000000183e       0x2c obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.o
-                0x000000000000183e                USB_Device_SendRemoteWakeup
+                0x00000000000018aa       0x2c obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.o
+                0x00000000000018aa                USB_Device_SendRemoteWakeup
  .text.Endpoint_Write_Stream_LE
-                0x000000000000186a       0x96 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
-                0x000000000000186a                Endpoint_Write_Stream_LE
+                0x00000000000018d6       0x96 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
+                0x00000000000018d6                Endpoint_Write_Stream_LE
  .text.Endpoint_Write_Control_Stream_LE
-                0x0000000000001900       0xbc obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
-                0x0000000000001900                Endpoint_Write_Control_Stream_LE
+                0x000000000000196c       0xbc obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
+                0x000000000000196c                Endpoint_Write_Control_Stream_LE
  .text.Endpoint_Write_Control_PStream_LE
-                0x00000000000019bc       0xc2 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
-                0x00000000000019bc                Endpoint_Write_Control_PStream_LE
+                0x0000000000001a28       0xc2 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
+                0x0000000000001a28                Endpoint_Write_Control_PStream_LE
  .text.Endpoint_ConfigureEndpoint_Prv
-                0x0000000000001a7e       0x6a obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
-                0x0000000000001a7e                Endpoint_ConfigureEndpoint_Prv
+                0x0000000000001aea       0x6a obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
+                0x0000000000001aea                Endpoint_ConfigureEndpoint_Prv
  .text.Endpoint_ClearStatusStage
-                0x0000000000001ae8       0x3e obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
-                0x0000000000001ae8                Endpoint_ClearStatusStage
+                0x0000000000001b54       0x3e obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
+                0x0000000000001b54                Endpoint_ClearStatusStage
  .text.Endpoint_WaitUntilReady
-                0x0000000000001b26       0x66 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
-                0x0000000000001b26                Endpoint_WaitUntilReady
+                0x0000000000001b92       0x66 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
+                0x0000000000001b92                Endpoint_WaitUntilReady
  .text.USB_Disable
-                0x0000000000001b8c       0x34 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
-                0x0000000000001b8c                USB_Disable
+                0x0000000000001bf8       0x34 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
+                0x0000000000001bf8                USB_Disable
  .text.USB_ResetInterface
-                0x0000000000001bc0       0x86 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
-                0x0000000000001bc0                USB_ResetInterface
+                0x0000000000001c2c       0x86 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
+                0x0000000000001c2c                USB_ResetInterface
  .text.USB_Init
-                0x0000000000001c46       0x22 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
-                0x0000000000001c46                USB_Init
+                0x0000000000001cb2       0x22 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
+                0x0000000000001cb2                USB_Init
  .text.USB_INT_DisableAllInterrupts
-                0x0000000000001c68       0x10 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
-                0x0000000000001c68                USB_INT_DisableAllInterrupts
+                0x0000000000001cd4       0x10 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+                0x0000000000001cd4                USB_INT_DisableAllInterrupts
  .text.USB_INT_ClearAllInterrupts
-                0x0000000000001c78        0xa obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
-                0x0000000000001c78                USB_INT_ClearAllInterrupts
+                0x0000000000001ce4        0xa obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+                0x0000000000001ce4                USB_INT_ClearAllInterrupts
  .text.__vector_10
-                0x0000000000001c82      0x1a4 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
-                0x0000000000001c82                __vector_10
+                0x0000000000001cee      0x1a4 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+                0x0000000000001cee                __vector_10
  .text.__vector_11
-                0x0000000000001e26       0x88 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
-                0x0000000000001e26                __vector_11
+                0x0000000000001e92       0x88 obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+                0x0000000000001e92                __vector_11
  .text.USB_Device_ProcessControlRequest
-                0x0000000000001eae      0x2ac obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
-                0x0000000000001eae                USB_Device_ProcessControlRequest
+                0x0000000000001f1a      0x2ac obj_gh60_lufa/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
+                0x0000000000001f1a                USB_Device_ProcessControlRequest
  .text.host_set_driver
-                0x000000000000215a        0xa obj_gh60_lufa/common/host.o
-                0x000000000000215a                host_set_driver
+                0x00000000000021c6        0xa obj_gh60_lufa/common/host.o
+                0x00000000000021c6                host_set_driver
  .text.host_keyboard_leds
-                0x0000000000002164       0x18 obj_gh60_lufa/common/host.o
-                0x0000000000002164                host_keyboard_leds
+                0x00000000000021d0       0x18 obj_gh60_lufa/common/host.o
+                0x00000000000021d0                host_keyboard_leds
  .text.host_keyboard_send
-                0x000000000000217c       0x90 obj_gh60_lufa/common/host.o
-                0x000000000000217c                host_keyboard_send
+                0x00000000000021e8       0x90 obj_gh60_lufa/common/host.o
+                0x00000000000021e8                host_keyboard_send
  .text.host_mouse_send
-                0x000000000000220c       0x16 obj_gh60_lufa/common/host.o
-                0x000000000000220c                host_mouse_send
+                0x0000000000002278       0x16 obj_gh60_lufa/common/host.o
+                0x0000000000002278                host_mouse_send
  .text.host_system_send
-                0x0000000000002222       0x2c obj_gh60_lufa/common/host.o
-                0x0000000000002222                host_system_send
+                0x000000000000228e       0x2c obj_gh60_lufa/common/host.o
+                0x000000000000228e                host_system_send
  .text.host_consumer_send
-                0x000000000000224e       0x2c obj_gh60_lufa/common/host.o
-                0x000000000000224e                host_consumer_send
+                0x00000000000022ba       0x2c obj_gh60_lufa/common/host.o
+                0x00000000000022ba                host_consumer_send
  .text.matrix_setup
-                0x000000000000227a        0x2 obj_gh60_lufa/common/keyboard.o
-                0x000000000000227a                matrix_setup
+                0x00000000000022e6        0x2 obj_gh60_lufa/common/keyboard.o
+                0x00000000000022e6                matrix_setup
  .text.keyboard_setup
-                0x000000000000227c        0x4 obj_gh60_lufa/common/keyboard.o
-                0x000000000000227c                keyboard_setup
+                0x00000000000022e8        0x4 obj_gh60_lufa/common/keyboard.o
+                0x00000000000022e8                keyboard_setup
  .text.keyboard_init
-                0x0000000000002280        0xc obj_gh60_lufa/common/keyboard.o
-                0x0000000000002280                keyboard_init
+                0x00000000000022ec        0xc obj_gh60_lufa/common/keyboard.o
+                0x00000000000022ec                keyboard_init
  .text.keyboard_task
-                0x000000000000228c      0x1a2 obj_gh60_lufa/common/keyboard.o
-                0x000000000000228c                keyboard_task
+                0x00000000000022f8      0x1a2 obj_gh60_lufa/common/keyboard.o
+                0x00000000000022f8                keyboard_task
  .text.keyboard_set_leds
-                0x000000000000242e        0x6 obj_gh60_lufa/common/keyboard.o
-                0x000000000000242e                keyboard_set_leds
+                0x000000000000249a        0x6 obj_gh60_lufa/common/keyboard.o
+                0x000000000000249a                keyboard_set_leds
  .text.action_exec
-                0x0000000000002434       0x7e obj_gh60_lufa/common/action.o
-                0x0000000000002434                action_exec
+                0x00000000000024a0       0x7e obj_gh60_lufa/common/action.o
+                0x00000000000024a0                action_exec
  .text.register_code
-                0x00000000000024b2      0x1a6 obj_gh60_lufa/common/action.o
-                0x00000000000024b2                register_code
+                0x000000000000251e      0x1a6 obj_gh60_lufa/common/action.o
+                0x000000000000251e                register_code
  .text.unregister_code
-                0x0000000000002658       0x9e obj_gh60_lufa/common/action.o
-                0x0000000000002658                unregister_code
+                0x00000000000026c4       0x9e obj_gh60_lufa/common/action.o
+                0x00000000000026c4                unregister_code
  .text.register_mods
-                0x00000000000026f6        0xe obj_gh60_lufa/common/action.o
-                0x00000000000026f6                register_mods
+                0x0000000000002762        0xe obj_gh60_lufa/common/action.o
+                0x0000000000002762                register_mods
  .text.unregister_mods
-                0x0000000000002704        0xe obj_gh60_lufa/common/action.o
-                0x0000000000002704                unregister_mods
+                0x0000000000002770        0xe obj_gh60_lufa/common/action.o
+                0x0000000000002770                unregister_mods
  .text.process_action
-                0x0000000000002712      0x626 obj_gh60_lufa/common/action.o
-                0x0000000000002712                process_action
+                0x000000000000277e      0x626 obj_gh60_lufa/common/action.o
+                0x000000000000277e                process_action
  .text.clear_keyboard_but_mods
-                0x0000000000002d38       0x24 obj_gh60_lufa/common/action.o
-                0x0000000000002d38                clear_keyboard_but_mods
+                0x0000000000002da4       0x24 obj_gh60_lufa/common/action.o
+                0x0000000000002da4                clear_keyboard_but_mods
  .text.clear_keyboard
-                0x0000000000002d5c        0x8 obj_gh60_lufa/common/action.o
-                0x0000000000002d5c                clear_keyboard
+                0x0000000000002dc8        0x8 obj_gh60_lufa/common/action.o
+                0x0000000000002dc8                clear_keyboard
  .text.is_tap_key
-                0x0000000000002d64       0x3e obj_gh60_lufa/common/action.o
-                0x0000000000002d64                is_tap_key
+                0x0000000000002dd0       0x3e obj_gh60_lufa/common/action.o
+                0x0000000000002dd0                is_tap_key
  .text.debug_event
-                0x0000000000002da2       0x1e obj_gh60_lufa/common/action.o
-                0x0000000000002da2                debug_event
+                0x0000000000002e0e       0x1e obj_gh60_lufa/common/action.o
+                0x0000000000002e0e                debug_event
  .text.debug_record
-                0x0000000000002dc0       0x20 obj_gh60_lufa/common/action.o
-                0x0000000000002dc0                debug_record
+                0x0000000000002e2c       0x20 obj_gh60_lufa/common/action.o
+                0x0000000000002e2c                debug_record
  .text.debug_waiting_buffer
-                0x0000000000002de0       0x42 obj_gh60_lufa/common/action_tapping.o
+                0x0000000000002e4c       0x42 obj_gh60_lufa/common/action_tapping.o
  .text.debug_tapping_key
-                0x0000000000002e22       0x1c obj_gh60_lufa/common/action_tapping.o
+                0x0000000000002e8e       0x1c obj_gh60_lufa/common/action_tapping.o
  .text.waiting_buffer_scan_tap
-                0x0000000000002e3e       0xb6 obj_gh60_lufa/common/action_tapping.o
+                0x0000000000002eaa       0xb6 obj_gh60_lufa/common/action_tapping.o
  .text.process_tapping
-                0x0000000000002ef4      0x390 obj_gh60_lufa/common/action_tapping.o
+                0x0000000000002f60      0x390 obj_gh60_lufa/common/action_tapping.o
  .text.action_tapping_process
-                0x0000000000003284      0x14a obj_gh60_lufa/common/action_tapping.o
-                0x0000000000003284                action_tapping_process
+                0x00000000000032f0      0x14a obj_gh60_lufa/common/action_tapping.o
+                0x00000000000032f0                action_tapping_process
  .text.action_macro_play
-                0x00000000000033ce      0x136 obj_gh60_lufa/common/action_macro.o
-                0x00000000000033ce                action_macro_play
+                0x000000000000343a      0x136 obj_gh60_lufa/common/action_macro.o
+                0x000000000000343a                action_macro_play
  .text.default_layer_state_set
-                0x0000000000003504       0x18 obj_gh60_lufa/common/action_layer.o
+                0x0000000000003570       0x18 obj_gh60_lufa/common/action_layer.o
  .text.layer_state_set
-                0x000000000000351c       0x34 obj_gh60_lufa/common/action_layer.o
+                0x0000000000003588       0x34 obj_gh60_lufa/common/action_layer.o
  .text.default_layer_debug
-                0x0000000000003550        0x2 obj_gh60_lufa/common/action_layer.o
-                0x0000000000003550                default_layer_debug
+                0x00000000000035bc        0x2 obj_gh60_lufa/common/action_layer.o
+                0x00000000000035bc                default_layer_debug
  .text.default_layer_set
-                0x0000000000003552        0x4 obj_gh60_lufa/common/action_layer.o
-                0x0000000000003552                default_layer_set
+                0x00000000000035be        0x4 obj_gh60_lufa/common/action_layer.o
+                0x00000000000035be                default_layer_set
  .text.default_layer_or
-                0x0000000000003556       0x24 obj_gh60_lufa/common/action_layer.o
-                0x0000000000003556                default_layer_or
+                0x00000000000035c2       0x24 obj_gh60_lufa/common/action_layer.o
+                0x00000000000035c2                default_layer_or
  .text.default_layer_and
-                0x000000000000357a       0x24 obj_gh60_lufa/common/action_layer.o
-                0x000000000000357a                default_layer_and
+                0x00000000000035e6       0x24 obj_gh60_lufa/common/action_layer.o
+                0x00000000000035e6                default_layer_and
  .text.default_layer_xor
-                0x000000000000359e       0x24 obj_gh60_lufa/common/action_layer.o
-                0x000000000000359e                default_layer_xor
+                0x000000000000360a       0x24 obj_gh60_lufa/common/action_layer.o
+                0x000000000000360a                default_layer_xor
  .text.layer_clear
-                0x00000000000035c2        0xa obj_gh60_lufa/common/action_layer.o
-                0x00000000000035c2                layer_clear
+                0x000000000000362e        0xa obj_gh60_lufa/common/action_layer.o
+                0x000000000000362e                layer_clear
  .text.layer_move
-                0x00000000000035cc       0x2a obj_gh60_lufa/common/action_layer.o
-                0x00000000000035cc                layer_move
+                0x0000000000003638       0x2a obj_gh60_lufa/common/action_layer.o
+                0x0000000000003638                layer_move
  .text.layer_on
-                0x00000000000035f6       0x42 obj_gh60_lufa/common/action_layer.o
-                0x00000000000035f6                layer_on
+                0x0000000000003662       0x42 obj_gh60_lufa/common/action_layer.o
+                0x0000000000003662                layer_on
  .text.layer_off
-                0x0000000000003638       0x4a obj_gh60_lufa/common/action_layer.o
-                0x0000000000003638                layer_off
+                0x00000000000036a4       0x4a obj_gh60_lufa/common/action_layer.o
+                0x00000000000036a4                layer_off
  .text.layer_invert
-                0x0000000000003682       0x42 obj_gh60_lufa/common/action_layer.o
-                0x0000000000003682                layer_invert
+                0x00000000000036ee       0x42 obj_gh60_lufa/common/action_layer.o
+                0x00000000000036ee                layer_invert
  .text.layer_or
-                0x00000000000036c4       0x24 obj_gh60_lufa/common/action_layer.o
-                0x00000000000036c4                layer_or
+                0x0000000000003730       0x24 obj_gh60_lufa/common/action_layer.o
+                0x0000000000003730                layer_or
  .text.layer_and
-                0x00000000000036e8       0x24 obj_gh60_lufa/common/action_layer.o
-                0x00000000000036e8                layer_and
+                0x0000000000003754       0x24 obj_gh60_lufa/common/action_layer.o
+                0x0000000000003754                layer_and
  .text.layer_xor
-                0x000000000000370c       0x24 obj_gh60_lufa/common/action_layer.o
-                0x000000000000370c                layer_xor
+                0x0000000000003778       0x24 obj_gh60_lufa/common/action_layer.o
+                0x0000000000003778                layer_xor
  .text.layer_debug
-                0x0000000000003730        0x2 obj_gh60_lufa/common/action_layer.o
-                0x0000000000003730                layer_debug
+                0x000000000000379c        0x2 obj_gh60_lufa/common/action_layer.o
+                0x000000000000379c                layer_debug
  .text.layer_switch_get_action
-                0x0000000000003732       0x82 obj_gh60_lufa/common/action_layer.o
-                0x0000000000003732                layer_switch_get_action
- .text.add_key  0x00000000000037b4       0xa0 obj_gh60_lufa/common/action_util.o
-                0x00000000000037b4                add_key
- .text.del_key  0x0000000000003854       0x8a obj_gh60_lufa/common/action_util.o
-                0x0000000000003854                del_key
+                0x000000000000379e       0x82 obj_gh60_lufa/common/action_layer.o
+                0x000000000000379e                layer_switch_get_action
+ .text.add_key  0x0000000000003820       0xa0 obj_gh60_lufa/common/action_util.o
+                0x0000000000003820                add_key
+ .text.del_key  0x00000000000038c0       0x8a obj_gh60_lufa/common/action_util.o
+                0x00000000000038c0                del_key
  .text.clear_keys
-                0x00000000000038de       0x1c obj_gh60_lufa/common/action_util.o
-                0x00000000000038de                clear_keys
+                0x000000000000394a       0x1c obj_gh60_lufa/common/action_util.o
+                0x000000000000394a                clear_keys
  .text.get_mods
-                0x00000000000038fa        0x6 obj_gh60_lufa/common/action_util.o
-                0x00000000000038fa                get_mods
+                0x0000000000003966        0x6 obj_gh60_lufa/common/action_util.o
+                0x0000000000003966                get_mods
  .text.add_mods
-                0x0000000000003900        0xc obj_gh60_lufa/common/action_util.o
-                0x0000000000003900                add_mods
+                0x000000000000396c        0xc obj_gh60_lufa/common/action_util.o
+                0x000000000000396c                add_mods
  .text.del_mods
-                0x000000000000390c        0xe obj_gh60_lufa/common/action_util.o
-                0x000000000000390c                del_mods
+                0x0000000000003978        0xe obj_gh60_lufa/common/action_util.o
+                0x0000000000003978                del_mods
  .text.set_mods
-                0x000000000000391a        0x6 obj_gh60_lufa/common/action_util.o
-                0x000000000000391a                set_mods
+                0x0000000000003986        0x6 obj_gh60_lufa/common/action_util.o
+                0x0000000000003986                set_mods
  .text.clear_mods
-                0x0000000000003920        0x6 obj_gh60_lufa/common/action_util.o
-                0x0000000000003920                clear_mods
+                0x000000000000398c        0x6 obj_gh60_lufa/common/action_util.o
+                0x000000000000398c                clear_mods
  .text.add_weak_mods
-                0x0000000000003926        0xc obj_gh60_lufa/common/action_util.o
-                0x0000000000003926                add_weak_mods
+                0x0000000000003992        0xc obj_gh60_lufa/common/action_util.o
+                0x0000000000003992                add_weak_mods
  .text.del_weak_mods
-                0x0000000000003932        0xe obj_gh60_lufa/common/action_util.o
-                0x0000000000003932                del_weak_mods
+                0x000000000000399e        0xe obj_gh60_lufa/common/action_util.o
+                0x000000000000399e                del_weak_mods
  .text.clear_weak_mods
-                0x0000000000003940        0x6 obj_gh60_lufa/common/action_util.o
-                0x0000000000003940                clear_weak_mods
+                0x00000000000039ac        0x6 obj_gh60_lufa/common/action_util.o
+                0x00000000000039ac                clear_weak_mods
  .text.set_oneshot_mods
-                0x0000000000003946        0x6 obj_gh60_lufa/common/action_util.o
-                0x0000000000003946                set_oneshot_mods
+                0x00000000000039b2        0x6 obj_gh60_lufa/common/action_util.o
+                0x00000000000039b2                set_oneshot_mods
  .text.clear_oneshot_mods
-                0x000000000000394c        0x6 obj_gh60_lufa/common/action_util.o
-                0x000000000000394c                clear_oneshot_mods
+                0x00000000000039b8        0x6 obj_gh60_lufa/common/action_util.o
+                0x00000000000039b8                clear_oneshot_mods
  .text.has_anykey
-                0x0000000000003952       0x22 obj_gh60_lufa/common/action_util.o
-                0x0000000000003952                has_anykey
+                0x00000000000039be       0x22 obj_gh60_lufa/common/action_util.o
+                0x00000000000039be                has_anykey
  .text.send_keyboard_report
-                0x0000000000003974       0x4c obj_gh60_lufa/common/action_util.o
-                0x0000000000003974                send_keyboard_report
+                0x00000000000039e0       0x4c obj_gh60_lufa/common/action_util.o
+                0x00000000000039e0                send_keyboard_report
  .text.print_set_sendchar
-                0x00000000000039c0        0xa obj_gh60_lufa/common/print.o
-                0x00000000000039c0                print_set_sendchar
- .text.bitrev   0x00000000000039ca       0x24 obj_gh60_lufa/common/util.o
-                0x00000000000039ca                bitrev
+                0x0000000000003a2c        0xa obj_gh60_lufa/common/print.o
+                0x0000000000003a2c                print_set_sendchar
+ .text.bitrev   0x0000000000003a36       0x24 obj_gh60_lufa/common/util.o
+                0x0000000000003a36                bitrev
  .text.bitrev16
-                0x00000000000039ee       0x34 obj_gh60_lufa/common/util.o
-                0x00000000000039ee                bitrev16
+                0x0000000000003a5a       0x34 obj_gh60_lufa/common/util.o
+                0x0000000000003a5a                bitrev16
  .text.hook_keyboard_loop
-                0x0000000000003a22        0x2 obj_gh60_lufa/common/hook.o
-                0x0000000000003a22                hook_keyboard_loop
+                0x0000000000003a8e        0x2 obj_gh60_lufa/common/hook.o
+                0x0000000000003a8e                hook_keyboard_loop
  .text.hook_matrix_change
-                0x0000000000003a24       0x1e obj_gh60_lufa/common/hook.o
-                0x0000000000003a24                hook_matrix_change
+                0x0000000000003a90       0x1e obj_gh60_lufa/common/hook.o
+                0x0000000000003a90                hook_matrix_change
  .text.hook_default_layer_change
-                0x0000000000003a42        0x2 obj_gh60_lufa/common/hook.o
-                0x0000000000003a42                hook_default_layer_change
+                0x0000000000003aae        0x2 obj_gh60_lufa/common/hook.o
+                0x0000000000003aae                hook_default_layer_change
  .text.hook_layer_change
-                0x0000000000003a44        0x2 obj_gh60_lufa/common/hook.o
-                0x0000000000003a44                hook_layer_change
+                0x0000000000003ab0        0x2 obj_gh60_lufa/common/hook.o
+                0x0000000000003ab0                hook_layer_change
  .text.hook_keyboard_leds_change
-                0x0000000000003a46        0x4 obj_gh60_lufa/common/hook.o
-                0x0000000000003a46                hook_keyboard_leds_change
+                0x0000000000003ab2        0x4 obj_gh60_lufa/common/hook.o
+                0x0000000000003ab2                hook_keyboard_leds_change
  .text.hook_bootmagic
-                0x0000000000003a4a        0x2 obj_gh60_lufa/common/hook.o
-                0x0000000000003a4a                hook_bootmagic
+                0x0000000000003ab6        0x2 obj_gh60_lufa/common/hook.o
+                0x0000000000003ab6                hook_bootmagic
  .text.suspend_power_down
-                0x0000000000003a4c       0x52 obj_gh60_lufa/common/avr/suspend.o
-                0x0000000000003a4c                suspend_power_down
+                0x0000000000003ab8       0x52 obj_gh60_lufa/common/avr/suspend.o
+                0x0000000000003ab8                suspend_power_down
  .text.matrix_power_down
-                0x0000000000003a9e        0x2 obj_gh60_lufa/common/avr/suspend.o
-                0x0000000000003a9e                matrix_power_down
+                0x0000000000003b0a        0x2 obj_gh60_lufa/common/avr/suspend.o
+                0x0000000000003b0a                matrix_power_down
  .text.matrix_power_up
-                0x0000000000003aa0        0x4 obj_gh60_lufa/common/avr/suspend.o
-                0x0000000000003aa0                matrix_power_up
+                0x0000000000003b0c        0x4 obj_gh60_lufa/common/avr/suspend.o
+                0x0000000000003b0c                matrix_power_up
  .text.suspend_wakeup_condition
-                0x0000000000003aa4       0x2a obj_gh60_lufa/common/avr/suspend.o
-                0x0000000000003aa4                suspend_wakeup_condition
+                0x0000000000003b10       0x2a obj_gh60_lufa/common/avr/suspend.o
+                0x0000000000003b10                suspend_wakeup_condition
  .text.suspend_wakeup_init
-                0x0000000000003ace        0x4 obj_gh60_lufa/common/avr/suspend.o
-                0x0000000000003ace                suspend_wakeup_init
+                0x0000000000003b3a        0x4 obj_gh60_lufa/common/avr/suspend.o
+                0x0000000000003b3a                suspend_wakeup_init
  .text.__vector_12
-                0x0000000000003ad2       0x52 obj_gh60_lufa/common/avr/suspend.o
-                0x0000000000003ad2                __vector_12
+                0x0000000000003b3e       0x52 obj_gh60_lufa/common/avr/suspend.o
+                0x0000000000003b3e                __vector_12
  .text.timer_init
-                0x0000000000003b24       0x12 obj_gh60_lufa/common/avr/timer.o
-                0x0000000000003b24                timer_init
+                0x0000000000003b90       0x12 obj_gh60_lufa/common/avr/timer.o
+                0x0000000000003b90                timer_init
  .text.timer_read
-                0x0000000000003b36       0x18 obj_gh60_lufa/common/avr/timer.o
-                0x0000000000003b36                timer_read
+                0x0000000000003ba2       0x18 obj_gh60_lufa/common/avr/timer.o
+                0x0000000000003ba2                timer_read
  .text.timer_read32
-                0x0000000000003b4e       0x18 obj_gh60_lufa/common/avr/timer.o
-                0x0000000000003b4e                timer_read32
+                0x0000000000003bba       0x18 obj_gh60_lufa/common/avr/timer.o
+                0x0000000000003bba                timer_read32
  .text.timer_elapsed
-                0x0000000000003b66       0x54 obj_gh60_lufa/common/avr/timer.o
-                0x0000000000003b66                timer_elapsed
+                0x0000000000003bd2       0x54 obj_gh60_lufa/common/avr/timer.o
+                0x0000000000003bd2                timer_elapsed
  .text.__vector_21
-                0x0000000000003bba       0x4a obj_gh60_lufa/common/avr/timer.o
-                0x0000000000003bba                __vector_21
+                0x0000000000003c26       0x4a obj_gh60_lufa/common/avr/timer.o
+                0x0000000000003c26                __vector_21
  .text.bootloader_jump
-                0x0000000000003c04       0x44 obj_gh60_lufa/common/avr/bootloader.o
-                0x0000000000003c04                bootloader_jump
+                0x0000000000003c70       0x44 obj_gh60_lufa/common/avr/bootloader.o
+                0x0000000000003c70                bootloader_jump
  .text.keycode_to_action
-                0x0000000000003c48      0x17e obj_gh60_lufa/common/keymap.o
+                0x0000000000003cb4      0x17e obj_gh60_lufa/common/keymap.o
  .text.action_for_key
-                0x0000000000003dc6       0xe6 obj_gh60_lufa/common/keymap.o
-                0x0000000000003dc6                action_for_key
+                0x0000000000003e32       0xe6 obj_gh60_lufa/common/keymap.o
+                0x0000000000003e32                action_for_key
  .text.action_get_macro
-                0x0000000000003eac        0x6 obj_gh60_lufa/common/keymap.o
-                0x0000000000003eac                action_get_macro
+                0x0000000000003f18        0x6 obj_gh60_lufa/common/keymap.o
+                0x0000000000003f18                action_get_macro
  .text.action_function
-                0x0000000000003eb2        0x2 obj_gh60_lufa/common/keymap.o
-                0x0000000000003eb2                action_function
+                0x0000000000003f1e        0x2 obj_gh60_lufa/common/keymap.o
+                0x0000000000003f1e                action_function
  .text.scan_key
-                0x0000000000003eb4       0x8e obj_gh60_lufa/common/bootmagic.o
+                0x0000000000003f20       0x8e obj_gh60_lufa/common/bootmagic.o
  .text.bootmagic_scan_key
-                0x0000000000003f42       0x24 obj_gh60_lufa/common/bootmagic.o
-                0x0000000000003f42                bootmagic_scan_key
+                0x0000000000003fae       0x24 obj_gh60_lufa/common/bootmagic.o
+                0x0000000000003fae                bootmagic_scan_key
  .text.bootmagic
-                0x0000000000003f66      0x29c obj_gh60_lufa/common/bootmagic.o
-                0x0000000000003f66                bootmagic
+                0x0000000000003fd2      0x29c obj_gh60_lufa/common/bootmagic.o
+                0x0000000000003fd2                bootmagic
  .text.eeconfig_init
-                0x0000000000004202       0x34 obj_gh60_lufa/common/avr/eeconfig.o
-                0x0000000000004202                eeconfig_init
+                0x000000000000426e       0x34 obj_gh60_lufa/common/avr/eeconfig.o
+                0x000000000000426e                eeconfig_init
  .text.eeconfig_is_enabled
-                0x0000000000004236       0x16 obj_gh60_lufa/common/avr/eeconfig.o
-                0x0000000000004236                eeconfig_is_enabled
+                0x00000000000042a2       0x16 obj_gh60_lufa/common/avr/eeconfig.o
+                0x00000000000042a2                eeconfig_is_enabled
  .text.eeconfig_read_debug
-                0x000000000000424c        0x8 obj_gh60_lufa/common/avr/eeconfig.o
-                0x000000000000424c                eeconfig_read_debug
+                0x00000000000042b8        0x8 obj_gh60_lufa/common/avr/eeconfig.o
+                0x00000000000042b8                eeconfig_read_debug
  .text.eeconfig_write_debug
-                0x0000000000004254        0xa obj_gh60_lufa/common/avr/eeconfig.o
-                0x0000000000004254                eeconfig_write_debug
+                0x00000000000042c0        0xa obj_gh60_lufa/common/avr/eeconfig.o
+                0x00000000000042c0                eeconfig_write_debug
  .text.eeconfig_read_default_layer
-                0x000000000000425e        0x8 obj_gh60_lufa/common/avr/eeconfig.o
-                0x000000000000425e                eeconfig_read_default_layer
+                0x00000000000042ca        0x8 obj_gh60_lufa/common/avr/eeconfig.o
+                0x00000000000042ca                eeconfig_read_default_layer
  .text.eeconfig_write_default_layer
-                0x0000000000004266        0xa obj_gh60_lufa/common/avr/eeconfig.o
-                0x0000000000004266                eeconfig_write_default_layer
+                0x00000000000042d2        0xa obj_gh60_lufa/common/avr/eeconfig.o
+                0x00000000000042d2                eeconfig_write_default_layer
  .text.eeconfig_read_keymap
-                0x0000000000004270        0x8 obj_gh60_lufa/common/avr/eeconfig.o
-                0x0000000000004270                eeconfig_read_keymap
+                0x00000000000042dc        0x8 obj_gh60_lufa/common/avr/eeconfig.o
+                0x00000000000042dc                eeconfig_read_keymap
  .text.eeconfig_write_keymap
-                0x0000000000004278        0xa obj_gh60_lufa/common/avr/eeconfig.o
-                0x0000000000004278                eeconfig_write_keymap
+                0x00000000000042e4        0xa obj_gh60_lufa/common/avr/eeconfig.o
+                0x00000000000042e4                eeconfig_write_keymap
  .text.move_unit
-                0x0000000000004282       0x92 obj_gh60_lufa/common/mousekey.o
+                0x00000000000042ee       0x92 obj_gh60_lufa/common/mousekey.o
  .text.wheel_unit
-                0x0000000000004314       0x72 obj_gh60_lufa/common/mousekey.o
+                0x0000000000004380       0x72 obj_gh60_lufa/common/mousekey.o
  .text.mousekey_on
-                0x0000000000004386       0xd0 obj_gh60_lufa/common/mousekey.o
-                0x0000000000004386                mousekey_on
+                0x00000000000043f2       0xd0 obj_gh60_lufa/common/mousekey.o
+                0x00000000000043f2                mousekey_on
  .text.mousekey_off
-                0x0000000000004456      0x10a obj_gh60_lufa/common/mousekey.o
-                0x0000000000004456                mousekey_off
+                0x00000000000044c2      0x10a obj_gh60_lufa/common/mousekey.o
+                0x00000000000044c2                mousekey_off
  .text.mousekey_send
-                0x0000000000004560      0x11a obj_gh60_lufa/common/mousekey.o
-                0x0000000000004560                mousekey_send
+                0x00000000000045cc      0x11a obj_gh60_lufa/common/mousekey.o
+                0x00000000000045cc                mousekey_send
  .text.mousekey_task
-                0x000000000000467a      0x14a obj_gh60_lufa/common/mousekey.o
-                0x000000000000467a                mousekey_task
+                0x00000000000046e6      0x14a obj_gh60_lufa/common/mousekey.o
+                0x00000000000046e6                mousekey_task
  .text.mousekey_clear
-                0x00000000000047c4       0x18 obj_gh60_lufa/common/mousekey.o
-                0x00000000000047c4                mousekey_clear
+                0x0000000000004830       0x18 obj_gh60_lufa/common/mousekey.o
+                0x0000000000004830                mousekey_clear
  .text.mousekey_console_help
-                0x00000000000047dc       0x2e obj_gh60_lufa/common/command.o
+                0x0000000000004848       0x2e obj_gh60_lufa/common/command.o
  .text.mousekey_param_inc
-                0x000000000000480a      0x146 obj_gh60_lufa/common/command.o
+                0x0000000000004876      0x146 obj_gh60_lufa/common/command.o
  .text.mousekey_param_dec
-                0x0000000000004950       0xfc obj_gh60_lufa/common/command.o
+                0x00000000000049bc       0xfc obj_gh60_lufa/common/command.o
  .text.switch_default_layer
-                0x0000000000004a4c       0x40 obj_gh60_lufa/common/command.o
+                0x0000000000004ab8       0x40 obj_gh60_lufa/common/command.o
  .text.command_common
-                0x0000000000004a8c      0x4e6 obj_gh60_lufa/common/command.o
+                0x0000000000004af8      0x4e6 obj_gh60_lufa/common/command.o
  .text.command_console_extra
-                0x0000000000004f72        0x4 obj_gh60_lufa/common/command.o
-                0x0000000000004f72                command_console_extra
+                0x0000000000004fde        0x4 obj_gh60_lufa/common/command.o
+                0x0000000000004fde                command_console_extra
  .text.command_extra
-                0x0000000000004f76        0x4 obj_gh60_lufa/common/command.o
-                0x0000000000004f76                command_extra
+                0x0000000000004fe2        0x4 obj_gh60_lufa/common/command.o
+                0x0000000000004fe2                command_extra
  .text.command_proc
-                0x0000000000004f7a      0x2aa obj_gh60_lufa/common/command.o
-                0x0000000000004f7a                command_proc
+                0x0000000000004fe6      0x2aa obj_gh60_lufa/common/command.o
+                0x0000000000004fe6                command_proc
  .text.avr-libc.fplib
-                0x0000000000005224        0xe /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fixsfsi.o)
-                0x0000000000005224                __fixsfsi
+                0x0000000000005290        0xe /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fixsfsi.o)
+                0x0000000000005290                __fixsfsi
  .text.avr-libc.fplib
-                0x0000000000005232       0x5e /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
-                0x0000000000005232                __fixunssfsi
+                0x000000000000529e       0x5e /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
+                0x000000000000529e                __fixunssfsi
  .text.avr-libc.fplib
-                0x0000000000005290       0x7a /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(floatsisf.o)
-                0x0000000000005290                __floatunsisf
-                0x0000000000005294                __floatsisf
+                0x00000000000052fc       0x7a /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(floatsisf.o)
+                0x00000000000052fc                __floatunsisf
+                0x0000000000005300                __floatsisf
  .text.avr-libc.fplib
-                0x000000000000530a       0x44 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_split3.o)
-                0x000000000000530a                __fp_split3
-                0x000000000000531a                __fp_splitA
+                0x0000000000005376       0x44 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_split3.o)
+                0x0000000000005376                __fp_split3
+                0x0000000000005386                __fp_splitA
  .text.avr-libc.fplib
-                0x000000000000534e        0xe /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_zero.o)
-                0x000000000000534e                __fp_zero
-                0x0000000000005350                __fp_szero
+                0x00000000000053ba        0xe /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_zero.o)
+                0x00000000000053ba                __fp_zero
+                0x00000000000053bc                __fp_szero
  .text.avr-libc.fplib
-                0x000000000000535c        0x8 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(mulsf3.o)
-                0x000000000000535c                __mulsf3
+                0x00000000000053c8        0x8 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(mulsf3.o)
+                0x00000000000053c8                __mulsf3
  .text.avr-libc.fplib
-                0x0000000000005364       0xd2 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
-                0x0000000000005382                __mulsf3x
-                0x0000000000005388                __mulsf3_pse
+                0x00000000000053d0       0xd2 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
+                0x00000000000053ee                __mulsf3x
+                0x00000000000053f4                __mulsf3_pse
  .text.avr-libc.fplib
-                0x0000000000005436        0xc /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_inf.o)
-                0x0000000000005436                __fp_inf
+                0x00000000000054a2        0xc /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_inf.o)
+                0x00000000000054a2                __fp_inf
  .text.avr-libc.fplib
-                0x0000000000005442        0x6 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_nan.o)
-                0x0000000000005442                __fp_nan
+                0x00000000000054ae        0x6 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_nan.o)
+                0x00000000000054ae                __fp_nan
  .text.avr-libc.fplib
-                0x0000000000005448        0xe /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
-                0x0000000000005448                __fp_pscA
+                0x00000000000054b4        0xe /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
+                0x00000000000054b4                __fp_pscA
  .text.avr-libc.fplib
-                0x0000000000005456        0xe /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
-                0x0000000000005456                __fp_pscB
+                0x00000000000054c2        0xe /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
+                0x00000000000054c2                __fp_pscB
  .text.avr-libc.fplib
-                0x0000000000005464       0x22 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_round.o)
-                0x0000000000005464                __fp_round
+                0x00000000000054d0       0x22 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libm.a(fp_round.o)
+                0x00000000000054d0                __fp_round
  .text.libgcc.div
-                0x0000000000005486       0x18 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_udivmodqi4.o)
-                0x0000000000005486                __udivmodqi4
+                0x00000000000054f2       0x18 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_udivmodqi4.o)
+                0x00000000000054f2                __udivmodqi4
  .text.libgcc.div
-                0x000000000000549e       0x28 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_divmodhi4.o)
-                0x000000000000549e                __divmodhi4
-                0x000000000000549e                _div
- .text.libgcc   0x00000000000054c6        0xc /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_tablejump2.o)
-                0x00000000000054c6                __tablejump2__
+                0x000000000000550a       0x28 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_divmodhi4.o)
+                0x000000000000550a                __divmodhi4
+                0x000000000000550a                _div
+ .text.libgcc   0x0000000000005532        0xc /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_tablejump2.o)
+                0x0000000000005532                __tablejump2__
  .text.libgcc.div
-                0x00000000000054d2       0x28 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_udivmodhi4.o)
-                0x00000000000054d2                __udivmodhi4
+                0x000000000000553e       0x28 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_udivmodhi4.o)
+                0x000000000000553e                __udivmodhi4
  .text.avr-libc
-                0x00000000000054fa       0x10 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libatmega32u4.a(eerd_byte.o)
-                0x00000000000054fa                eeprom_read_byte
+                0x0000000000005566       0x10 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libatmega32u4.a(eerd_byte.o)
+                0x0000000000005566                eeprom_read_byte
  .text.avr-libc
-                0x000000000000550a        0xc /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libatmega32u4.a(eerd_word.o)
-                0x000000000000550a                eeprom_read_word
+                0x0000000000005576        0xc /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libatmega32u4.a(eerd_word.o)
+                0x0000000000005576                eeprom_read_word
  .text.avr-libc
-                0x0000000000005516       0x1c /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libatmega32u4.a(eewr_byte.o)
-                0x0000000000005516                eeprom_write_byte
-                0x0000000000005518                eeprom_write_r18
+                0x0000000000005582       0x1c /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libatmega32u4.a(eewr_byte.o)
+                0x0000000000005582                eeprom_write_byte
+                0x0000000000005584                eeprom_write_r18
  .text.avr-libc
-                0x0000000000005532        0xa /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libatmega32u4.a(eewr_word.o)
-                0x0000000000005532                eeprom_write_word
+                0x000000000000559e        0xa /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libatmega32u4.a(eewr_word.o)
+                0x000000000000559e                eeprom_write_word
  .text.avr-libc
-                0x000000000000553c       0x20 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libatmega32u4.a(eerd_block.o)
-                0x000000000000553c                eeprom_read_block
-                0x0000000000005540                eeprom_read_blraw
-                0x000000000000555c                . = ALIGN (0x2)
+                0x00000000000055a8       0x20 /usr/lib/gcc/avr/5.3.0/../../../../avr/lib/avr5/libatmega32u4.a(eerd_block.o)
+                0x00000000000055a8                eeprom_read_block
+                0x00000000000055ac                eeprom_read_blraw
+                0x00000000000055c8                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000000000000555c        0x0 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_exit.o)
-                0x000000000000555c                exit
-                0x000000000000555c                _exit
+ .fini9         0x00000000000055c8        0x0 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_exit.o)
+                0x00000000000055c8                exit
+                0x00000000000055c8                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -1665,11 +1666,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000000000000555c        0x4 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_exit.o)
+ .fini0         0x00000000000055c8        0x4 /usr/lib/gcc/avr/5.3.0/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000000000005560                _etext = .
+                0x00000000000055cc                _etext = .
 
-.data           0x0000000000800100       0x38 ロードアドレス 0x0000000000005560
+.data           0x0000000000800100       0x38 ロードアドレス 0x00000000000055cc
                 0x0000000000800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -1806,8 +1807,8 @@ END GROUP
  COMMON         0x00000000008001eb        0x1 obj_gh60_lufa/common/bootmagic.o
                 0x00000000008001eb                keymap_config
                 0x00000000008001ec                PROVIDE (__bss_end, .)
-                0x0000000000005560                __data_load_start = LOADADDR (.data)
-                0x0000000000005598                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000000000055cc                __data_load_start = LOADADDR (.data)
+                0x0000000000005604                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00000000008001ec        0x4
                 [!provide]                        PROVIDE (__noinit_start, .)

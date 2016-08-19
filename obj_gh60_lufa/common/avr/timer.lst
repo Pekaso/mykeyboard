@@ -490,19 +490,19 @@
  389               		.file 2 "/usr/avr/include/stdint.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 timer.c
-     /tmp/ccBAIq6M.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccBAIq6M.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccBAIq6M.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccBAIq6M.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccBAIq6M.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccBAIq6M.s:13     .text.timer_init:0000000000000000 timer_init
-     /tmp/ccBAIq6M.s:40     .text.timer_clear:0000000000000000 timer_clear
-     /tmp/ccBAIq6M.s:385    .bss.timer_count:0000000000000000 timer_count
-     /tmp/ccBAIq6M.s:71     .text.timer_read:0000000000000000 timer_read
-     /tmp/ccBAIq6M.s:103    .text.timer_read32:0000000000000000 timer_read32
-     /tmp/ccBAIq6M.s:136    .text.timer_elapsed:0000000000000000 timer_elapsed
-     /tmp/ccBAIq6M.s:226    .text.timer_elapsed32:0000000000000000 timer_elapsed32
-     /tmp/ccBAIq6M.s:320    .text.__vector_21:0000000000000000 __vector_21
+     /tmp/ccxrkHyH.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccxrkHyH.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccxrkHyH.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccxrkHyH.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccxrkHyH.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccxrkHyH.s:13     .text.timer_init:0000000000000000 timer_init
+     /tmp/ccxrkHyH.s:40     .text.timer_clear:0000000000000000 timer_clear
+     /tmp/ccxrkHyH.s:385    .bss.timer_count:0000000000000000 timer_count
+     /tmp/ccxrkHyH.s:71     .text.timer_read:0000000000000000 timer_read
+     /tmp/ccxrkHyH.s:103    .text.timer_read32:0000000000000000 timer_read32
+     /tmp/ccxrkHyH.s:136    .text.timer_elapsed:0000000000000000 timer_elapsed
+     /tmp/ccxrkHyH.s:226    .text.timer_elapsed32:0000000000000000 timer_elapsed32
+     /tmp/ccxrkHyH.s:320    .text.__vector_21:0000000000000000 __vector_21
 
 UNDEFINED SYMBOLS
 __do_clear_bss

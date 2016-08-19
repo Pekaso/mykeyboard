@@ -466,27 +466,27 @@
  393               		.file 7 "../../tmk_core/common/avr/xprintf.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 host.c
-     /tmp/ccZYSkAH.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccZYSkAH.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccZYSkAH.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccZYSkAH.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccZYSkAH.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccZYSkAH.s:13     .text.host_set_driver:0000000000000000 host_set_driver
-     /tmp/ccZYSkAH.s:378    .bss.driver:0000000000000000 driver
-     /tmp/ccZYSkAH.s:33     .text.host_get_driver:0000000000000000 host_get_driver
-     /tmp/ccZYSkAH.s:51     .text.host_keyboard_leds:0000000000000000 host_keyboard_leds
-     /tmp/ccZYSkAH.s:80     .text.host_keyboard_send:0000000000000000 host_keyboard_send
-     /tmp/ccZYSkAH.s:363    .progmem.data.__c.4583:0000000000000000 __c.4583
-     /tmp/ccZYSkAH.s:358    .progmem.data.__c.4586:0000000000000000 __c.4586
-     /tmp/ccZYSkAH.s:353    .progmem.data.__c.4591:0000000000000000 __c.4591
-     /tmp/ccZYSkAH.s:215    .text.host_mouse_send:0000000000000000 host_mouse_send
-     /tmp/ccZYSkAH.s:243    .text.host_system_send:0000000000000000 host_system_send
-     /tmp/ccZYSkAH.s:373    .bss.last_system_report:0000000000000000 last_system_report
-     /tmp/ccZYSkAH.s:280    .text.host_consumer_send:0000000000000000 host_consumer_send
-     /tmp/ccZYSkAH.s:368    .bss.last_consumer_report:0000000000000000 last_consumer_report
-     /tmp/ccZYSkAH.s:317    .text.host_last_sysytem_report:0000000000000000 host_last_sysytem_report
-     /tmp/ccZYSkAH.s:335    .text.host_last_consumer_report:0000000000000000 host_last_consumer_report
-     /tmp/ccZYSkAH.s:384    .data.keyboard_nkro:0000000000000000 keyboard_nkro
+     /tmp/ccJXsRdv.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccJXsRdv.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccJXsRdv.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccJXsRdv.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccJXsRdv.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccJXsRdv.s:13     .text.host_set_driver:0000000000000000 host_set_driver
+     /tmp/ccJXsRdv.s:378    .bss.driver:0000000000000000 driver
+     /tmp/ccJXsRdv.s:33     .text.host_get_driver:0000000000000000 host_get_driver
+     /tmp/ccJXsRdv.s:51     .text.host_keyboard_leds:0000000000000000 host_keyboard_leds
+     /tmp/ccJXsRdv.s:80     .text.host_keyboard_send:0000000000000000 host_keyboard_send
+     /tmp/ccJXsRdv.s:363    .progmem.data.__c.4583:0000000000000000 __c.4583
+     /tmp/ccJXsRdv.s:358    .progmem.data.__c.4586:0000000000000000 __c.4586
+     /tmp/ccJXsRdv.s:353    .progmem.data.__c.4591:0000000000000000 __c.4591
+     /tmp/ccJXsRdv.s:215    .text.host_mouse_send:0000000000000000 host_mouse_send
+     /tmp/ccJXsRdv.s:243    .text.host_system_send:0000000000000000 host_system_send
+     /tmp/ccJXsRdv.s:373    .bss.last_system_report:0000000000000000 last_system_report
+     /tmp/ccJXsRdv.s:280    .text.host_consumer_send:0000000000000000 host_consumer_send
+     /tmp/ccJXsRdv.s:368    .bss.last_consumer_report:0000000000000000 last_consumer_report
+     /tmp/ccJXsRdv.s:317    .text.host_last_sysytem_report:0000000000000000 host_last_sysytem_report
+     /tmp/ccJXsRdv.s:335    .text.host_last_consumer_report:0000000000000000 host_last_consumer_report
+     /tmp/ccJXsRdv.s:384    .data.keyboard_nkro:0000000000000000 keyboard_nkro
 
 UNDEFINED SYMBOLS
 debug_config

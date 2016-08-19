@@ -886,30 +886,30 @@
  760               		.file 7 "../../tmk_core/common/led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 action_layer.c
-     /tmp/ccwlMWkh.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccwlMWkh.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccwlMWkh.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccwlMWkh.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccwlMWkh.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccwlMWkh.s:12     .text.default_layer_state_set:0000000000000000 default_layer_state_set
-     /tmp/ccwlMWkh.s:751    .bss.default_layer_state:0000000000000000 default_layer_state
-     /tmp/ccwlMWkh.s:38     .text.layer_state_set:0000000000000000 layer_state_set
-     /tmp/ccwlMWkh.s:745    .bss.layer_state:0000000000000000 layer_state
-     /tmp/ccwlMWkh.s:94     .text.default_layer_debug:0000000000000000 default_layer_debug
-     /tmp/ccwlMWkh.s:108    .text.default_layer_set:0000000000000000 default_layer_set
-     /tmp/ccwlMWkh.s:126    .text.default_layer_or:0000000000000000 default_layer_or
-     /tmp/ccwlMWkh.s:166    .text.default_layer_and:0000000000000000 default_layer_and
-     /tmp/ccwlMWkh.s:206    .text.default_layer_xor:0000000000000000 default_layer_xor
-     /tmp/ccwlMWkh.s:246    .text.layer_clear:0000000000000000 layer_clear
-     /tmp/ccwlMWkh.s:266    .text.layer_move:0000000000000000 layer_move
-     /tmp/ccwlMWkh.s:314    .text.layer_on:0000000000000000 layer_on
-     /tmp/ccwlMWkh.s:371    .text.layer_off:0000000000000000 layer_off
-     /tmp/ccwlMWkh.s:432    .text.layer_invert:0000000000000000 layer_invert
-     /tmp/ccwlMWkh.s:489    .text.layer_or:0000000000000000 layer_or
-     /tmp/ccwlMWkh.s:529    .text.layer_and:0000000000000000 layer_and
-     /tmp/ccwlMWkh.s:569    .text.layer_xor:0000000000000000 layer_xor
-     /tmp/ccwlMWkh.s:609    .text.layer_debug:0000000000000000 layer_debug
-     /tmp/ccwlMWkh.s:624    .text.layer_switch_get_action:0000000000000000 layer_switch_get_action
+     /tmp/cckHs2ve.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cckHs2ve.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cckHs2ve.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cckHs2ve.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cckHs2ve.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cckHs2ve.s:12     .text.default_layer_state_set:0000000000000000 default_layer_state_set
+     /tmp/cckHs2ve.s:751    .bss.default_layer_state:0000000000000000 default_layer_state
+     /tmp/cckHs2ve.s:38     .text.layer_state_set:0000000000000000 layer_state_set
+     /tmp/cckHs2ve.s:745    .bss.layer_state:0000000000000000 layer_state
+     /tmp/cckHs2ve.s:94     .text.default_layer_debug:0000000000000000 default_layer_debug
+     /tmp/cckHs2ve.s:108    .text.default_layer_set:0000000000000000 default_layer_set
+     /tmp/cckHs2ve.s:126    .text.default_layer_or:0000000000000000 default_layer_or
+     /tmp/cckHs2ve.s:166    .text.default_layer_and:0000000000000000 default_layer_and
+     /tmp/cckHs2ve.s:206    .text.default_layer_xor:0000000000000000 default_layer_xor
+     /tmp/cckHs2ve.s:246    .text.layer_clear:0000000000000000 layer_clear
+     /tmp/cckHs2ve.s:266    .text.layer_move:0000000000000000 layer_move
+     /tmp/cckHs2ve.s:314    .text.layer_on:0000000000000000 layer_on
+     /tmp/cckHs2ve.s:371    .text.layer_off:0000000000000000 layer_off
+     /tmp/cckHs2ve.s:432    .text.layer_invert:0000000000000000 layer_invert
+     /tmp/cckHs2ve.s:489    .text.layer_or:0000000000000000 layer_or
+     /tmp/cckHs2ve.s:529    .text.layer_and:0000000000000000 layer_and
+     /tmp/cckHs2ve.s:569    .text.layer_xor:0000000000000000 layer_xor
+     /tmp/cckHs2ve.s:609    .text.layer_debug:0000000000000000 layer_debug
+     /tmp/cckHs2ve.s:624    .text.layer_switch_get_action:0000000000000000 layer_switch_get_action
 
 UNDEFINED SYMBOLS
 hook_default_layer_change

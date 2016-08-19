@@ -1448,16 +1448,16 @@
  544               		.file 8 "../../tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/../AVR8/../USBTask.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Endpoint_AVR8.c
-     /tmp/ccagcGUV.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccagcGUV.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccagcGUV.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccagcGUV.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccagcGUV.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccagcGUV.s:13     .text.Endpoint_ConfigureEndpoint_Prv:0000000000000000 Endpoint_ConfigureEndpoint_Prv
-     /tmp/ccagcGUV.s:140    .text.Endpoint_ConfigureEndpointTable:0000000000000000 Endpoint_ConfigureEndpointTable
-     /tmp/ccagcGUV.s:294    .text.Endpoint_ClearEndpoints:0000000000000000 Endpoint_ClearEndpoints
-     /tmp/ccagcGUV.s:346    .text.Endpoint_ClearStatusStage:0000000000000000 Endpoint_ClearStatusStage
-     /tmp/ccagcGUV.s:414    .text.Endpoint_WaitUntilReady:0000000000000000 Endpoint_WaitUntilReady
+     /tmp/cc6UBBZ0.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc6UBBZ0.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc6UBBZ0.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc6UBBZ0.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc6UBBZ0.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc6UBBZ0.s:13     .text.Endpoint_ConfigureEndpoint_Prv:0000000000000000 Endpoint_ConfigureEndpoint_Prv
+     /tmp/cc6UBBZ0.s:140    .text.Endpoint_ConfigureEndpointTable:0000000000000000 Endpoint_ConfigureEndpointTable
+     /tmp/cc6UBBZ0.s:294    .text.Endpoint_ClearEndpoints:0000000000000000 Endpoint_ClearEndpoints
+     /tmp/cc6UBBZ0.s:346    .text.Endpoint_ClearStatusStage:0000000000000000 Endpoint_ClearStatusStage
+     /tmp/cc6UBBZ0.s:414    .text.Endpoint_WaitUntilReady:0000000000000000 Endpoint_WaitUntilReady
 
 UNDEFINED SYMBOLS
 USB_ControlRequest

@@ -122,13 +122,13 @@
   96               		.file 7 "../../tmk_core/common/keycode.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 keymap_common.c
-     /tmp/cc4q1aUM.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cc4q1aUM.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cc4q1aUM.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cc4q1aUM.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cc4q1aUM.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cc4q1aUM.s:13     .text.keymap_key_to_keycode:0000000000000000 keymap_key_to_keycode
-     /tmp/cc4q1aUM.s:56     .text.keymap_fn_to_action:0000000000000000 keymap_fn_to_action
+     /tmp/ccpprPJR.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccpprPJR.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccpprPJR.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccpprPJR.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccpprPJR.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccpprPJR.s:13     .text.keymap_key_to_keycode:0000000000000000 keymap_key_to_keycode
+     /tmp/ccpprPJR.s:56     .text.keymap_fn_to_action:0000000000000000 keymap_fn_to_action
 
 UNDEFINED SYMBOLS
 keymaps

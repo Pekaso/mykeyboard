@@ -51,15 +51,15 @@
   25               		.loc 1 27 0
   26 0002 62FF      		sbrs r22,2
   27 0004 00C0      		rjmp .L2
-  28:led.c         ****     PORTB |= (1<<0);
+  28:led.c         ****     PORTB &= ~(1<<0);
   28               		.loc 1 28 0
-  29 0006 289A      		sbi 0x5,0
+  29 0006 2898      		cbi 0x5,0
   30 0008 0895      		ret
   31               	.L2:
   29:led.c         ****   } else {
-  30:led.c         ****     PORTB &= ~(1<<0);
+  30:led.c         ****     PORTB |= (1<<0);
   32               		.loc 1 30 0
-  33 000a 2898      		cbi 0x5,0
+  33 000a 289A      		sbi 0x5,0
   34 000c 0895      		ret
   35               		.cfi_endproc
   36               	.LFE0:
@@ -87,12 +87,12 @@
   56               		.file 2 "/usr/avr/include/stdint.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 led.c
-     /tmp/ccA4wNA1.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccA4wNA1.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccA4wNA1.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccA4wNA1.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccA4wNA1.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccA4wNA1.s:13     .text.led_layer_set:0000000000000000 led_layer_set
-     /tmp/ccA4wNA1.s:41     .text.led_set:0000000000000000 led_set
+     /tmp/ccEbsea6.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccEbsea6.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccEbsea6.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccEbsea6.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccEbsea6.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccEbsea6.s:13     .text.led_layer_set:0000000000000000 led_layer_set
+     /tmp/ccEbsea6.s:41     .text.led_set:0000000000000000 led_set
 
 NO UNDEFINED SYMBOLS

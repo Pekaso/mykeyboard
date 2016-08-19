@@ -77,19 +77,19 @@
   43               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Events.c
-     /tmp/ccPSMtux.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccPSMtux.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccPSMtux.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccPSMtux.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccPSMtux.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccPSMtux.s:13     .text.USB_Event_Stub:0000000000000000 USB_Event_Stub
-     /tmp/ccPSMtux.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_StartOfFrame
-     /tmp/ccPSMtux.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Reset
-     /tmp/ccPSMtux.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_WakeUp
-     /tmp/ccPSMtux.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Suspend
-     /tmp/ccPSMtux.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ConfigurationChanged
-     /tmp/ccPSMtux.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ControlRequest
-     /tmp/ccPSMtux.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Disconnect
-     /tmp/ccPSMtux.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Connect
+     /tmp/ccniH92q.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccniH92q.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccniH92q.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccniH92q.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccniH92q.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccniH92q.s:13     .text.USB_Event_Stub:0000000000000000 USB_Event_Stub
+     /tmp/ccniH92q.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_StartOfFrame
+     /tmp/ccniH92q.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Reset
+     /tmp/ccniH92q.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_WakeUp
+     /tmp/ccniH92q.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Suspend
+     /tmp/ccniH92q.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ConfigurationChanged
+     /tmp/ccniH92q.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ControlRequest
+     /tmp/ccniH92q.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Disconnect
+     /tmp/ccniH92q.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Connect
 
 NO UNDEFINED SYMBOLS

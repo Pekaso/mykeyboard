@@ -2567,15 +2567,15 @@
  691               		.file 11 "../../tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/../AVR8/../Events.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 USBInterrupt_AVR8.c
-     /tmp/ccNdPWRa.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccNdPWRa.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccNdPWRa.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccNdPWRa.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccNdPWRa.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccNdPWRa.s:13     .text.USB_INT_DisableAllInterrupts:0000000000000000 USB_INT_DisableAllInterrupts
-     /tmp/ccNdPWRa.s:37     .text.USB_INT_ClearAllInterrupts:0000000000000000 USB_INT_ClearAllInterrupts
-     /tmp/ccNdPWRa.s:56     .text.__vector_10:0000000000000000 __vector_10
-     /tmp/ccNdPWRa.s:511    .text.__vector_11:0000000000000000 __vector_11
+     /tmp/ccAh0LVk.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccAh0LVk.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccAh0LVk.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccAh0LVk.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccAh0LVk.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccAh0LVk.s:13     .text.USB_INT_DisableAllInterrupts:0000000000000000 USB_INT_DisableAllInterrupts
+     /tmp/ccAh0LVk.s:37     .text.USB_INT_ClearAllInterrupts:0000000000000000 USB_INT_ClearAllInterrupts
+     /tmp/ccAh0LVk.s:56     .text.__vector_10:0000000000000000 __vector_10
+     /tmp/ccAh0LVk.s:511    .text.__vector_11:0000000000000000 __vector_11
 
 UNDEFINED SYMBOLS
 EVENT_USB_Device_StartOfFrame

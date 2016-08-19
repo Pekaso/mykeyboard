@@ -25,9 +25,9 @@ void led_layer_set(uint32_t state) {
 
   /* Led for Layer 2 */
   if ((1<<2 & state) != 0) {
-    PORTB |= (1<<0);
-  } else {
     PORTB &= ~(1<<0);
+  } else {
+    PORTB |= (1<<0);
   }
 }
 

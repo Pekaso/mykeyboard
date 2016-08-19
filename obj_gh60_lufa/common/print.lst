@@ -69,12 +69,12 @@
   33               		.file 3 "../../tmk_core/common/avr/xprintf.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 print.c
-     /tmp/ccKylDrz.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccKylDrz.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccKylDrz.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccKylDrz.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccKylDrz.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccKylDrz.s:13     .text.print_set_sendchar:0000000000000000 print_set_sendchar
+     /tmp/ccPWEvzx.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccPWEvzx.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccPWEvzx.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccPWEvzx.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccPWEvzx.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccPWEvzx.s:13     .text.print_set_sendchar:0000000000000000 print_set_sendchar
 
 UNDEFINED SYMBOLS
 xfunc_out

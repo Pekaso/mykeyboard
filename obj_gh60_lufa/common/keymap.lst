@@ -997,15 +997,15 @@
  587               		.file 11 "../../tmk_core/common/bootloader.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 keymap.c
-     /tmp/ccAduy3U.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccAduy3U.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccAduy3U.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccAduy3U.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccAduy3U.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccAduy3U.s:12     .text.keycode_to_action:0000000000000000 keycode_to_action
-     /tmp/ccAduy3U.s:351    .text.action_for_key:0000000000000000 action_for_key
-     /tmp/ccAduy3U.s:544    .text.action_get_macro:0000000000000000 action_get_macro
-     /tmp/ccAduy3U.s:564    .text.action_function:0000000000000000 action_function
+     /tmp/ccUM8XCO.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccUM8XCO.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccUM8XCO.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccUM8XCO.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccUM8XCO.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccUM8XCO.s:12     .text.keycode_to_action:0000000000000000 keycode_to_action
+     /tmp/ccUM8XCO.s:351    .text.action_for_key:0000000000000000 action_for_key
+     /tmp/ccUM8XCO.s:544    .text.action_get_macro:0000000000000000 action_get_macro
+     /tmp/ccUM8XCO.s:564    .text.action_function:0000000000000000 action_function
 
 UNDEFINED SYMBOLS
 clear_keyboard

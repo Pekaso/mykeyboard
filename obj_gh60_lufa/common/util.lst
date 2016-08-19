@@ -709,19 +709,19 @@
  620               		.file 2 "/usr/avr/include/stdint.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 util.c
-     /tmp/cczmC29A.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cczmC29A.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cczmC29A.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cczmC29A.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cczmC29A.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cczmC29A.s:13     .text.bitpop:0000000000000000 bitpop
-     /tmp/cczmC29A.s:50     .text.bitpop16:0000000000000000 bitpop16
-     /tmp/cczmC29A.s:88     .text.bitpop32:0000000000000000 bitpop32
-     /tmp/cczmC29A.s:156    .text.biton:0000000000000000 biton
-     /tmp/cczmC29A.s:210    .text.biton16:0000000000000000 biton16
-     /tmp/cczmC29A.s:289    .text.biton32:0000000000000000 biton32
-     /tmp/cczmC29A.s:431    .text.bitrev:0000000000000000 bitrev
-     /tmp/cczmC29A.s:474    .text.bitrev16:0000000000000000 bitrev16
-     /tmp/cczmC29A.s:533    .text.bitrev32:0000000000000000 bitrev32
+     /tmp/ccbrLWTq.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccbrLWTq.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccbrLWTq.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccbrLWTq.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccbrLWTq.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccbrLWTq.s:13     .text.bitpop:0000000000000000 bitpop
+     /tmp/ccbrLWTq.s:50     .text.bitpop16:0000000000000000 bitpop16
+     /tmp/ccbrLWTq.s:88     .text.bitpop32:0000000000000000 bitpop32
+     /tmp/ccbrLWTq.s:156    .text.biton:0000000000000000 biton
+     /tmp/ccbrLWTq.s:210    .text.biton16:0000000000000000 biton16
+     /tmp/ccbrLWTq.s:289    .text.biton32:0000000000000000 biton32
+     /tmp/ccbrLWTq.s:431    .text.bitrev:0000000000000000 bitrev
+     /tmp/ccbrLWTq.s:474    .text.bitrev16:0000000000000000 bitrev16
+     /tmp/ccbrLWTq.s:533    .text.bitrev32:0000000000000000 bitrev32
 
 NO UNDEFINED SYMBOLS

@@ -2849,23 +2849,23 @@
  2076               		.file 15 "../../tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 action.c
-     /tmp/ccCeoSvW.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccCeoSvW.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccCeoSvW.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccCeoSvW.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccCeoSvW.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccCeoSvW.s:13     .text.action_exec:0000000000000000 action_exec
-     /tmp/ccCeoSvW.s:121    .text.register_code:0000000000000000 register_code
-     /tmp/ccCeoSvW.s:453    .text.unregister_code:0000000000000000 unregister_code
-     /tmp/ccCeoSvW.s:588    .text.register_mods:0000000000000000 register_mods
-     /tmp/ccCeoSvW.s:614    .text.unregister_mods:0000000000000000 unregister_mods
-     /tmp/ccCeoSvW.s:640    .text.process_action:0000000000000000 process_action
-     /tmp/ccCeoSvW.s:1843   .text.clear_keyboard_but_mods:0000000000000000 clear_keyboard_but_mods
-     /tmp/ccCeoSvW.s:1882   .text.clear_keyboard:0000000000000000 clear_keyboard
-     /tmp/ccCeoSvW.s:1902   .text.is_tap_key:0000000000000000 is_tap_key
-     /tmp/ccCeoSvW.s:1966   .text.debug_event:0000000000000000 debug_event
-     /tmp/ccCeoSvW.s:2007   .text.debug_record:0000000000000000 debug_record
-     /tmp/ccCeoSvW.s:2049   .text.debug_action:0000000000000000 debug_action
+     /tmp/cco4PRXE.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cco4PRXE.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cco4PRXE.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cco4PRXE.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cco4PRXE.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cco4PRXE.s:13     .text.action_exec:0000000000000000 action_exec
+     /tmp/cco4PRXE.s:121    .text.register_code:0000000000000000 register_code
+     /tmp/cco4PRXE.s:453    .text.unregister_code:0000000000000000 unregister_code
+     /tmp/cco4PRXE.s:588    .text.register_mods:0000000000000000 register_mods
+     /tmp/cco4PRXE.s:614    .text.unregister_mods:0000000000000000 unregister_mods
+     /tmp/cco4PRXE.s:640    .text.process_action:0000000000000000 process_action
+     /tmp/cco4PRXE.s:1843   .text.clear_keyboard_but_mods:0000000000000000 clear_keyboard_but_mods
+     /tmp/cco4PRXE.s:1882   .text.clear_keyboard:0000000000000000 clear_keyboard
+     /tmp/cco4PRXE.s:1902   .text.is_tap_key:0000000000000000 is_tap_key
+     /tmp/cco4PRXE.s:1966   .text.debug_event:0000000000000000 debug_event
+     /tmp/cco4PRXE.s:2007   .text.debug_record:0000000000000000 debug_record
+     /tmp/cco4PRXE.s:2049   .text.debug_action:0000000000000000 debug_action
 
 UNDEFINED SYMBOLS
 action_tapping_process
